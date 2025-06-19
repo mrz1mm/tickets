@@ -1,0 +1,22 @@
+@if (showBanner()) {
+<div class="cookie-banner" *transloco="let t; read: 'cookieBanner'">
+  <div class="cookie-content">
+    <p>
+      {{ t("textStart") }}
+      <a routerLink="/privacy-policy" class="text-primary-500 hover:underline">
+        {{ t("linkText") }}
+      </a>
+      {{ t("textEnd") }}
+    </p>
+  </div>
+
+  <div class="cookie-actions">
+    <button class="btn btn-secondary" (click)="onRejectAll()">
+      {{ t("reject") }}
+    </button>
+    <button class="btn btn-primary" (click)="onAcceptAll()">
+      {{ t("accept") }}
+    </button>
+  </div>
+</div>
+}

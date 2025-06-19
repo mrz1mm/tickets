@@ -1,0 +1,47 @@
+import { RegisterRequest } from './../../interfaces/register-request.interface';
+import { Component, inject, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { finalize } from 'rxjs';
+import { TranslocoModule } from '@ngneat/transloco';
+import { AuthService } from '../../services/auth.service';
+
+@Component({
+  selector: 'app-register',
+  standalone: true,
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, TranslocoModule],
+  templateUrl: './register.component.html',
+  styleUrl: '../login/login.component.scss',
+})
+export class RegisterComponent {
+  private fb = inject(FormBuilder);
+  private authSvc = inject(AuthService);
+  private router = inject(Router);
+
+  public isLoading = signal(false);
+
+  public registerForm = this.fb.group({
+    displayName: ['', [Validators.required, Validators.minLength(3)]],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(8)]],
+  });
+
+  public onSubmit(): void {
+    if (this.registerForm.invalid) {
+      return;
+    }
+
+    this.isLoading.set(true);
+    const registerData = this.registerForm.getRawValue() as RegisterRequest;
+
+    this.authSvc
+      .register(registerData)
+      .pipe(finalize(() => this.isLoading.set(false)))
+      .subscribe((success) => {
+        if (success) {
+          this.router.navigate(['/auth/login']);
+        }
+      });
+  }
+}

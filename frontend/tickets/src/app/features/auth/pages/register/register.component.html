@@ -1,0 +1,106 @@
+<div class="auth-container" *transloco="let t; read: 'authForm'">
+  <div class="card auth-card">
+    <div class="card-body">
+      <div class="text-center mb-4">
+        <img ngSrc="assets/img/logo.png" alt="Logo" width="60" height="60" />
+        <h1 class="h3 mt-2 mb-3 fw-normal">{{ t("registerTitle") }}</h1>
+      </div>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <!-- Campo Nome Visualizzato -->
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            class="form-control"
+            id="displayName"
+            [placeholder]="t('displayNamePlaceholder')"
+            formControlName="displayName"
+            [class.is-invalid]="
+              registerForm.get('displayName')?.invalid &&
+              registerForm.get('displayName')?.touched
+            "
+          />
+          <label for="displayName">{{ t("displayNameLabel") }}</label>
+          @if (registerForm.get('displayName')?.invalid &&
+          registerForm.get('displayName')?.touched) {
+          <div class="invalid-feedback">
+            <span>{{ t("validation.displayNameMinLength") }}</span>
+          </div>
+          }
+        </div>
+
+        <!-- Campo Email -->
+        <div class="form-floating mb-3">
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            [placeholder]="t('emailPlaceholder')"
+            formControlName="email"
+            [class.is-invalid]="
+              registerForm.get('email')?.invalid &&
+              registerForm.get('email')?.touched
+            "
+          />
+          <label for="email">{{ t("emailLabel") }}</label>
+          @if (registerForm.get('email')?.invalid &&
+          registerForm.get('email')?.touched) {
+          <div class="invalid-feedback">
+            @if (registerForm.get('email')?.errors?.['required']) {
+            <span>{{ t("validation.emailRequired") }}</span>
+            } @if (registerForm.get('email')?.errors?.['email']) {
+            <span>{{ t("validation.emailInvalid") }}</span>
+            }
+          </div>
+          }
+        </div>
+
+        <!-- Campo Password -->
+        <div class="form-floating mb-3">
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            placeholder="Password"
+            formControlName="password"
+            [class.is-invalid]="
+              registerForm.get('password')?.invalid &&
+              registerForm.get('password')?.touched
+            "
+          />
+          <label for="password">{{ t("passwordLabel") }}</label>
+          @if (registerForm.get('password')?.invalid &&
+          registerForm.get('password')?.touched) {
+          <div class="invalid-feedback">
+            <span>{{ t("validation.passwordMinLength") }}</span>
+          </div>
+          }
+        </div>
+
+        <!-- Pulsante di Registrazione -->
+        <button
+          class="w-100 btn btn-lg btn-primary"
+          type="submit"
+          [disabled]="isLoading()"
+        >
+          @if (isLoading()) {
+          <span
+            class="spinner-border spinner-border-sm"
+            aria-hidden="true"
+          ></span>
+          <span role="status"> {{ t("creatingButton") }}</span>
+          } @else {
+          <span>{{ t("registerButton") }}</span>
+          }
+        </button>
+      </form>
+
+      <div class="mt-4 text-center">
+        <p>
+          {{ t("toLoginPrompt") }}
+          <a routerLink="/auth/login">{{ t("toLoginLink") }}</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,90 @@
+<!-- src/app/layout/header/header.component.html -->
+<nav class="navbar navbar-expand-lg sticky-top" *transloco="let t">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center" routerLink="/">
+      <img
+        ngSrc="assets/img/logo.png"
+        alt="Tickets App Logo"
+        width="30"
+        height="30"
+        class="d-inline-block align-text-top me-2"
+      />
+      <span>{{ t("header.title") }}</span>
+    </a>
+    <div class="d-flex align-items-center ms-auto">
+      <!-- Selettore Tema -->
+      <button
+        class="btn btn-outline-secondary me-3"
+        (click)="themeSvc.toggleTheme()"
+        [title]="t('header.toggleThemeTitle')"
+      >
+        @if (themeSvc.theme() === 'light') {
+        <i class="bi bi-moon-stars-fill"></i>
+        } @else {
+        <i class="bi bi-sun-fill"></i>
+        }
+      </button>
+
+      <!-- Selettore Lingua -->
+      <div class="dropdown me-3">
+        <button
+          class="btn btn-outline-secondary dropdown-toggle"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          {{ langSvc.getActiveLang().toUpperCase() }}
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          @for (lang of langSvc.getAvailableLangs(); track lang) {
+          <li>
+            <a
+              class="dropdown-item"
+              [class.active]="lang === langSvc.getActiveLang()"
+              (click)="langSvc.changeLanguage(lang)"
+              style="cursor: pointer"
+            >
+              {{ lang.toUpperCase() }}
+            </a>
+          </li>
+          }
+        </ul>
+      </div>
+
+      <!-- Menu Utente -->
+      @if (authSvc.isAuthenticated()) {
+      <div class="dropdown">
+        <button
+          class="btn btn-primary dropdown-toggle"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <i class="bi bi-person-fill me-1"></i>
+          {{ authSvc.currentUser()?.displayName }}
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li>
+            <a class="dropdown-item" routerLink="/profile">{{
+              t("header.profile")
+            }}</a>
+          </li>
+          <li><hr class="dropdown-divider" /></li>
+          <li>
+            <a
+              class="dropdown-item"
+              (click)="authSvc.logout()"
+              style="cursor: pointer"
+              >{{ t("header.logout") }}</a
+            >
+          </li>
+        </ul>
+      </div>
+      } @else {
+      <a class="btn btn-primary" routerLink="/auth/login">{{
+        t("header.login")
+      }}</a>
+      }
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,80 @@
+{
+  "authForm": {
+    "loginTitle": "Sign In",
+    "registerTitle": "Create an Account",
+    "emailLabel": "Email Address",
+    "emailPlaceholder": "name@example.com",
+    "passwordLabel": "Password",
+    "displayNameLabel": "Display Name",
+    "displayNamePlaceholder": "Your name",
+    "loginButton": "Sign In",
+    "registerButton": "Sign Up",
+    "loadingButton": "Loading...",
+    "creatingButton": "Creating...",
+    "toRegisterPrompt": "Don't have an account?",
+    "toRegisterLink": "Sign up now",
+    "toLoginPrompt": "Already have an account?",
+    "toLoginLink": "Sign in",
+    "validation": {
+      "emailRequired": "Email is required.",
+      "emailInvalid": "Please enter a valid email.",
+      "passwordRequired": "Password is required.",
+      "passwordMinLength": "Password must be at least 8 characters long.",
+      "displayNameRequired": "Display name is required.",
+      "displayNameMinLength": "Display name must be at least 3 characters long."
+    }
+  },
+  "cookieBanner": {
+    "textStart": "This website uses cookies to enhance your experience. Read our",
+    "linkText": "privacy policy",
+    "textEnd": ".",
+    "reject": "Reject All",
+    "accept": "Accept All"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome to the private area!"
+  },
+  "footer": {
+    "copyright": "© 2025 Tickets App. All rights reserved."
+  },
+  "header": {
+    "title": "Tickets App",
+    "toggleThemeTitle": "Change theme",
+    "profile": "Profile",
+    "logout": "Logout",
+    "login": "Login"
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "message": "The resource you are looking for does not exist.",
+    "button": "Back to Home"
+  },
+  "notifications": {
+    "loginSuccessTitle": "Login successful",
+    "loginSuccessMessage": "Welcome back, {displayName}!",
+    "loginErrorTitle": "Login failed",
+    "loginErrorMessage": "The credentials you entered are incorrect.",
+    "registerSuccessTitle": "Registration complete",
+    "registerSuccessMessage": "You can now log in with your credentials.",
+    "registerErrorTitle": "Registration failed",
+    "registerErrorConflict": "A user with this email already exists.",
+    "registerErrorGeneral": "An unexpected error occurred. Please try again.",
+    "logoutInfo": "You have been logged out."
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy"
+  },
+  "profile": {
+    "title": "My Profile"
+  },
+  "titles": {
+    "auth": "Authentication",
+    "login": "Sign In",
+    "register": "Sign Up",
+    "dashboard": "Dashboard",
+    "profile": "My Profile",
+    "privacyPolicy": "Privacy Policy",
+    "notFound": "Page Not Found"
+  }
+}
