@@ -1,31 +1,6 @@
 /* ==========================================================================
-   1. IMPORT DELLE LIBRERIE
+   FONDAMENTA E RESET
    ========================================================================== */
-
-$enable-css-variables: true;
-
-@use "bootstrap/scss/bootstrap" as bs with (
-  $primary: #0d6efd,
-  $body-bg: #f8f9fa,
-  $body-color: #212529,
-  $border-color: #dee2e6,
-  $font-family-base: "Inter" -apple-system sans-serif,
-  $border-radius: 0.5rem,
-  $border-radius-lg: 0.75rem,
-  $theme-colors: (
-    "primary": #0d6efd,
-    "secondary": #6c757d,
-    "success": #198754,
-    "danger": #dc3545,
-    "light": #f8f9fa,
-    "dark": #212529,
-  )
-);
-
-/* ==========================================================================
-   2. FONDAMENTA E RESET
-   ========================================================================== */
-
 *,
 *::before,
 *::after {
@@ -35,8 +10,9 @@ $enable-css-variables: true;
 }
 
 html {
-  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  // Imposta il font di base che Bootstrap userà.
+  --bs-font-sans-serif: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 html,
@@ -45,47 +21,47 @@ body {
 }
 
 body {
-  font-family: var(--font-sans);
+  font-family: var(--bs-font-sans-serif);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 /* ==========================================================================
-   3. DEFINIZIONE DEI TEMI (VARIABILI CSS)
+   DEFINIZIONE DEI TEMI (VARIABILI CSS)
    ========================================================================== */
 
+// Definiamo i colori per il TEMA CHIARO di default.
+// Questi nomi (--bs-body-bg, etc.) sono quelli usati da Bootstrap 5.
+// Sovrascrivendoli qui, cambiamo l'aspetto di Bootstrap a runtime.
 :root,
 .light-theme {
-  --bs-primary: #0d6efd;
   --bs-body-bg: #f8f9fa;
   --bs-body-color: #212529;
-  --bs-secondary-color: #6c757d;
   --bs-border-color: #dee2e6;
+
+  // Variabili custom per la tua app
   --bg-secondary: #ffffff;
 }
 
+// Sovrascriviamo le stesse variabili per il TEMA SCURO.
 .dark-theme {
-  --bs-primary: #3c87fd;
+  // Impostiamo l'attributo che Bootstrap usa per invertire alcuni componenti
+  color-scheme: dark;
+
   --bs-body-bg: #121212;
   --bs-body-color: #e9ecef;
-  --bs-secondary-color: #adb5bd;
   --bs-border-color: #495057;
+
+  // Variabili custom
   --bg-secondary: #1c1c1e;
 }
 
 /* ==========================================================================
-   4. APPLICAZIONE DEI TEMI E STILI GLOBALI RESTANTI
+   STILI GLOBALI AGGIUNTIVI
    ========================================================================== */
 
 body {
   background-color: var(--bs-body-bg);
   color: var(--bs-body-color);
   transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-}
-
-// Stili custom che usano le variabili del tema
-.custom-card {
-  background-color: var(--bg-secondary);
-  border: 1px solid var(--bs-border-color);
-  color: var(--bs-body-color);
 }
