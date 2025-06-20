@@ -1,0 +1,18 @@
+.sonner-toaster {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1056;
+  height: calc(3 * 60px + 2 * 30px);
+  width: 356px;
+  pointer-events: none;
+}
+
+:host ::ng-deep app-toast {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: auto;
+}

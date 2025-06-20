@@ -61,6 +61,7 @@
     "registerErrorTitle": "Registrazione fallita",
     "registerErrorConflict": "Un utente con questa email esiste già.",
     "registerErrorGeneral": "Si è verificato un errore imprevisto. Riprova.",
+    "logoutTitle": "Logout effettuato",
     "logoutInfo": "Sei stato disconnesso."
   },
 

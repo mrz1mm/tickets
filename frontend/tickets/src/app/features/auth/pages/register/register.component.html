@@ -98,7 +98,9 @@
       <div class="mt-4 text-center">
         <p>
           {{ t("toLoginPrompt") }}
-          <a routerLink="/auth/login">{{ t("toLoginLink") }}</a>
+          <a [routerLink]="['/', PathConstants.AUTH.BASE, 'login']">{{
+            t("toLoginLink")
+          }}</a>
         </p>
       </div>
     </div>

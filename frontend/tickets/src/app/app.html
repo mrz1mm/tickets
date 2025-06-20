@@ -1,11 +1,3 @@
-<!-- Il router-outlet deve essere il primo elemento -->
 <router-outlet />
-
-<!-- Il componente per i cookie rimane discreto in fondo -->
 <app-cookies />
-
-<!-- Il contenitore dei toast, che sarà visibile solo quando ci sono notifiche -->
-<ngx-sonner-toaster
-  position="top-right"
-  [richColors]="true"
-></ngx-sonner-toaster>
+<app-toaster-container />

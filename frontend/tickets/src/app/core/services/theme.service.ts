@@ -2,19 +2,18 @@ import {
   Injectable,
   effect,
   inject,
-  isDevMode,
   WritableSignal,
+  signal,
 } from '@angular/core';
-import { CookiePersistentService } from './cookie-persistent.service';
-import { StorageConfig } from '../enums/storage-keys.enum';
 import { Theme } from '../interfaces/theme.types';
 import { PlatformService } from './platform.service';
+import { UserPreferencesService } from './user-preferences.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ThemeService {
-  private persistentSvc = inject(CookiePersistentService);
+  private prefsSvc = inject(UserPreferencesService);
   private platformSvc = inject(PlatformService);
 
   /**
@@ -23,19 +22,24 @@ export class ThemeService {
    * deducendo il tema preferito dal sistema operativo dell'utente.
    * La sua persistenza è gestita automaticamente dal CookiePersistentService.
    */
-  public theme: WritableSignal<Theme> = this.persistentSvc.PSignal<Theme>(
-    StorageConfig.KEYS.THEME,
-    this.getInitialSystemTheme()
-  );
+  public theme: WritableSignal<Theme> = signal(this.getInitialSystemTheme());
 
   constructor() {
+    // Effetto per sincronizzare il tema dal servizio di preferenze
+    effect(() => {
+      const userPrefs = this.prefsSvc.preferences();
+      if (userPrefs && userPrefs.theme) {
+        this.theme.set(userPrefs.theme);
+      } else {
+        // Se l'utente fa logout, torna al tema di sistema
+        this.theme.set(this.getInitialSystemTheme());
+      }
+    });
+
+    // Effetto per applicare il tema al DOM
     effect(() => {
       if (this.platformSvc.isBrowser) {
-        const currentTheme = this.theme();
-        this.applyThemeToDocument(currentTheme);
-        if (isDevMode()) {
-          console.log(`Tema cambiato in: ${currentTheme}`);
-        }
+        this.applyThemeToDocument(this.theme());
       }
     });
   }
@@ -48,9 +52,8 @@ export class ThemeService {
    * grazie alla natura reattiva del signal e dell'effect nel costruttore.
    */
   public toggleTheme(): void {
-    this.theme.update((currentTheme) =>
-      currentTheme === 'light' ? 'dark' : 'light'
-    );
+    const newTheme = this.theme() === 'light' ? 'dark' : 'light';
+    this.prefsSvc.updatePreference('theme', newTheme);
   }
 
   // --- METODI PRIVATI ---

@@ -60,6 +60,7 @@
     "registerErrorTitle": "Registration failed",
     "registerErrorConflict": "A user with this email already exists.",
     "registerErrorGeneral": "An unexpected error occurred. Please try again.",
+    "LogoutTitle": "Logout successful",
     "logoutInfo": "You have been logged out."
   },
   "privacyPolicy": {

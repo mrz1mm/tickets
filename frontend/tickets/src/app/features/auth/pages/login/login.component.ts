@@ -6,6 +6,7 @@ import { finalize } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 import { AuthService } from '../../services/auth.service';
 import { LoginRequest } from '../../interfaces/login-request.interface';
+import { PathConstants } from '../../../../core/constants/path.constants';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +20,7 @@ export class LoginComponent {
   private authSvc = inject(AuthService);
   private router = inject(Router);
 
+  public PathConstants = PathConstants;
   public isLoading = signal(false);
 
   public loginForm = this.fb.group({

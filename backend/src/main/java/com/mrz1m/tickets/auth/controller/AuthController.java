@@ -8,16 +8,16 @@ import com.mrz1m.tickets.auth.entity.UserProfile;
 import com.mrz1m.tickets.auth.mapper.UserMapper;
 import com.mrz1m.tickets.auth.security.CustomUserProfileDetails;
 import com.mrz1m.tickets.auth.service.AuthService;
+import com.mrz1m.tickets.core.payload.ApiResponse; // Importa
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.validation.Valid;
 
 import java.util.concurrent.TimeUnit;
 
@@ -33,60 +33,50 @@ public class AuthController {
     private long jwtExpirationMs;
 
     @PostMapping("/register")
-    public ResponseEntity<Void> register(@Valid @RequestBody RegisterDto request) {
+    public ResponseEntity<ApiResponse<Void>> register(@Valid @RequestBody RegisterDto request) {
         authService.register(request);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        ApiResponse<Void> response = ApiResponse.created("Utente registrato con successo. Effettua il login.", null);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserDetailDto> login(
-            @Valid @RequestBody LoginDto request,
-            HttpServletResponse response
-    ) {
+    public ResponseEntity<ApiResponse<UserDetailDto>> login(@Valid @RequestBody LoginDto request, HttpServletResponse response) {
         AuthDto loginResponse = authService.login(request);
-
-        // 1. Crea il cookie HTTP-Only con il JWT
         Cookie jwtCookie = new Cookie("accessToken", loginResponse.getAccessToken());
-        jwtCookie.setHttpOnly(true);   // Fondamentale: impedisce l'accesso da JavaScript (protezione XSS)
-        jwtCookie.setSecure(true);     // Invia il cookie solo su connessioni HTTPS
-        jwtCookie.setPath("/");        // Rende il cookie disponibile per l'intera applicazione
-
-        // 2. Imposta la durata del cookie uguale a quella del token JWT
+        jwtCookie.setHttpOnly(true);
+        jwtCookie.setSecure(true);
+        jwtCookie.setPath("/");
         long expiresInSeconds = TimeUnit.MILLISECONDS.toSeconds(jwtExpirationMs);
         jwtCookie.setMaxAge((int) expiresInSeconds);
-
-        // 3. Aggiungi il cookie alla risposta
         response.addCookie(jwtCookie);
 
-        // 4. Restituisci i dettagli dell'utente nel corpo della risposta JSON
-        return ResponseEntity.ok(loginResponse.getUserDetails());
+        ApiResponse<UserDetailDto> apiResponse = ApiResponse.ok("Login effettuato con successo.", loginResponse.getUserDetails());
+        return ResponseEntity.ok(apiResponse);
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout(HttpServletResponse response) {
-        // Per fare il logout, inviamo un cookie con lo stesso nome ma con durata 0
+    public ResponseEntity<ApiResponse<Void>> logout(HttpServletResponse response) {
         Cookie cookie = new Cookie("accessToken", null);
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
         cookie.setPath("/");
-        cookie.setMaxAge(0); // Dice al browser di cancellare il cookie immediatamente
-
+        cookie.setMaxAge(0);
         response.addCookie(cookie);
-
-        return ResponseEntity.ok().build();
+        ApiResponse<Void> apiResponse = ApiResponse.ok("Logout effettuato con successo.", null);
+        return ResponseEntity.ok(apiResponse);
     }
 
     @GetMapping("/me")
-    public ResponseEntity<UserDetailDto> getCurrentUser() {
+    public ResponseEntity<ApiResponse<UserDetailDto>> getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (principal instanceof CustomUserProfileDetails currentUserDetails) {
             UserProfile userProfile = currentUserDetails.getUserProfile();
-            return ResponseEntity.ok(userMapper.toUserDetailDto(userProfile));
+            UserDetailDto userDto = userMapper.toUserDetailDto(userProfile);
+            ApiResponse<UserDetailDto> response = ApiResponse.ok("Dati utente recuperati.", userDto);
+            return ResponseEntity.ok(response);
         }
 
-        // Se il principal non è quello atteso (es. utente non autenticato, token non valido),
-        // restituiamo 401 Unauthorized invece di un errore generico.
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ApiResponse.error(401, "Unauthorized", "Token non valido o mancante.", null));
     }
 }

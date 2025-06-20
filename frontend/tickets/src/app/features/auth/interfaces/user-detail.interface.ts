@@ -1,3 +1,4 @@
+import { UserPreferences } from '../../../core/services/user-preferences.service';
 import { Role } from './role.interface';
 
 /**
@@ -11,4 +12,5 @@ export interface UserDetail {
   enabled: boolean;
   createdAt: string; // Le date vengono serializzate come stringhe ISO 8601
   roles: Set<Role>;
+  preferences: UserPreferences;
 }

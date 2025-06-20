@@ -1,0 +1,30 @@
+<div
+  class="sonner-toast"
+  [attr.data-severity]="toast.severity"
+  role="alert"
+  aria-live="assertive"
+  aria-atomic="true"
+>
+  <!-- Icona -->
+  <div class="toast-icon">
+    <i class="bi" [ngClass]="toastConfig.icon"></i>
+  </div>
+
+  <!-- Contenuto Testuale -->
+  <div class="toast-content">
+    <div class="toast-title">{{ toast.title }}</div>
+    @if (toast.message) {
+    <div class="toast-message">{{ toast.message }}</div>
+    }
+  </div>
+
+  <!-- Pulsante di Chiusura -->
+  <button
+    type="button"
+    class="toast-close-button"
+    (click)="close()"
+    aria-label="Close"
+  >
+    <i class="bi bi-x"></i>
+  </button>
+</div>

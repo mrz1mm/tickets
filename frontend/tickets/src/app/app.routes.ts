@@ -2,11 +2,12 @@ import { Routes } from '@angular/router';
 import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
 import { authGuard } from './features/auth/guard/auth.guard';
 import { publicGuard } from './features/auth/guard/public.guard';
+import { PathConstants } from './core/constants/path.constants';
 
 export const routes: Routes = [
   // --- Rotte Pubbliche (Login, Registrazione, etc.) ---
   {
-    path: 'auth',
+    path: PathConstants.AUTH.BASE,
     canActivate: [publicGuard],
     loadChildren: () =>
       import('./features/auth/auth.routes').then((m) => m.AUTH_ROUTES),

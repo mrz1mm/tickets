@@ -1,6 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { PathConstants } from '../../../core/constants/path.constants';
 
 /**
  * Un route guard che protegge le rotte private.
@@ -15,5 +16,5 @@ export const authGuard: CanActivateFn = () => {
     return true;
   }
 
-  return router.createUrlTree(['/auth/login']);
+  return router.createUrlTree([PathConstants.AUTH.LOGIN]);
 };
