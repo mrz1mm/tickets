@@ -9,7 +9,7 @@ import { UserDetail } from '../interfaces/user-detail.interface';
 import { LoginRequest } from '../interfaces/login-request.interface';
 import { ApiConstants } from '../../../core/constants/api.constant';
 import { RegisterRequest } from '../interfaces/register-request.interface';
-import { PathConstants } from '../../../core/constants/path.constants';
+import { Path } from '../../../core/constants/path.constants';
 
 @Injectable({
   providedIn: 'root',
@@ -75,7 +75,7 @@ export class AuthService {
           this.isAuthenticated.set(false);
           this.currentUser.set(null);
           this.prefsSvc.clearPreferences();
-          this.router.navigate([PathConstants.AUTH.LOGIN], {
+          this.router.navigate([Path.AUTH.LOGIN], {
             replaceUrl: true,
           });
         })

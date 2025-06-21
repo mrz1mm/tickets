@@ -5,4 +5,4 @@ import { Component } from '@angular/core';
   template: `<h2>Dashboard</h2>
     <p>Benvenuto nell'area riservata!</p>`,
 })
-export class DashboardPageComponent {}
+export class DashboardComponent {}

@@ -1,66 +1,64 @@
 import { Routes } from '@angular/router';
+
+// Layout
 import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
-import { authGuard } from './features/auth/guard/auth.guard';
-import { publicGuard } from './features/auth/guard/public.guard';
-import { PathConstants } from './core/constants/path.constants';
+import { Path } from './core/constants/path.constants';
+
+// N.B: Non ci sono più import di componenti di pagina qui!
 
 export const routes: Routes = [
-  // --- Rotte Pubbliche (Login, Registrazione, etc.) ---
+  // --- Rotte senza Layout (Lazy Loaded) ---
   {
-    path: PathConstants.AUTH.BASE,
-    canActivate: [publicGuard],
-    loadChildren: () =>
-      import('./features/auth/auth.routes').then((m) => m.AUTH_ROUTES),
-    title: 'titles.auth',
+    path: Path.AUTH.LOGIN,
+    loadComponent: () =>
+      import('./features/auth/pages/login/login.component').then(
+        (m) => m.LoginComponent
+      ),
+  },
+  {
+    path: Path.AUTH.REGISTER,
+    loadComponent: () =>
+      import('./features/auth/pages/register/register.component').then(
+        (m) => m.RegisterComponent
+      ),
   },
 
-  // --- Rotte Private e Pubbliche con Layout ---
+  // --- Rotte con Layout (Lazy Loaded) ---
   {
     path: '',
     component: MainLayoutComponent,
     children: [
-      // Pagina principale (Dashboard) - Protetta
       {
-        path: '',
-        pathMatch: 'full',
-        canActivate: [authGuard],
+        path: Path.DASHBOARD,
         loadComponent: () =>
           import(
-            './features/dashboard/pages/dashboard-page/dashboard-page-component'
-          ).then((m) => m.DashboardPageComponent),
-        title: 'titles.dashboard',
+            './features/dashboard/pages/dashboard-page/dashboard.component'
+          ).then((m) => m.DashboardComponent),
       },
-
-      // Pagina Profilo - Protetta
       {
-        path: 'profile',
-        canActivate: [authGuard],
+        path: Path.PROFILE,
         loadComponent: () =>
           import(
             './features/profile/pages/profile-page/profile-page.component'
           ).then((m) => m.ProfilePageComponent),
-        title: 'titles.profile',
       },
-
-      // Pagina Privacy Policy - Pubblica ma con layout
       {
-        path: 'privacy-policy',
+        path: Path.PRIVACY_POLICY,
         loadComponent: () =>
           import(
             './features/legal/pages/privacy-policy-page/privacy-policy-page.component'
           ).then((m) => m.PrivacyPolicyPageComponent),
-        title: 'titles.privacyPolicy',
       },
+      { path: '', redirectTo: Path.DASHBOARD, pathMatch: 'full' },
     ],
   },
 
-  // --- Rotta di Fallback (Pagina Non Trovata) ---
+  // --- Fallback (Lazy Loaded) ---
   {
-    path: '**',
+    path: Path.NOT_FOUND,
     loadComponent: () =>
       import('./core/pages/not-found-page/not-found.page.component').then(
         (m) => m.NotFoundPageComponent
       ),
-    title: 'titles.notFound',
   },
 ];

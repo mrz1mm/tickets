@@ -18,7 +18,7 @@ import {
 import { provideTransloco } from '@ngneat/transloco';
 import { TranslatedTitleStrategy } from './core/services/translated-title.strategy';
 import { notificationInterceptor } from './core/interceptors/notification.interceptor';
-import { BrowserLoader } from './browser.loader';
+import { TranslocoBrowserLoader } from './transloco-browser.loader';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -34,7 +34,7 @@ export const appConfig: ApplicationConfig = {
         reRenderOnLangChange: true,
         prodMode: !isDevMode(),
       },
-      loader: BrowserLoader,
+      loader: TranslocoBrowserLoader,
     }),
     { provide: TitleStrategy, useClass: TranslatedTitleStrategy },
   ],

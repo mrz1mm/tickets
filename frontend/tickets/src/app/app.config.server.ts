@@ -1,13 +1,15 @@
 import { mergeApplicationConfig, ApplicationConfig } from '@angular/core';
-import { provideServerRendering } from '@angular/platform-server';
+import { provideServerRendering, withRoutes } from '@angular/ssr';
 import { appConfig } from './app.config';
-import { ServerLoader } from './server.loader';
+import { serverRoutes } from './app.routes.server';
 import { TRANSLOCO_LOADER } from '@ngneat/transloco';
+import { TranslocoServerLoader } from './transloco-server.loader.ts';
 
 const serverConfig: ApplicationConfig = {
   providers: [
-    provideServerRendering(),
-    { provide: TRANSLOCO_LOADER, useClass: ServerLoader },
+    provideServerRendering(withRoutes(serverRoutes)),
+    { provide: TRANSLOCO_LOADER, useClass: TranslocoServerLoader },
   ],
 };
+
 export const config = mergeApplicationConfig(appConfig, serverConfig);

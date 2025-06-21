@@ -1,13 +1,13 @@
-export const PathConstants = {
-  ROOT: '/',
-
+export const Path = {
   AUTH: {
     BASE: 'auth',
-    LOGIN: '/auth/login',
-    REGISTER: '/auth/register',
+    LOGIN: 'auth/login',
+    REGISTER: 'auth/register',
   },
 
-  DASHBOARD: '/',
-  PROFILE: '/profile',
-  PRIVACY_POLICY: '/privacy-policy',
+  DASHBOARD: 'dashboard',
+  PROFILE: 'profile',
+  PRIVACY_POLICY: 'privacy-policy',
+
+  NOT_FOUND: '**',
 } as const;

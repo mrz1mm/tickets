@@ -6,7 +6,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 import { AuthService } from '../../services/auth.service';
-import { PathConstants } from '../../../../core/constants/path.constants';
+import { Path } from '../../../../core/constants/path.constants';
 
 @Component({
   selector: 'app-register',
@@ -20,7 +20,7 @@ export class RegisterComponent {
   private authSvc = inject(AuthService);
   private router = inject(Router);
 
-  public PathConstants = PathConstants;
+  public Path = Path;
   public isLoading = signal(false);
 
   public registerForm = this.fb.group({
