@@ -1,10 +1,11 @@
 export const StorageConfig = {
   STORE_COOKIE_KEY: 'tickets_app_store',
   KEYS: {
+    AUTH_TOKEN: 'auth_token',
     COOKIE_PREFERENCES: 'cookie_preferences',
-    LANGUAGE: 'app_lang',
-    THEME: 'app_theme',
-    USER_INFO: 'user_info',
+    LANGUAGE: 'lang',
+    THEME: 'theme',
+    USER_INFO: 'current_user',
   },
 } as const;
 

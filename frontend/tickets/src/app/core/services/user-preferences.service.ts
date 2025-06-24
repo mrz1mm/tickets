@@ -1,81 +1,82 @@
+import { Injectable, inject } from '@angular/core';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { toObservable } from '@angular/core/rxjs-interop';
 import {
-  Injectable,
-  inject,
-  signal,
-  WritableSignal,
-  effect,
-} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { debounceTime, switchMap, filter } from 'rxjs';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { Theme } from '../interfaces/theme.types'; // Assumendo che sia in core/interfaces
-import { ApiConstants } from '../constants/api.constant';
-
-export interface UserPreferences {
-  theme?: Theme;
-  language?: string;
-}
+  debounceTime,
+  switchMap,
+  filter,
+  distinctUntilChanged,
+  combineLatest,
+  catchError,
+  of,
+  map,
+  skip, // Importiamo 'skip'
+} from 'rxjs';
+import { CookiePersistentService } from './cookie-persistent.service';
+import { ApiConstants } from '../constants/api.const';
+import { AuthService } from '../../features/auth/services/auth.service';
+import { ErrorHandlingService } from './error-handling.service';
+import { StorageConfig } from '../constants/storage-keys.const';
+import { SILENT_REQUEST } from '../constants/silent-request.const';
+import { UserPreferences } from '../interfaces/user-preferences.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserPreferencesService {
   private http = inject(HttpClient);
+  private persistentSvc = inject(CookiePersistentService);
+  private authSvc = inject(AuthService);
+  private errorSvc = inject(ErrorHandlingService);
 
-  public preferences: WritableSignal<UserPreferences | null> = signal(null);
+  // Osserviamo le fette di stato che compongono le preferenze dell'UTENTE (non del cookie banner)
+  private theme$ = toObservable(
+    this.persistentSvc.getSlice(StorageConfig.KEYS.THEME)
+  );
+  private language$ = toObservable(
+    this.persistentSvc.getSlice(StorageConfig.KEYS.LANGUAGE)
+  );
 
   constructor() {
     this.setupAutoSave();
   }
 
   /**
-   * Imposta le preferenze iniziali, solitamente chiamato dopo il login.
-   * @param prefs L'oggetto delle preferenze ricevuto dal backend.
-   */
-  public setInitialPreferences(prefs: UserPreferences): void {
-    this.preferences.set(prefs || {});
-  }
-
-  /**
-   * Pulisce le preferenze, solitamente chiamato al logout.
-   */
-  public clearPreferences(): void {
-    this.preferences.set(null);
-  }
-
-  /**
-   * Aggiorna una specifica preferenza.
-   * @param key La chiave della preferenza da aggiornare.
-   * @param value Il nuovo valore.
-   */
-  public updatePreference<K extends keyof UserPreferences>(
-    key: K,
-    value: UserPreferences[K]
-  ): void {
-    this.preferences.update((currentPrefs) => {
-      if (!currentPrefs) return null;
-      return { ...currentPrefs, [key]: value };
-    });
-  }
-
-  /**
-   * Imposta un effetto che osserva i cambiamenti nelle preferenze
-   * e li invia al backend dopo debounce per evitare
-   * chiamate API eccessive.
+   * Imposta un "effetto" che osserva i cambiamenti nelle preferenze
+   * e li invia al backend per la persistenza.
    */
   private setupAutoSave(): void {
-    toObservable(this.preferences)
+    // Combiniamo solo gli stream che ci interessano per il backend
+    combineLatest([this.theme$, this.language$])
       .pipe(
-        filter((prefs) => prefs !== null),
-        debounceTime(500),
-        switchMap((prefs) =>
-          this.http.put(ApiConstants.USERS.UPDATE_PREFERENCES, prefs)
-        )
+        // Saltiamo la primissima emissione che avviene all'avvio,
+        // altrimenti salveremmo i valori di default sul backend prima del login.
+        skip(1),
+        // Salviamo solo se l'utente è autenticato
+        filter(() => this.authSvc.isAuthenticated()),
+        // Aspettiamo 1 secondo dopo l'ultima modifica
+        debounceTime(1000),
+        // Trasformiamo i valori in un oggetto UserPreferences
+        map(([theme, language]) => ({ theme, language } as UserPreferences)),
+        // Non inviare se l'oggetto è identico al precedente
+        distinctUntilChanged(
+          (prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)
+        ),
+        // Passiamo alla chiamata HTTP
+        switchMap((prefs) => {
+          console.log('Sincronizzazione preferenze con il backend:', prefs);
+          const context = new HttpContext().set(SILENT_REQUEST, true);
+          return this.http.put(ApiConstants.USERS.UPDATE_PREFERENCES, prefs, {
+            context,
+          });
+        }),
+        catchError((err) => {
+          this.errorSvc.handleHttpError(err);
+          return of(null);
+        })
       )
       .subscribe({
-        next: () => console.log('Preferenze salvate sul server.'),
-        error: (err) =>
-          console.error('Errore durante il salvataggio delle preferenze:', err),
+        next: () => console.log('Preferenze sincronizzate con successo.'),
       });
   }
 }

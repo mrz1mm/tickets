@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, map, of } from 'rxjs';
 
-import { ApiConstants } from '../../../core/constants/api.constant';
-import { ApiResponse } from '../../../core/interfaces/api-response';
+import { ApiConstants } from '../../../core/constants/api.const';
+import { ApiResponse } from '../../../core/interfaces/api-response.interface';
 import { Department } from '../interfaces/department.interface';
 
 @Injectable({

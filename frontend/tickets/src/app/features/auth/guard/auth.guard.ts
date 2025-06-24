@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { Path } from '../../../core/constants/path.constants';
+import { Path } from '../../../core/constants/path.constants.const';
 
 /**
  * Un route guard che protegge le rotte private.

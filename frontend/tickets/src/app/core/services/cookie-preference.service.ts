@@ -1,7 +1,7 @@
-import { Injectable, WritableSignal, inject } from '@angular/core';
+import { Injectable, Signal, inject } from '@angular/core';
 import { CookiePersistentService } from './cookie-persistent.service';
-import { StorageConfig } from '../enums/storage-keys.enum';
-import { Cookie } from '../interfaces/cookie.interface';
+import { CookiePreferences } from '../interfaces/cookie-preference.interface';
+import { StorageConfig } from '../constants/storage-keys.const';
 
 @Injectable({
   providedIn: 'root',
@@ -9,59 +9,58 @@ import { Cookie } from '../interfaces/cookie.interface';
 export class CookiePreferenceService {
   private persistentSvc = inject(CookiePersistentService);
 
-  /**
-   * Signal reattivo che contiene le preferenze dei cookie dell'utente.
-   * Inizializzato con un oggetto Cookie con valori predefiniti.
-   * La persistenza è gestita automaticamente dal CookiePersistentService.
-   */
-  #cookiePreferences: WritableSignal<Cookie | null> =
-    this.persistentSvc.PSignal<Cookie | null>(
-      StorageConfig.KEYS.COOKIE_PREFERENCES,
-      null
-    );
-
-  /**
-   * Signal pubblico di sola lettura per esporre le preferenze dei cookie
-   * in modo sicuro al resto dell'applicazione.
-   */
-  public cookiePreferences = this.#cookiePreferences.asReadonly();
+  public readonly cookiePreferences: Signal<CookiePreferences | null> =
+    this.persistentSvc.getSlice(StorageConfig.KEYS.COOKIE_PREFERENCES);
 
   /**
    * Imposta le preferenze per accettare tutti i tipi di cookie opzionali.
-   * Aggiorna il signal, che a sua volta salva lo stato nel cookie.
+   * Aggiorna la fetta di stato nel servizio di persistenza.
    */
   public acceptAll(): void {
-    this.#cookiePreferences.set({
+    const newPreferences: CookiePreferences = {
       essentialCookies: true,
       analyticsCookies: true,
       functionalCookies: true,
       targetingCookies: true,
-    });
+    };
+    this.persistentSvc.updateSlice(
+      StorageConfig.KEYS.COOKIE_PREFERENCES,
+      newPreferences
+    );
   }
 
   /**
    * Imposta le preferenze per rifiutare tutti i tipi di cookie opzionali.
-   * Aggiorna il signal, che a sua volta salva lo stato nel cookie.
+   * Aggiorna la fetta di stato nel servizio di persistenza.
    */
   public rejectAll(): void {
-    this.#cookiePreferences.set({
+    const newPreferences: CookiePreferences = {
       essentialCookies: true,
       analyticsCookies: false,
       functionalCookies: false,
       targetingCookies: false,
-    });
+    };
+    this.persistentSvc.updateSlice(
+      StorageConfig.KEYS.COOKIE_PREFERENCES,
+      newPreferences
+    );
   }
 
   /**
    * Salva una configurazione personalizzata delle preferenze dei cookie.
    * @param preferences Un oggetto parziale con le scelte dell'utente.
    */
-  public saveCustom(preferences: Partial<Cookie>): void {
-    this.#cookiePreferences.set({
+  public saveCustom(preferences: Partial<CookiePreferences>): void {
+    const currentPrefs = this.cookiePreferences() ?? { essentialCookies: true };
+    const newPreferences: CookiePreferences = {
       essentialCookies: true,
       analyticsCookies: !!preferences.analyticsCookies,
       functionalCookies: !!preferences.functionalCookies,
       targetingCookies: !!preferences.targetingCookies,
-    });
+    };
+    this.persistentSvc.updateSlice(
+      StorageConfig.KEYS.COOKIE_PREFERENCES,
+      newPreferences
+    );
   }
 }

@@ -1,43 +1,44 @@
-import { Injectable, inject, WritableSignal } from '@angular/core';
+import { Injectable, effect, inject, Signal } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 import { CookiePersistentService } from './cookie-persistent.service';
-import { StorageConfig } from '../enums/storage-keys.enum';
+import { StorageConfig } from '../constants/storage-keys.const';
+import { Language } from '../types/language.type';
 
 @Injectable({ providedIn: 'root' })
 export class LanguageService {
   private translocoSvc = inject(TranslocoService);
   private persistentSvc = inject(CookiePersistentService);
 
-  private persistedLang: WritableSignal<string>;
+  public readonly activeLang: Signal<Language> = this.persistentSvc.getSlice(
+    StorageConfig.KEYS.LANGUAGE
+  );
 
   constructor() {
-    this.persistedLang = this.persistentSvc.PSignal<string>(
-      StorageConfig.KEYS.LANGUAGE,
-      this.translocoSvc.getDefaultLang()
-    );
-    this.translocoSvc.setActiveLang(this.persistedLang());
+    effect(() => {
+      const lang = this.activeLang();
+      this.translocoSvc.setActiveLang(lang);
+    });
   }
 
   /**
-   * Cambia la lingua attiva dell'applicazione e la salva nel cookie.
-   * @param lang Il codice della nuova lingua (es. 'en', 'it').
+   * Cambia la lingua attiva dell'applicazione e la salva nello store persistito.
+   * @param lang Il codice della nuova lingua (deve essere di tipo Language).
    */
-  public changeLanguage(lang: string): void {
-    this.translocoSvc.setActiveLang(lang);
-    this.persistedLang.set(lang);
+  public changeLanguage(lang: Language): void {
+    this.persistentSvc.updateSlice(StorageConfig.KEYS.LANGUAGE, lang);
   }
 
   /**
    * Ottiene la lingua attualmente attiva.
    */
-  public getActiveLang(): string {
-    return this.translocoSvc.getActiveLang();
+  public getActiveLang(): Language {
+    return this.translocoSvc.getActiveLang() as Language;
   }
 
   /**
    * Ottiene l'elenco delle lingue disponibili.
    */
-  public getAvailableLangs(): string[] {
-    return this.translocoSvc.getAvailableLangs() as string[];
+  public getAvailableLangs(): Language[] {
+    return this.translocoSvc.getAvailableLangs() as Language[];
   }
 }

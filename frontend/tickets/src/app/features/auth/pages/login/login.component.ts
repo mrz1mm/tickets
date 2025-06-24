@@ -6,7 +6,7 @@ import { finalize } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 import { AuthService } from '../../services/auth.service';
 import { LoginRequest } from '../../interfaces/login-request.interface';
-import { Path } from '../../../../core/constants/path.constants';
+import { Path } from '../../../../core/constants/path.constants.const';
 
 @Component({
   selector: 'app-login',

@@ -1,4 +1,4 @@
-import { ToastSeverity } from './toast.types';
+import { ToastSeverity } from '../types/toast.type';
 
 export interface ToastMessage {
   id?: number;

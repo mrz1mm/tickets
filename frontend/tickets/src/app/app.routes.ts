@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 // Layout
 import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
-import { Path } from './core/constants/path.constants';
+import { Path } from './core/constants/path.constants.const';
 
 // N.B: Non ci sono più import di componenti di pagina qui!
 

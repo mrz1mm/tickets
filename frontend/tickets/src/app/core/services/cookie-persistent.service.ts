@@ -4,10 +4,15 @@ import {
   signal,
   effect,
   inject,
+  Signal,
+  computed,
 } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { StorageConfig, StorageKey } from '../enums/storage-keys.enum';
+import { StorageConfig } from '../constants/storage-keys.const';
 import { PlatformService } from './platform.service';
+import { AppState } from '../interfaces/app-state.interface';
+import { DEFAULT_APP_STATE } from '../constants/default-app-state.const';
+import { ErrorHandlingService } from './error-handling.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,78 +20,68 @@ import { PlatformService } from './platform.service';
 export class CookiePersistentService {
   private cookieSvc = inject(CookieService);
   private platformSvc = inject(PlatformService);
+  private errorSvc = inject(ErrorHandlingService);
 
-  /**
-   * Crea un Signal il cui stato è persistito come proprietà all'interno
-   * di un unico cookie JSON.
-   * @param key La chiave della proprietà all'interno dell'oggetto store.
-   * @param initialState Il valore iniziale se la proprietà non è presente nello store.
-   * @returns Un WritableSignal<T> reattivo e persistito.
-   */
-  public PSignal<T>(key: StorageKey, initialState: T): WritableSignal<T> {
-    if (!this.platformSvc.isBrowser) {
-      return signal<T>(initialState);
-    }
+  #appState: WritableSignal<AppState>;
 
-    // 1. Leggiamo l'intero store dal cookie, non più un valore singolo.
-    const store = this.getStore();
+  constructor() {
+    this.#appState = signal(this.getInitialState());
 
-    // 2. Inizializziamo il signal con il valore specifico dallo store o con quello di default.
-    const signalState = signal<T>(
-      store[key] !== undefined ? store[key] : initialState
-    );
-
-    // 3. L'effect si attiva ogni volta che il valore del signal cambia.
     effect(() => {
-      // Per evitare scritture multiple e race condition, leggiamo sempre
-      // lo stato più recente dello store prima di modificarlo.
-      const currentStore = this.getStore();
-      currentStore[key] = signalState(); // Aggiorniamo solo la nostra proprietà.
-      this.saveStore(currentStore); // Salviamo l'intero store aggiornato.
+      if (this.platformSvc.isBrowser) {
+        this.saveStore(this.#appState());
+      }
     });
-
-    return signalState;
   }
 
   /**
-   * Legge e parsa l'intero oggetto store dal cookie principale.
-   * Funziona solo lato browser.
-   * @returns L'oggetto store parsato, o un oggetto vuoto in caso di errore o assenza.
+   * Restituisce uno specifico parziale di sola lettura dello stato.
    */
-  private getStore(): any {
+  public getSlice<K extends keyof AppState>(key: K): Signal<AppState[K]> {
+    return computed(() => this.#appState()[key]);
+  }
+
+  /**
+   * Aggiorna uno specifico parziale dello stato.
+   */
+  public updateSlice<K extends keyof AppState>(
+    key: K,
+    value: AppState[K]
+  ): void {
+    this.#appState.update((currentState) => ({
+      ...currentState,
+      [key]: value,
+    }));
+  }
+
+  private getInitialState(): AppState {
+    if (!this.platformSvc.isBrowser) {
+      return DEFAULT_APP_STATE;
+    }
     if (this.cookieSvc.check(StorageConfig.STORE_COOKIE_KEY)) {
       try {
-        const store = this.cookieSvc.get(StorageConfig.STORE_COOKIE_KEY);
-        return store ? JSON.parse(store) : {};
+        const storeJson = this.cookieSvc.get(StorageConfig.STORE_COOKIE_KEY);
+        const parsedState = storeJson ? JSON.parse(storeJson) : {};
+        return { ...DEFAULT_APP_STATE, ...parsedState };
       } catch (e) {
-        console.error('Errore nel leggere/parsare lo store dal cookie', e);
-        return {};
+        this.errorSvc.handleClientError(e as Error, 'errors.cookieRead');
+        return DEFAULT_APP_STATE;
       }
     }
-    return {};
+    return DEFAULT_APP_STATE;
   }
 
-  /**
-   * Salva (serializzando) l'intero oggetto store nel cookie principale.
-   * Funziona solo lato browser.
-   * @param store L'oggetto store completo da salvare.
-   */
-  private saveStore(store: any): void {
+  private saveStore(store: AppState): void {
     const expires = new Date();
     expires.setFullYear(expires.getFullYear() + 1);
-
     try {
       this.cookieSvc.set(
         StorageConfig.STORE_COOKIE_KEY,
         JSON.stringify(store),
-        {
-          expires,
-          path: '/',
-          sameSite: 'Lax',
-        }
+        { expires, path: '/', sameSite: 'Lax' }
       );
     } catch (e) {
-      console.error('Errore nel salvare lo store nel cookie', e);
+      this.errorSvc.handleClientError(e as Error, 'errors.cookieSave');
     }
   }
 }

@@ -1,11 +1,18 @@
-import { HttpInterceptorFn, HttpResponse } from '@angular/common/http';
+import {
+  HttpInterceptorFn,
+  HttpResponse,
+  HttpContext,
+} from '@angular/common/http';
 import { inject } from '@angular/core';
-import { tap } from 'rxjs';
-import { ApiResponse } from '../interfaces/api-response';
+import { tap, catchError, throwError } from 'rxjs';
+import { ApiResponse } from '../interfaces/api-response.interface';
 import { ToastService } from '../services/toast.service';
+import { ErrorHandlingService } from '../services/error-handling.service';
+import { SILENT_REQUEST } from '../constants/silent-request.const';
 
 export const notificationInterceptor: HttpInterceptorFn = (req, next) => {
   const toastSvc = inject(ToastService);
+  const errorSvc = inject(ErrorHandlingService);
 
   if (!req.url.includes('/api/')) {
     return next(req);
@@ -16,20 +23,20 @@ export const notificationInterceptor: HttpInterceptorFn = (req, next) => {
       if (event instanceof HttpResponse) {
         const body = event.body as ApiResponse<unknown>;
 
-        if (!body || !body.message) {
+        if (req.context.get(SILENT_REQUEST)) {
           return;
         }
 
-        if (event.status >= 200 && event.status < 300) {
+        if (body && body.message && event.status >= 200 && event.status < 300) {
           if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(req.method)) {
             toastSvc.showSuccess('Successo', body.message);
           }
-        } else if (event.status >= 400 && event.status < 500) {
-          toastSvc.showError('Errore', body.message);
-        } else if (event.status >= 500) {
-          toastSvc.showError('Errore del Server', body.message);
         }
       }
+    }),
+    catchError((error) => {
+      errorSvc.handleHttpError(error);
+      return throwError(() => error);
     })
   );
 };

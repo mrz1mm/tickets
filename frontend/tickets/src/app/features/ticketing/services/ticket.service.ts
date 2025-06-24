@@ -5,8 +5,8 @@ import { Observable, catchError, map, of } from 'rxjs';
 // Non abbiamo più bisogno di ToastService o TranslocoService qui!
 // La loro logica è nell'intercettore.
 
-import { ApiConstants } from '../../../core/constants/api.constant';
-import { ApiResponse } from '../../../core/interfaces/api-response';
+import { ApiConstants } from '../../../core/constants/api.const';
+import { ApiResponse } from '../../../core/interfaces/api-response.interface';
 import { Pageable } from '../../../core/interfaces/pageable.interface';
 import { PagedResult } from '../../../core/interfaces/paged-result.interface';
 import { AddComment } from '../interfaces/add-comment.interface';

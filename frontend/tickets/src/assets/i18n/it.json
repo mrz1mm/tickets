@@ -14,6 +14,12 @@
   "dashboardPage": {
     "title": "Dashboard"
   },
+  "errors": {
+    "genericTitle": "Errore",
+    "unexpected": "Si è verificato un errore imprevisto. Riprova più tardi.",
+    "cookieRead": "Impossibile caricare le preferenze salvate. Verranno usate quelle di default.",
+    "cookieSave": "Impossibile salvare le tue preferenze."
+  },
   "footer": {
     "copyright": "© 2025 Tickets App. Tutti i diritti riservati."
   },

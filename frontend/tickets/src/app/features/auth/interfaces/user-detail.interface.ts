@@ -1,4 +1,4 @@
-import { UserPreferences } from '../../../core/services/user-preferences.service';
+import { UserPreferences } from '../../../core/interfaces/user-preferences.interface';
 import { Role } from './role.interface';
 
 /**

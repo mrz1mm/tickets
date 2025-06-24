@@ -6,7 +6,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 import { AuthService } from '../../services/auth.service';
-import { Path } from '../../../../core/constants/path.constants';
+import { Path } from '../../../../core/constants/path.constants.const';
 
 @Component({
   selector: 'app-register',

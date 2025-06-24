@@ -9,7 +9,6 @@ CREATE TABLE user_profiles (
     display_name VARCHAR(255),
     preferences JSONB NOT NULL DEFAULT '{}'::jsonb,
     enabled BOOLEAN NOT NULL DEFAULT TRUE,
-    preferences JSONB NOT NULL DEFAULT '{}::jsonb'
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     deleted_at TIMESTAMP WITH TIME ZONE NULL
