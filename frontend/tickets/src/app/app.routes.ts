@@ -7,7 +7,7 @@ import { Path } from './core/constants/path.constants';
 // N.B: Non ci sono più import di componenti di pagina qui!
 
 export const routes: Routes = [
-  // --- Rotte senza Layout (Lazy Loaded) ---
+  // --- Rotte senza Layout ---
   {
     path: Path.AUTH.LOGIN,
     loadComponent: () =>
@@ -23,7 +23,7 @@ export const routes: Routes = [
       ),
   },
 
-  // --- Rotte con Layout (Lazy Loaded) ---
+  // --- Rotte con Layout ---
   {
     path: '',
     component: MainLayoutComponent,
@@ -49,11 +49,31 @@ export const routes: Routes = [
             './features/legal/pages/privacy-policy-page/privacy-policy-page.component'
           ).then((m) => m.PrivacyPolicyPageComponent),
       },
-      { path: '', redirectTo: Path.DASHBOARD, pathMatch: 'full' },
+      {
+        path: Path.TICKETS.BASE,
+        loadComponent: () =>
+          import(
+            './features/ticketing/pages/ticket-list/ticket-list.component'
+          ).then((m) => m.TicketListComponent),
+      },
+      {
+        path: Path.TICKETS.BASE + '/:ticketId',
+        loadComponent: () =>
+          import(
+            './features/ticketing/pages/ticket-detail/ticket-detail.component'
+          ).then((m) => m.TicketDetailComponent),
+      },
+      {
+        path: Path.TICKETS.CREATE,
+        loadComponent: () =>
+          import(
+            './features/ticketing/pages/ticket-create/ticket-create.component'
+          ).then((m) => m.TicketCreateComponent),
+      },
     ],
   },
 
-  // --- Fallback (Lazy Loaded) ---
+  // --- Fallback ---
   {
     path: Path.NOT_FOUND,
     loadComponent: () =>

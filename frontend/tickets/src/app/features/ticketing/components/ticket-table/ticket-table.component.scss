@@ -1,0 +1,18 @@
+// Badge per lo stato
+.badge.status-APERTO {
+  background-color: #0d6efd;
+}
+.badge.status-IN_LAVORAZIONE {
+  background-color: #ffc107;
+  color: #000;
+}
+// ... Aggiungi altri colori per gli stati ...
+
+// Badge per la priorità
+.badge.priority-BASSA {
+  background-color: #6c757d;
+}
+.badge.priority-ALTA {
+  background-color: #dc3545;
+}
+// ... Aggiungi altri colori per le priorità ...

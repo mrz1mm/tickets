@@ -1,0 +1,146 @@
+<div class="container py-4" *transloco="let t; read: 'ticketCreatePage'">
+  <nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="/tickets">{{ t("backToList") }}</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{ t("title") }}
+      </li>
+    </ol>
+  </nav>
+
+  <div class="card">
+    <div class="card-header">
+      <h2 class="h4 mb-0">{{ t("formHeader") }}</h2>
+    </div>
+    <div class="card-body">
+      <form
+        [formGroup]="ticketForm"
+        (ngSubmit)="onSubmit()"
+        *transloco="let v; read: 'validation'"
+      >
+        <!-- Titolo -->
+        <div class="mb-3">
+          <label for="title" class="form-label">{{ t("titleLabel") }}</label>
+          <input
+            type="text"
+            id="title"
+            class="form-control"
+            [placeholder]="t('titlePlaceholder')"
+            formControlName="title"
+            [class.is-invalid]="
+              ticketForm.controls.title.invalid &&
+              ticketForm.controls.title.touched
+            "
+          />
+          @if (ticketForm.controls.title.invalid &&
+          ticketForm.controls.title.touched) {
+          <div class="invalid-feedback">
+            @if (ticketForm.controls.title.hasError('required')) {
+            <span>{{ v("titleRequired") }}</span> } @if
+            (ticketForm.controls.title.hasError('minlength')) {
+            <span>{{ v("titleMinLength") }}</span> }
+          </div>
+          }
+        </div>
+
+        <!-- Descrizione -->
+        <div class="mb-3">
+          <label for="description" class="form-label">{{
+            t("descriptionLabel")
+          }}</label>
+          <textarea
+            id="description"
+            class="form-control"
+            rows="6"
+            [placeholder]="t('descriptionPlaceholder')"
+            formControlName="description"
+            [class.is-invalid]="
+              ticketForm.controls.description.invalid &&
+              ticketForm.controls.description.touched
+            "
+          ></textarea>
+          @if (ticketForm.controls.description.invalid &&
+          ticketForm.controls.description.touched) {
+          <div class="invalid-feedback">
+            @if (ticketForm.controls.description.hasError('required')) {
+            <span>{{ v("descriptionRequired") }}</span> } @if
+            (ticketForm.controls.description.hasError('minlength')) {
+            <span>{{ v("descriptionMinLength") }}</span> }
+          </div>
+          }
+        </div>
+
+        <div class="row">
+          <!-- Dipartimento -->
+          <div class="col-md-6 mb-3">
+            <label for="departmentId" class="form-label">{{
+              t("departmentLabel")
+            }}</label>
+            <select
+              id="departmentId"
+              class="form-select"
+              formControlName="departmentId"
+              [class.is-invalid]="
+                ticketForm.controls.departmentId.invalid &&
+                ticketForm.controls.departmentId.touched
+              "
+            >
+              <option [ngValue]="null" disabled>
+                {{ t("departmentPlaceholder") }}
+              </option>
+              @for (dept of departments(); track dept.id) {
+              <option [ngValue]="dept.id">{{ dept.name }}</option>
+              }
+            </select>
+            @if (ticketForm.controls.departmentId.hasError('required') &&
+            ticketForm.controls.departmentId.touched) {
+            <div class="invalid-feedback">
+              <span>{{ v("departmentRequired") }}</span>
+            </div>
+            }
+          </div>
+
+          <!-- Priorità -->
+          <div class="col-md-6 mb-3">
+            <label for="priority" class="form-label">{{
+              t("priorityLabel")
+            }}</label>
+            <select
+              id="priority"
+              class="form-select"
+              formControlName="priority"
+            >
+              @for (p of priorities; track p) {
+              <option [value]="p">{{ p }}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <!-- Azioni -->
+        <div class="d-flex justify-content-end gap-2">
+          <a routerLink="/tickets" class="btn btn-secondary">{{
+            t("cancelButton")
+          }}</a>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="ticketForm.invalid || isSubmitting()"
+          >
+            @if (isSubmitting()) {
+            <span
+              class="spinner-border spinner-border-sm"
+              aria-hidden="true"
+            ></span>
+            <span> {{ t("submittingButton") }}</span>
+            } @else {
+            <span>{{ t("submitButton") }}</span>
+            }
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

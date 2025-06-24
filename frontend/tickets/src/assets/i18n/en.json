@@ -1,81 +1,113 @@
 {
-  "authForm": {
-    "loginTitle": "Sign In",
-    "registerTitle": "Create an Account",
-    "emailLabel": "Email Address",
-    "emailPlaceholder": "name@example.com",
-    "passwordLabel": "Password",
-    "displayNameLabel": "Display Name",
-    "displayNamePlaceholder": "Your name",
-    "loginButton": "Sign In",
-    "registerButton": "Sign Up",
-    "loadingButton": "Loading...",
-    "creatingButton": "Creating...",
-    "toRegisterPrompt": "Don't have an account?",
-    "toRegisterLink": "Sign up now",
-    "toLoginPrompt": "Already have an account?",
-    "toLoginLink": "Sign in",
-    "validation": {
-      "emailRequired": "Email is required.",
-      "emailInvalid": "Please enter a valid email.",
-      "passwordRequired": "Password is required.",
-      "passwordMinLength": "Password must be at least 8 characters long.",
-      "displayNameRequired": "Display name is required.",
-      "displayNameMinLength": "Display name must be at least 3 characters long."
-    }
-  },
-  "cookieBanner": {
-    "textStart": "This website uses cookies to enhance your experience. Read our",
-    "linkText": "privacy policy",
-    "textEnd": ".",
-    "reject": "Reject All",
-    "accept": "Accept All"
-  },
-  "dashboard": {
-    "title": "Dashboard",
-    "welcome": "Welcome to the private area!"
-  },
-  "footer": {
-    "copyright": "© 2025 Tickets App. All rights reserved."
-  },
   "header": {
     "title": "Tickets App",
-    "toggleThemeTitle": "Change theme",
+    "toggleThemeTitle": "Change Theme",
     "profile": "Profile",
     "logout": "Logout",
     "login": "Login"
   },
-  "notFound": {
+  "footer": {
+    "copyright": "© 2025 Tickets App. All rights reserved."
+  },
+  "cookieBanner": {
+    "text": "This site uses cookies to enhance your experience. Read our {privacyLink}.",
+    "linkText": "privacy policy",
+    "reject": "Reject All",
+    "accept": "Accept All"
+  },
+  "loginForm": {
+    "title": "Login",
+    "emailLabel": "Email Address",
+    "emailPlaceholder": "name@example.com",
+    "passwordLabel": "Password",
+    "loginButton": "Login",
+    "loadingButton": "Loading...",
+    "toRegisterPrompt": "Don't have an account?",
+    "toRegisterLink": "Register now"
+  },
+  "registerForm": {
+    "title": "Register",
+    "displayNameLabel": "Display Name",
+    "displayNamePlaceholder": "Your name",
+    "emailLabel": "Email Address",
+    "emailPlaceholder": "name@example.com",
+    "passwordLabel": "Password",
+    "registerButton": "Register",
+    "creatingButton": "Creating...",
+    "toLoginPrompt": "Already have an account?",
+    "toLoginLink": "Login"
+  },
+  "dashboardPage": {
+    "title": "Dashboard"
+  },
+  "profilePage": {
+    "title": "My Profile"
+  },
+  "privacyPolicyPage": {
+    "title": "Privacy Policy"
+  },
+  "ticketListPage": {
+    "title": "Ticket List",
+    "createTicket": "Create Ticket",
+    "loading": "Loading tickets...",
+    "noTicketsFound": "No tickets found.",
+    "table": {
+      "id": "ID",
+      "title": "Title",
+      "status": "Status",
+      "priority": "Priority",
+      "requester": "Requester",
+      "assignee": "Assigned to",
+      "createdAt": "Created At",
+      "actions": "Actions",
+      "viewAction": "View"
+    }
+  },
+  "ticketDetailPage": {
+    "title": "Ticket Details",
+    "loading": "Loading ticket...",
+    "backToList": "Ticket List",
+    "description": "Description",
+    "history": "History",
+    "details": "Details",
+    "requester": "Requester",
+    "assignee": "Assigned to",
+    "priority": "Priority",
+    "department": "Department",
+    "commentBox": {
+      "title": "Add a Comment",
+      "placeholder": "Write a comment...",
+      "submitButton": "Submit Comment",
+      "submittingButton": "Submitting..."
+    }
+  },
+  "notFoundPage": {
     "title": "Page Not Found",
     "message": "The resource you are looking for does not exist.",
     "button": "Back to Home"
   },
+  "validation": {
+    "emailRequired": "Email is required.",
+    "emailInvalid": "Enter a valid email.",
+    "passwordRequired": "Password is required.",
+    "passwordMinLength": "Password must be at least 8 characters long.",
+    "displayNameRequired": "Display name is required.",
+    "displayNameMinLength": "Name must be at least 3 characters long."
+  },
   "notifications": {
-    "loginSuccessTitle": "Login successful",
+    "loginSuccessTitle": "Login Successful",
     "loginSuccessMessage": "Welcome back, {displayName}!",
-    "loginErrorTitle": "Login failed",
-    "loginErrorMessage": "The credentials you entered are incorrect.",
-    "registerSuccessTitle": "Registration complete",
+    "loginErrorTitle": "Login Failed",
+    "loginErrorMessage": "The entered credentials are incorrect.",
+    "registerSuccessTitle": "Registration Completed",
     "registerSuccessMessage": "You can now log in with your credentials.",
-    "registerErrorTitle": "Registration failed",
+    "registerErrorTitle": "Registration Failed",
     "registerErrorConflict": "A user with this email already exists.",
     "registerErrorGeneral": "An unexpected error occurred. Please try again.",
-    "LogoutTitle": "Logout successful",
-    "logoutInfo": "You have been logged out."
-  },
-  "privacyPolicy": {
-    "title": "Privacy Policy"
-  },
-  "profile": {
-    "title": "My Profile"
-  },
-  "titles": {
-    "auth": "Authentication",
-    "login": "Sign In",
-    "register": "Sign Up",
-    "dashboard": "Dashboard",
-    "profile": "My Profile",
-    "privacyPolicy": "Privacy Policy",
-    "notFound": "Page Not Found"
+    "logoutInfo": "You have been logged out.",
+    "commentSuccessTitle": "Comment Added",
+    "commentSuccessMessage": "Your comment has been added to the ticket.",
+    "commentErrorTitle": "Error",
+    "commentErrorMessage": "Unable to add the comment. Please try again."
   }
 }

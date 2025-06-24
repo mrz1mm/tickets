@@ -1,39 +1,18 @@
 {
-  "authForm": {
-    "loginTitle": "Accedi",
-    "registerTitle": "Crea un Account",
-    "emailLabel": "Indirizzo Email",
-    "emailPlaceholder": "nome@esempio.com",
-    "passwordLabel": "Password",
-    "displayNameLabel": "Nome Visualizzato",
-    "displayNamePlaceholder": "Il tuo nome",
-    "loginButton": "Accedi",
-    "registerButton": "Registrati",
-    "loadingButton": "Caricamento...",
-    "creatingButton": "Creazione...",
-    "toRegisterPrompt": "Non hai un account?",
-    "toRegisterLink": "Registrati ora",
-    "toLoginPrompt": "Hai già un account?",
-    "toLoginLink": "Accedi",
-    "validation": {
-      "emailRequired": "L'email è obbligatoria.",
-      "emailInvalid": "Inserisci un'email valida.",
-      "passwordRequired": "La password è obbligatoria.",
-      "passwordMinLength": "La password deve contenere almeno 8 caratteri.",
-      "displayNameRequired": "Il nome visualizzato è obbligatorio.",
-      "displayNameMinLength": "Il nome deve contenere almeno 3 caratteri."
-    }
+  "commentBox": {
+    "title": "Aggiungi un Commento",
+    "placeholder": "Scrivi un commento...",
+    "submitButton": "Invia Commento",
+    "submittingButton": "Invio in corso..."
   },
   "cookieBanner": {
-    "textStart": "Questo sito utilizza i cookie per migliorare la tua esperienza. Leggi la nostra",
+    "text": "Questo sito utilizza i cookie per migliorare la tua esperienza. Leggi la nostra {privacyLink}.",
     "linkText": "informativa sulla privacy",
-    "textEnd": ".",
     "reject": "Rifiuta Tutti",
     "accept": "Accetta Tutti"
   },
-  "dashboard": {
-    "title": "Dashboard",
-    "welcome": "Benvenuto nell'area riservata!"
+  "dashboardPage": {
+    "title": "Dashboard"
   },
   "footer": {
     "copyright": "© 2025 Tickets App. Tutti i diritti riservati."
@@ -45,8 +24,17 @@
     "logout": "Esci",
     "login": "Accedi"
   },
-
-  "notFound": {
+  "login": {
+    "title": "Accedi",
+    "emailLabel": "Indirizzo Email",
+    "emailPlaceholder": "nome@esempio.com",
+    "passwordLabel": "Password",
+    "loginButton": "Accedi",
+    "loadingButton": "Caricamento...",
+    "toRegisterPrompt": "Non hai un account?",
+    "toRegisterLink": "Registrati ora"
+  },
+  "notFoundPage": {
     "title": "Pagina Non Trovata",
     "message": "La risorsa che stai cercando non esiste.",
     "button": "Torna alla Home"
@@ -61,23 +49,96 @@
     "registerErrorTitle": "Registrazione fallita",
     "registerErrorConflict": "Un utente con questa email esiste già.",
     "registerErrorGeneral": "Si è verificato un errore imprevisto. Riprova.",
-    "logoutTitle": "Logout effettuato",
-    "logoutInfo": "Sei stato disconnesso."
+    "logoutInfo": "Sei stato disconnesso.",
+    "commentSuccessTitle": "Commento Aggiunto",
+    "commentSuccessMessage": "Il tuo commento è stato aggiunto al ticket.",
+    "commentErrorTitle": "Errore",
+    "commentErrorMessage": "Impossibile aggiungere il commento. Riprova.",
+    "fetchErrorTitle": "Errore nel Recupero Dati",
+    "fetchErrorMessage": "Impossibile caricare le risorse richieste. Riprova più tardi.",
+    "ticketCreateSuccessTitle": "Ticket Creato",
+    "ticketCreateSuccessMessage": "Il nuovo ticket è stato creato con successo."
   },
-
-  "privacyPolicy": {
+  "privacyPolicyPage": {
     "title": "Privacy Policy"
   },
-  "profile": {
+  "profilePage": {
     "title": "Il Mio Profilo"
   },
-  "titles": {
-    "auth": "Autenticazione",
-    "login": "Accedi",
-    "register": "Registrati",
-    "dashboard": "Dashboard",
-    "profile": "Il Mio Profilo",
-    "privacyPolicy": "Informativa sulla Privacy",
-    "notFound": "Pagina Non Trovata"
+  "register": {
+    "title": "Registrati",
+    "displayNameLabel": "Nome Visualizzato",
+    "displayNamePlaceholder": "Il tuo nome",
+    "emailLabel": "Indirizzo Email",
+    "emailPlaceholder": "nome@esempio.com",
+    "passwordLabel": "Password",
+    "registerButton": "Registrati",
+    "creatingButton": "Creazione...",
+    "toLoginPrompt": "Hai già un account?",
+    "toLoginLink": "Accedi"
+  },
+  "ticketCreatePage": {
+    "title": "Crea Nuovo Ticket",
+    "backToList": "Elenco Ticket",
+    "formHeader": "Compila i dettagli del tuo ticket",
+    "titleLabel": "Titolo",
+    "titlePlaceholder": "Es. Impossibile accedere alla stampante",
+    "descriptionLabel": "Descrizione Dettagliata",
+    "descriptionPlaceholder": "Descrivi il problema nel modo più dettagliato possibile...",
+    "departmentLabel": "Dipartimento",
+    "departmentPlaceholder": "Seleziona un dipartimento...",
+    "priorityLabel": "Priorità",
+    "cancelButton": "Annulla",
+    "submitButton": "Crea Ticket",
+    "submittingButton": "Creazione in corso..."
+  },
+  "ticketDetailPage": {
+    "title": "Dettaglio Ticket",
+    "loading": "Caricamento del ticket...",
+    "backToList": "Elenco Ticket",
+    "description": "Descrizione",
+    "history": "Cronologia",
+    "details": "Dettagli",
+    "requester": "Richiedente",
+    "assignee": "Assegnato a",
+    "priority": "Priorità",
+    "department": "Dipartimento",
+    "commentBox": {
+      "title": "Aggiungi un Commento",
+      "placeholder": "Scrivi un commento...",
+      "submitButton": "Invia Commento",
+      "submittingButton": "Invio in corso..."
+    }
+  },
+  "ticketListPage": {
+    "title": "Elenco Ticket",
+    "createTicket": "Crea Ticket",
+    "loading": "Caricamento dei ticket...",
+    "noTicketsFound": "Nessun ticket trovato.",
+    "table": {
+      "id": "ID",
+      "title": "Titolo",
+      "status": "Stato",
+      "priority": "Priorità",
+      "requester": "Richiedente",
+      "assignee": "Assegnato a",
+      "createdAt": "Data Creazione",
+      "actions": "Actions",
+      "viewAction": "Vedi"
+    }
+  },
+  "validation": {
+    "commentRequired": "Il commento non può essere vuoto.",
+    "emailRequired": "L'email è obbligatoria.",
+    "emailInvalid": "Inserisci un'email valida.",
+    "passwordRequired": "La password è obbligatoria.",
+    "passwordMinLength": "La password deve contenere almeno 8 caratteri.",
+    "displayNameRequired": "Il nome visualizzato è obbligatorio.",
+    "displayNameMinLength": "Il nome deve contenere almeno 3 caratteri.",
+    "titleRequired": "Il titolo è obbligatorio.",
+    "titleMinLength": "Il titolo deve contenere almeno 10 caratteri.",
+    "descriptionRequired": "La descrizione è obbligatoria.",
+    "descriptionMinLength": "La descrizione deve contenere almeno 20 caratteri.",
+    "departmentRequired": "La selezione del dipartimento è obbligatoria."
   }
 }

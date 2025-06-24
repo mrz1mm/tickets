@@ -1,9 +1,9 @@
-<div class="auth-container" *transloco="let t; read: 'authForm'">
+<div class="auth-container" *transloco="let t">
   <div class="card auth-card">
     <div class="card-body">
       <div class="text-center mb-4">
         <img ngSrc="assets/img/logo.png" alt="Logo" width="60" height="60" />
-        <h1 class="h3 mt-2 mb-3 fw-normal">{{ t("registerTitle") }}</h1>
+        <h1 class="h3 mt-2 mb-3 fw-normal">{{ t("register.title") }}</h1>
       </div>
 
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
@@ -13,18 +13,18 @@
             type="text"
             class="form-control"
             id="displayName"
-            [placeholder]="t('displayNamePlaceholder')"
+            [placeholder]="t('register.displayNamePlaceholder')"
             formControlName="displayName"
             [class.is-invalid]="
               registerForm.get('displayName')?.invalid &&
               registerForm.get('displayName')?.touched
             "
           />
-          <label for="displayName">{{ t("displayNameLabel") }}</label>
+          <label for="displayName">{{ t("register.displayNameLabel") }}</label>
           @if (registerForm.get('displayName')?.invalid &&
           registerForm.get('displayName')?.touched) {
           <div class="invalid-feedback">
-            <span>{{ t("validation.displayNameMinLength") }}</span>
+            <span>{{ t("validation.displayNameRequired") }}</span>
           </div>
           }
         </div>
@@ -35,14 +35,14 @@
             type="email"
             class="form-control"
             id="email"
-            [placeholder]="t('emailPlaceholder')"
+            [placeholder]="t('register.emailPlaceholder')"
             formControlName="email"
             [class.is-invalid]="
               registerForm.get('email')?.invalid &&
               registerForm.get('email')?.touched
             "
           />
-          <label for="email">{{ t("emailLabel") }}</label>
+          <label for="email">{{ t("register.emailLabel") }}</label>
           @if (registerForm.get('email')?.invalid &&
           registerForm.get('email')?.touched) {
           <div class="invalid-feedback">
@@ -68,10 +68,11 @@
               registerForm.get('password')?.touched
             "
           />
-          <label for="password">{{ t("passwordLabel") }}</label>
+          <label for="password">{{ t("register.passwordLabel") }}</label>
           @if (registerForm.get('password')?.invalid &&
           registerForm.get('password')?.touched) {
           <div class="invalid-feedback">
+            <!-- Nota: qui ho cambiato il messaggio per coerenza con il JSON -->
             <span>{{ t("validation.passwordMinLength") }}</span>
           </div>
           }
@@ -88,18 +89,18 @@
             class="spinner-border spinner-border-sm"
             aria-hidden="true"
           ></span>
-          <span role="status"> {{ t("creatingButton") }}</span>
+          <span role="status"> {{ t("register.creatingButton") }}</span>
           } @else {
-          <span>{{ t("registerButton") }}</span>
+          <span>{{ t("register.registerButton") }}</span>
           }
         </button>
       </form>
 
       <div class="mt-4 text-center">
         <p>
-          {{ t("toLoginPrompt") }}
-          <a [routerLink]="['/', Path.AUTH.BASE, 'login']">{{
-            t("toLoginLink")
+          {{ t("register.toLoginPrompt") }}
+          <a [routerLink]="['/auth', 'login']">{{
+            t("register.toLoginLink")
           }}</a>
         </p>
       </div>

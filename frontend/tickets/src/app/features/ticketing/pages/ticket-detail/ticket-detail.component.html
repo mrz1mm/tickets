@@ -1,0 +1,85 @@
+<!-- Breadcrumb e caricamento -->
+<div *transloco="let t; read: 'ticketDetailPage'">
+  <nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="/tickets">{{ t("backToList") }}</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        {{ t("title") }}
+      </li>
+    </ol>
+  </nav>
+
+  @if (ticket(); as ticketDetail) {
+  <div class="ticket-detail-container">
+    <div class="ticket-header mb-4">
+      <h1 class="h2">{{ ticketDetail.title }}</h1>
+      <span class="badge fs-6" [ngClass]="'status-' + ticketDetail.status">{{
+        ticketDetail.status
+      }}</span>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <div class="card mb-4">
+          <div class="card-header">{{ t("description") }}</div>
+          <div class="card-body">
+            <p>{{ ticketDetail.description }}</p>
+          </div>
+        </div>
+        <div class="card mb-4">
+          <div class="card-header">{{ t("history") }}</div>
+          <div class="card-body">
+            @for (event of ticketDetail.history; track event.id) {
+            <div class="history-item mb-3">
+              <strong>{{ event.user.displayName }}</strong>
+              <span class="text-muted small">
+                - {{ event.createdAt | date : "medium" }}</span
+              >
+              <p class="m-0">
+                {{ event.content }} (<em>{{ event.eventType }}</em
+                >)
+              </p>
+            </div>
+            }
+          </div>
+        </div>
+        <!-- Il componente del commento va qui -->
+        <app-ticket-comment-box
+          [isLoading]="isSubmittingComment()"
+          (commentSubmit)="onCommentSubmit($event)"
+        ></app-ticket-comment-box>
+      </div>
+      <div class="col-lg-4">
+        <div class="card">
+          <div class="card-header">{{ t("details") }}</div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between">
+              <strong>{{ t("requester") }}:</strong>
+              <span>{{ ticketDetail.requester.displayName }}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <strong>{{ t("assignee") }}:</strong>
+              <span>{{ ticketDetail.assignee?.displayName || "N/A" }}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <strong>{{ t("priority") }}:</strong>
+              <span
+                class="badge"
+                [ngClass]="'priority-' + ticketDetail.priority"
+                >{{ ticketDetail.priority }}</span
+              >
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <strong>{{ t("department") }}:</strong>
+              <span>{{ ticketDetail.department.name }}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  } @else {
+  <p>{{ t("loading") }}</p>
+  }
+</div>
