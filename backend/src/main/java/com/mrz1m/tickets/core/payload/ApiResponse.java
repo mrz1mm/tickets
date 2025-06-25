@@ -52,15 +52,19 @@ public class ApiResponse<T> {
         return new ApiResponse<>(statusCode, status, message, null, errorDetails);
     }
 
-    public static ApiResponse<Object> badRequest(String message, Map<String, ?> errorDetails) {
+    public static <T> ApiResponse<T> badRequest(String message, Map<String, ?> errorDetails) {
         return error(400, "Bad Request", message, errorDetails);
     }
 
-    public static ApiResponse<Object> notFound(String message) {
+    public static <T> ApiResponse<T> notFound(String message) {
         return error(404, "Not Found", message, null);
     }
 
-    public static ApiResponse<Object> internalServerError(String message) {
+    public static <T> ApiResponse<T> conflict(String message) {
+        return error(409, "Conflict", message, null);
+    }
+
+    public static <T> ApiResponse<T> internalServerError(String message) {
         return error(500, "Internal Server Error", message, null);
     }
 }
