@@ -12,8 +12,6 @@ export class ToastService {
   private defaultDuration = 5000;
   private idCounter = 0;
 
-  // ... metodi showSuccess, showError, etc. invariati ...
-
   /**
    * Mostra un nuovo toast di tipo 'success'.
    * @param title Il titolo del messaggio.

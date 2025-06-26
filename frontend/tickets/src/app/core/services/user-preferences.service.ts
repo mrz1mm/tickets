@@ -29,7 +29,6 @@ export class UserPreferencesService {
   private authSvc = inject(AuthService);
   private errorSvc = inject(ErrorHandlingService);
 
-  // Osserviamo le fette di stato che compongono le preferenze dell'UTENTE (non del cookie banner)
   private theme$ = toObservable(
     this.persistentSvc.getSlice(StorageConfig.KEYS.THEME)
   );
