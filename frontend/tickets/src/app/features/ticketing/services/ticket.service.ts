@@ -61,17 +61,17 @@ export class TicketService {
   }
 
   /**
-   * Elimina un ticket. (Lo implementeremo nel Punto 3)
+   * Elimina un ticket (soft delete).
    * @param id L'ID del ticket da eliminare.
    * @returns Un Observable<void> che si completa al successo.
    */
-  /*
   public deleteTicket(id: number): Observable<void> {
-    return this.http.delete<ApiResponse<null>>(ApiConstants.TICKETS.BY_ID(id)).pipe(
-      map(() => void 0)
-    );
+    return this.http
+      .delete<ApiResponse<null>>(ApiConstants.TICKETS.BY_ID(id))
+      .pipe(
+        map(() => void 0) // Trasforma la risposta in un void per l'observable
+      );
   }
-  */
 
   /**
    * Aggiunge un commento a un ticket.

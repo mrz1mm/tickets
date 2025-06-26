@@ -115,6 +115,10 @@
     "toLoginPrompt": "Hai già un account?"
   },
   "ticketDetailPage": {
+    "actions": {
+      "delete": "Elimina",
+      "edit": "Modifica"
+    },
     "assignee": "Assegnato a",
     "backToList": "Elenco Ticket",
     "commentBox": {
@@ -123,6 +127,7 @@
       "submittingButton": "Invio in corso...",
       "title": "Aggiungi un Commento"
     },
+    "confirmDeleteMessage": "Sei sicuro di voler eliminare il ticket #{ticketId}? Questa azione non può essere annullata.",
     "department": "Dipartimento",
     "description": "Descrizione",
     "details": "Dettagli",

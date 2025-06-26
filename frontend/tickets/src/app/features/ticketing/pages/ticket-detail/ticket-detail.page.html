@@ -16,19 +16,26 @@
     <div class="ticket-header mb-4">
       <div class="d-flex justify-content-between align-items-start">
         <h1 class="h2 mb-0 me-3">{{ ticketDetail.title }}</h1>
-        <div>
-          <!-- Pulsante Modifica -->
+        <div class="d-flex align-items-center">
+          <!-- Contenitore per i pulsanti -->
           @if(canEdit()) {
           <button
             class="btn btn-outline-secondary me-2"
             (click)="openEditModal()"
           >
-            <i class="bi bi-pencil"></i> Modifica
+            <i class="bi bi-pencil"></i> {{ t('actions.edit') }}
           </button>
           }
-          <span
-            class="badge fs-6"
-            [ngClass]="'status-' + ticketDetail.status"
+          <!-- NUOVO PULSANTE ELIMINA -->
+          @if(canDelete()) {
+          <button
+            class="btn btn-outline-danger me-2"
+            (click)="onDeleteTicket()"
+          >
+            <i class="bi bi-trash"></i> {{ t('actions.delete') }}
+          </button>
+          }
+          <span class="badge fs-6" [ngClass]="'status-' + ticketDetail.status"
             >{{ ticketDetail.status }}</span
           >
         </div>
@@ -52,8 +59,7 @@
                 - {{ event.createdAt | date : "medium" }}</span
               >
               <p class="m-0">
-                {{ event.content }} (<em>{{ event.eventType }}</em
-                >)
+                {{ event.content }} (<em>{{ event.eventType }}</em>)
               </p>
             </div>
             }

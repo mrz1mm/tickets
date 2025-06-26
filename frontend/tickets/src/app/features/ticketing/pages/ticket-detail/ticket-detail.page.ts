@@ -7,10 +7,10 @@ import {
   Signal,
 } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { TicketService } from '../../services/ticket.service';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { AddComment } from '../../interfaces/add-comment.interface';
 import { TicketDetail } from '../../interfaces/ticket-detail.interface';
 import { TicketCommentBoxComponent } from '../../components/ticket-comment-box/ticket-comment-box.component';
@@ -20,6 +20,7 @@ import { Department } from '../../../deapartments/interfaces/department.interfac
 import { DepartmentService } from '../../../deapartments/services/department.service';
 import { Modal } from 'bootstrap';
 import { AuthService } from '../../../auth/services/auth.service';
+import { Path } from '../../../../core/constants/path.constants.const';
 
 @Component({
   selector: 'app-ticket-detail-page',
@@ -37,9 +38,11 @@ import { AuthService } from '../../../auth/services/auth.service';
 })
 export class TicketDetailPage {
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private ticketSvc = inject(TicketService);
   private departmentSvc = inject(DepartmentService);
   private authSvc = inject(AuthService);
+  private translocoSvc = inject(TranslocoService);
 
   public ticket = signal<TicketDetail | null>(null);
   public departments = signal<Department[]>([]);
@@ -52,8 +55,7 @@ export class TicketDetailPage {
     const currentTicket = this.ticket();
     if (!currentUser || !currentTicket) return false;
 
-    const hasGlobalPermission = this.authSvc.hasPermission('TICKET_UPDATE_ALL');
-    if (hasGlobalPermission) return true;
+    if (this.authSvc.hasPermission('TICKET_UPDATE_ALL')) return true;
 
     const isOwner = currentUser.id === currentTicket.requester.id;
     const isAssignee = currentTicket.assignee
@@ -61,6 +63,10 @@ export class TicketDetailPage {
       : false;
 
     return isOwner || isAssignee;
+  });
+
+  public canDelete: Signal<boolean> = computed(() => {
+    return this.authSvc.hasPermission('TICKET_DELETE');
   });
 
   constructor() {
@@ -125,6 +131,24 @@ export class TicketDetailPage {
       },
       complete: () => this.isSaving.set(false),
     });
+  }
+
+  public onDeleteTicket(): void {
+    const currentTicket = this.ticket();
+    if (!currentTicket) return;
+
+    const confirmMessage = this.translocoSvc.translate(
+      'ticketDetailPage.confirmDeleteMessage',
+      { ticketId: currentTicket.id }
+    );
+
+    if (confirm(confirmMessage)) {
+      this.ticketSvc.deleteTicket(currentTicket.id).subscribe({
+        next: () => {
+          this.router.navigateByUrl(Path.TICKETS.BASE);
+        },
+      });
+    }
   }
 
   public openEditModal(): void {
