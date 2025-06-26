@@ -8,6 +8,7 @@ import com.mrz1m.tickets.ticketing.entity.Ticket;
 import com.mrz1m.tickets.ticketing.entity.TicketAttachment;
 import com.mrz1m.tickets.ticketing.entity.TicketHistory;
 import com.mrz1m.tickets.ticketing.enums.HistoryEventType;
+import com.mrz1m.tickets.ticketing.enums.TicketPriority;
 import com.mrz1m.tickets.ticketing.enums.TicketStatus;
 import com.mrz1m.tickets.ticketing.exception.ResourceNotFoundException;
 import com.mrz1m.tickets.ticketing.mapper.TicketMapper;
@@ -31,18 +32,12 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class TicketServiceImpl implements TicketService {
 
-    @Autowired
-    TicketRepository ticketRepository;
-    @Autowired
-    DepartmentRepository departmentRepository;
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    TicketAttachmentRepository ticketAttachmentRepository;
-    @Autowired
-    TicketMapper ticketMapper;
-    @Autowired
-    FileStorageService fileStorageService;
+    private final TicketRepository ticketRepository;
+    private final DepartmentRepository departmentRepository;
+    private final UserRepository userRepository;
+    private final TicketAttachmentRepository ticketAttachmentRepository;
+    private final TicketMapper ticketMapper;
+    private final FileStorageService fileStorageService;
 
     @Override
     @Transactional(readOnly = true)
@@ -82,12 +77,43 @@ public class TicketServiceImpl implements TicketService {
         Ticket ticket = ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new ResourceNotFoundException("Ticket", "id", ticketId));
 
-        if(request.getTitle() != null) ticket.setTitle(request.getTitle());
-        if(request.getDescription() != null) ticket.setDescription(request.getDescription());
+        // Titolo
+        if (request.getTitle() != null && !request.getTitle().isBlank() && !Objects.equals(ticket.getTitle(), request.getTitle())) {
+            String oldTitle = ticket.getTitle();
+            ticket.setTitle(request.getTitle());
+            ticket.getHistory().add(createHistoryEvent(ticket, currentUser, HistoryEventType.PROPERTY_CHANGE,
+                    String.format("Titolo modificato da '%s' a '%s'", oldTitle, request.getTitle())));
+        }
+
+        // Descrizione
+        if (request.getDescription() != null && !request.getDescription().isBlank() && !Objects.equals(ticket.getDescription(), request.getDescription())) {
+            ticket.setDescription(request.getDescription());
+            ticket.getHistory().add(createHistoryEvent(ticket, currentUser, HistoryEventType.PROPERTY_CHANGE,
+                    "La descrizione del ticket è stata aggiornata."));
+        }
+
+        // Priorità
+        if (request.getPriority() != null && !Objects.equals(ticket.getPriority(), request.getPriority())) {
+            TicketPriority oldPriority = ticket.getPriority();
+            ticket.setPriority(request.getPriority());
+            ticket.getHistory().add(createHistoryEvent(ticket, currentUser, HistoryEventType.PRIORITY_CHANGE,
+                    String.format("Priorità modificata da %s a %s", oldPriority, request.getPriority())));
+        }
+
+        // Dipartimento
+        if (request.getDepartmentId() != null && !Objects.equals(ticket.getDepartment().getId(), request.getDepartmentId())) {
+            Department newDepartment = departmentRepository.findById(request.getDepartmentId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Department", "id", request.getDepartmentId()));
+            String oldDepartmentName = ticket.getDepartment().getName();
+            ticket.setDepartment(newDepartment);
+            ticket.getHistory().add(createHistoryEvent(ticket, currentUser, HistoryEventType.PROPERTY_CHANGE,
+                    String.format("Dipartimento modificato da '%s' a '%s'", oldDepartmentName, newDepartment.getName())));
+        }
 
         Ticket savedTicket = ticketRepository.save(ticket);
         return ticketMapper.toTicketDetailDto(savedTicket);
     }
+
 
     @Override
     @Transactional

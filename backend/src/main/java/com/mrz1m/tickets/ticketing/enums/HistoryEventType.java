@@ -6,5 +6,6 @@ public enum HistoryEventType {
     STATUS_CHANGE,
     ASSIGNMENT,
     PRIORITY_CHANGE,
-    ATTACHMENT_ADDED
+    ATTACHMENT_ADDED,
+    PROPERTY_CHANGE
 }
