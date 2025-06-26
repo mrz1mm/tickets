@@ -6,7 +6,7 @@
         <a routerLink="/tickets">{{ t("backToList") }}</a>
       </li>
       <li class="breadcrumb-item active" aria-current="page">
-        {{ t("title") }}
+        {{ t("title") }} #{{ ticket()?.id }}
       </li>
     </ol>
   </nav>
@@ -14,17 +14,32 @@
   @if (ticket(); as ticketDetail) {
   <div class="ticket-detail-container">
     <div class="ticket-header mb-4">
-      <h1 class="h2">{{ ticketDetail.title }}</h1>
-      <span class="badge fs-6" [ngClass]="'status-' + ticketDetail.status">{{
-        ticketDetail.status
-      }}</span>
+      <div class="d-flex justify-content-between align-items-start">
+        <h1 class="h2 mb-0 me-3">{{ ticketDetail.title }}</h1>
+        <div>
+          <!-- Pulsante Modifica -->
+          @if(canEdit()) {
+          <button
+            class="btn btn-outline-secondary me-2"
+            (click)="openEditModal()"
+          >
+            <i class="bi bi-pencil"></i> Modifica
+          </button>
+          }
+          <span
+            class="badge fs-6"
+            [ngClass]="'status-' + ticketDetail.status"
+            >{{ ticketDetail.status }}</span
+          >
+        </div>
+      </div>
     </div>
     <div class="row g-4">
       <div class="col-lg-8">
         <div class="card mb-4">
           <div class="card-header">{{ t("description") }}</div>
           <div class="card-body">
-            <p>{{ ticketDetail.description }}</p>
+            <p style="white-space: pre-wrap">{{ ticketDetail.description }}</p>
           </div>
         </div>
         <div class="card mb-4">
@@ -44,7 +59,7 @@
             }
           </div>
         </div>
-        <!-- Il componente del commento va qui -->
+        <!-- Il componente del commento -->
         <app-ticket-comment-box-component
           [isLoading]="isSubmittingComment()"
           (commentSubmit)="onCommentSubmit($event)"
@@ -82,4 +97,18 @@
   } @else {
   <p>{{ t("loading") }}</p>
   }
+</div>
+
+<!-- MODALE PER IL FORM DI MODIFICA -->
+<div class="modal fade" id="editTicketModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <app-ticket-form-component
+      [departments]="departments()"
+      [isSaving]="isSaving()"
+      [ticket]="ticket()"
+      (save)="onSaveTicket($event)"
+      (closeModal)="closeModal()"
+    >
+    </app-ticket-form-component>
+  </div>
 </div>

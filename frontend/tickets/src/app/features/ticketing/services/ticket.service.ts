@@ -7,6 +7,7 @@ import { AddComment } from '../interfaces/add-comment.interface';
 import { TicketDetail } from '../interfaces/ticket-detail.interface';
 import { CreateTicket } from '../interfaces/create-ticket.interface';
 import { TicketSummary } from '../interfaces/ticket-summary.interface';
+import { UpdateTicket } from '../interfaces/update-ticket.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -42,18 +43,22 @@ export class TicketService {
   }
 
   /**
-   * Aggiorna un ticket esistente. (Lo implementeremo nel Punto 2)
+   * Aggiorna un ticket esistente.
    * @param id L'ID del ticket da aggiornare.
-   * @param ticketData I nuovi dati del ticket.
+   * @param ticketData I nuovi dati del ticket (solo i campi da modificare).
    * @returns Un Observable con il Ticket aggiornato.
    */
-  /*
-  public updateTicket(id: number, ticketData: UpdateTicketData): Observable<Ticket> {
-    return this.http.put<ApiResponse<Ticket>>(ApiConstants.TICKETS.BY_ID(id), ticketData).pipe(
-      map(response => response.payload)
-    );
+  public updateTicket(
+    id: number,
+    ticketData: UpdateTicket
+  ): Observable<TicketDetail> {
+    return this.http
+      .put<ApiResponse<TicketDetail>>(
+        ApiConstants.TICKETS.BY_ID(id),
+        ticketData
+      )
+      .pipe(map((response) => response.payload!));
   }
-  */
 
   /**
    * Elimina un ticket. (Lo implementeremo nel Punto 3)
@@ -80,9 +85,6 @@ export class TicketService {
         ApiConstants.TICKETS.ADD_COMMENT(ticketId),
         data
       )
-      .pipe(
-        map((response) => response.payload),
-        catchError(() => of(null))
-      );
+      .pipe(map((response) => response.payload));
   }
 }

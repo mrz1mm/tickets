@@ -1,7 +1,9 @@
 <div class="modal-content" *transloco="let t; read: 'ticketFormComponent'">
   <!-- 1. Header della Modale -->
   <div class="modal-header">
-    <h1 class="modal-title fs-5">{{ t("createTitle") }}</h1>
+    <h1 class="modal-title fs-5">
+      {{ isEditMode ? t("editTitle") : t("createTitle") }}
+    </h1>
     <button
       type="button"
       class="btn-close"
@@ -116,13 +118,13 @@
       type="submit"
       class="btn btn-primary"
       form="ticket-form"
-      [disabled]="isSaving"
+      [disabled]="isSaving || ticketForm.invalid"
     >
       @if (isSaving) {
       <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
       <span class="ms-2" role="status">{{ t("savingButton") }}</span>
       } @else {
-      <span>{{ t("saveButton") }}</span>
+      <span>{{ isEditMode ? t("saveButton") : t("submitButton") }}</span>
       }
     </button>
   </div>

@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
 import { Path } from './core/constants/path.constants.const';
 import { authGuard } from './features/auth/guards/auth.guard';
-import { permissionGuard } from './core/guards/permission.guartd';
+import { permissionGuard } from './core/guards/permission.guard';
 
 export const routes: Routes = [
   // --- Rotte senza Layout ---
@@ -73,7 +73,7 @@ export const routes: Routes = [
         path: Path.TICKETS.BASE + '/:ticketId',
         loadComponent: () =>
           import(
-            './features/ticketing/pages/ticket-detail/ticket-detail.component'
+            './features/ticketing/pages/ticket-detail/ticket-detail.page'
           ).then((m) => m.TicketDetailPage),
       },
     ],

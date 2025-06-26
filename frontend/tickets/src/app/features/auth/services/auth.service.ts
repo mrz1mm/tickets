@@ -37,17 +37,14 @@ export class AuthService {
   /**
    * Esegue il login dell'utente, salva lo stato e reindirizza.
    */
-  public login(credentials: LoginRequest): Observable<UserDetail> {
+  public login(credentials: LoginRequest): Observable<UserDetail | undefined> {
     return this.http
       .post<ApiResponse<LoginResponse>>(ApiConstants.AUTH.LOGIN, credentials)
       .pipe(
-        map((response) => {
-          if (!response.payload?.token || !response.payload?.user) {
-            throw new Error('Risposta di login non valida dal server.');
-          }
-          return response.payload;
-        }),
+        map((response) => response.payload),
         tap((payload) => {
+          if (!payload) return;
+
           this.persistentSvc.updateSlice(
             StorageConfig.KEYS.AUTH_TOKEN,
             payload.token
@@ -68,26 +65,20 @@ export class AuthService {
             );
           }
         }),
-        map((payload) => payload.user),
-        catchError((err) => {
-          this.clearAuthData();
-          throw err;
-        })
+        map((payload) => payload?.user)
       );
   }
 
   /**
    * Esegue la registrazione di un nuovo utente.
-   * Restituisce un booleano per indicare il successo.
    */
   public register(data: RegisterRequest): Observable<boolean> {
     return this.http
-      .post<ApiResponse<unknown>>(ApiConstants.AUTH.REGISTER, data)
+      .post<ApiResponse<void>>(ApiConstants.AUTH.REGISTER, data)
       .pipe(
         map(
           (response) => response.statusCode >= 200 && response.statusCode < 300
-        ),
-        catchError(() => of(false))
+        )
       );
   }
 
@@ -112,6 +103,27 @@ export class AuthService {
    */
   public getToken(): string | null {
     return this.token();
+  }
+
+  /**
+   * Controlla se l'utente corrente possiede un determinato permesso.
+   */
+  public hasPermission(permissionName: string): boolean {
+    const user = this.currentUser();
+    if (!user || !user.roles) {
+      return false;
+    }
+
+    for (const role of user.roles) {
+      if (role.permissions) {
+        for (const permission of role.permissions) {
+          if (permission.name === permissionName) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
   }
 
   /**

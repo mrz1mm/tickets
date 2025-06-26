@@ -1,51 +1,51 @@
 {
   "commentBox": {
-    "title": "Aggiungi un Commento",
     "placeholder": "Scrivi un commento...",
     "submitButton": "Invia Commento",
-    "submittingButton": "Invio in corso..."
+    "submittingButton": "Invio in corso...",
+    "title": "Aggiungi un Commento"
   },
   "cookieBanner": {
-    "text": "Questo sito utilizza i cookie per migliorare la tua esperienza. Leggi la nostra {privacyLink}.",
+    "accept": "Accetta Tutti",
     "linkText": "informativa sulla privacy",
     "reject": "Rifiuta Tutti",
-    "accept": "Accetta Tutti"
-  },
-  "departmentsPage": {
-    "title": "Dipartimenti",
-    "newDepartment": "Nuovo Dipartimento",
-    "tableName": "Nome",
-    "tableDescription": "Descrizione",
-    "tableActions": "Azioni",
-    "noDepartments": "Nessun dipartimento trovato.",
-    "createFirst": "Crea il primo dipartimento",
-    "errorLoading": "Impossibile caricare la lista dei dipartimenti.",
-    "confirmDeleteTitle": "Conferma Eliminazione",
-    "confirmDeleteMessage": "Sei sicuro di voler eliminare il dipartimento \"{departmentName}\"?",
-    "deleteSuccess": "Dipartimento eliminato con successo."
-  },
-  "departmentFormComponent": {
-    "createTitle": "Crea Nuovo Dipartimento",
-    "editTitle": "Modifica Dipartimento",
-    "nameLabel": "Nome Dipartimento",
-    "descriptionLabel": "Descrizione",
-    "cancelButton": "Annulla",
-    "saveButton": "Salva Modifiche",
-    "savingButton": "Salvataggio...",
-    "validation": {
-      "nameRequired": "Il nome è obbligatorio.",
-      "nameMaxLength": "Il nome non può superare i 100 caratteri.",
-      "descriptionMaxLength": "La descrizione non può superare i 255 caratteri."
-    }
+    "text": "Questo sito utilizza i cookie per migliorare la tua esperienza. Leggi la nostra {privacyLink}."
   },
   "dashboardPage": {
     "title": "Dashboard"
   },
+  "departmentFormComponent": {
+    "cancelButton": "Annulla",
+    "createTitle": "Crea Nuovo Dipartimento",
+    "descriptionLabel": "Descrizione",
+    "editTitle": "Modifica Dipartimento",
+    "nameLabel": "Nome Dipartimento",
+    "saveButton": "Salva Modifiche",
+    "savingButton": "Salvataggio...",
+    "validation": {
+      "descriptionMaxLength": "La descrizione non può superare i 255 caratteri.",
+      "nameMaxLength": "Il nome non può superare i 100 caratteri.",
+      "nameRequired": "Il nome è obbligatorio."
+    }
+  },
+  "departmentsPage": {
+    "confirmDeleteMessage": "Sei sicuro di voler eliminare il dipartimento \"{departmentName}\"?",
+    "confirmDeleteTitle": "Conferma Eliminazione",
+    "createFirst": "Crea il primo dipartimento",
+    "deleteSuccess": "Dipartimento eliminato con successo.",
+    "errorLoading": "Impossibile caricare la lista dei dipartimenti.",
+    "newDepartment": "Nuovo Dipartimento",
+    "noDepartments": "Nessun dipartimento trovato.",
+    "tableActions": "Azioni",
+    "tableDescription": "Descrizione",
+    "tableName": "Nome",
+    "title": "Dipartimenti"
+  },
   "errors": {
-    "genericTitle": "Errore",
-    "unexpected": "Si è verificato un errore imprevisto. Riprova più tardi.",
     "cookieRead": "Impossibile caricare le preferenze salvate. Verranno usate quelle di default.",
-    "cookieSave": "Impossibile salvare le tue preferenze."
+    "cookieSave": "Impossibile salvare le tue preferenze.",
+    "genericTitle": "Errore",
+    "unexpected": "Si è verificato un errore imprevisto. Riprova più tardi."
   },
   "footer": {
     "copyright": "© 2025 Tickets App. Tutti i diritti riservati."
@@ -55,46 +55,46 @@
     "noPermissionsMessage": "Non hai i permessi necessari per visualizzare questa pagina."
   },
   "header": {
-    "title": "Tickets App",
-    "toggleThemeTitle": "Cambia tema",
-    "profile": "Profilo",
+    "login": "Accedi",
     "logout": "Esci",
-    "login": "Accedi"
+    "profile": "Profilo",
+    "title": "Tickets App",
+    "toggleThemeTitle": "Cambia tema"
   },
   "login": {
-    "title": "Accedi",
     "emailLabel": "Indirizzo Email",
     "emailPlaceholder": "nome@esempio.com",
-    "passwordLabel": "Password",
-    "loginButton": "Accedi",
     "loadingButton": "Caricamento...",
-    "toRegisterPrompt": "Non hai un account?",
-    "toRegisterLink": "Registrati ora"
+    "loginButton": "Accedi",
+    "passwordLabel": "Password",
+    "title": "Accedi",
+    "toRegisterLink": "Registrati ora",
+    "toRegisterPrompt": "Non hai un account?"
   },
   "notFoundPage": {
-    "title": "Pagina Non Trovata",
+    "button": "Torna alla Home",
     "message": "La risorsa che stai cercando non esiste.",
-    "button": "Torna alla Home"
+    "title": "Pagina Non Trovata"
   },
   "notifications": {
-    "loginSuccessTitle": "Login effettuato",
-    "loginSuccessMessage": "Bentornato, {displayName}!",
-    "loginErrorTitle": "Login fallito",
+    "commentErrorMessage": "Impossibile aggiungere il commento. Riprova.",
+    "commentErrorTitle": "Errore",
+    "commentSuccessMessage": "Il tuo commento è stato aggiunto al ticket.",
+    "commentSuccessTitle": "Commento Aggiunto",
+    "fetchErrorMessage": "Impossibile caricare le risorse richieste. Riprova più tardi.",
+    "fetchErrorTitle": "Errore nel Recupero Dati",
     "loginErrorMessage": "Le credenziali inserite non sono corrette.",
-    "registerSuccessTitle": "Registrazione completata",
-    "registerSuccessMessage": "Ora puoi effettuare il login con le tue credenziali.",
-    "registerErrorTitle": "Registrazione fallita",
+    "loginErrorTitle": "Login fallito",
+    "loginSuccessMessage": "Bentornato, {displayName}!",
+    "loginSuccessTitle": "Login effettuato",
+    "logoutInfo": "Sei stato disconnesso.",
     "registerErrorConflict": "Un utente con questa email esiste già.",
     "registerErrorGeneral": "Si è verificato un errore imprevisto. Riprova.",
-    "logoutInfo": "Sei stato disconnesso.",
-    "commentSuccessTitle": "Commento Aggiunto",
-    "commentSuccessMessage": "Il tuo commento è stato aggiunto al ticket.",
-    "commentErrorTitle": "Errore",
-    "commentErrorMessage": "Impossibile aggiungere il commento. Riprova.",
-    "fetchErrorTitle": "Errore nel Recupero Dati",
-    "fetchErrorMessage": "Impossibile caricare le risorse richieste. Riprova più tardi.",
-    "ticketCreateSuccessTitle": "Ticket Creato",
-    "ticketCreateSuccessMessage": "Il nuovo ticket è stato creato con successo."
+    "registerErrorTitle": "Registrazione fallita",
+    "registerSuccessMessage": "Ora puoi effettuare il login con le tue credenziali.",
+    "registerSuccessTitle": "Registrazione completata",
+    "ticketCreateSuccessMessage": "Il nuovo ticket è stato creato con successo.",
+    "ticketCreateSuccessTitle": "Ticket Creato"
   },
   "privacyPolicyPage": {
     "title": "Privacy Policy"
@@ -103,81 +103,83 @@
     "title": "Il Mio Profilo"
   },
   "register": {
-    "title": "Registrati",
+    "creatingButton": "Creazione...",
     "displayNameLabel": "Nome Visualizzato",
     "displayNamePlaceholder": "Il tuo nome",
     "emailLabel": "Indirizzo Email",
     "emailPlaceholder": "nome@esempio.com",
     "passwordLabel": "Password",
     "registerButton": "Registrati",
-    "creatingButton": "Creazione...",
-    "toLoginPrompt": "Hai già un account?",
-    "toLoginLink": "Accedi"
+    "title": "Registrati",
+    "toLoginLink": "Accedi",
+    "toLoginPrompt": "Hai già un account?"
   },
   "ticketDetailPage": {
-    "title": "Dettaglio Ticket",
-    "loading": "Caricamento del ticket...",
-    "backToList": "Elenco Ticket",
-    "description": "Descrizione",
-    "history": "Cronologia",
-    "details": "Dettagli",
-    "requester": "Richiedente",
     "assignee": "Assegnato a",
-    "priority": "Priorità",
-    "department": "Dipartimento",
+    "backToList": "Elenco Ticket",
     "commentBox": {
-      "title": "Aggiungi un Commento",
       "placeholder": "Scrivi un commento...",
       "submitButton": "Invia Commento",
-      "submittingButton": "Invio in corso..."
-    }
+      "submittingButton": "Invio in corso...",
+      "title": "Aggiungi un Commento"
+    },
+    "department": "Dipartimento",
+    "description": "Descrizione",
+    "details": "Dettagli",
+    "history": "Cronologia",
+    "loading": "Caricamento del ticket...",
+    "priority": "Priorità",
+    "requester": "Richiedente",
+    "title": "Dettaglio Ticket"
   },
   "ticketFormComponent": {
+    "cancelButton": "Annulla",
     "createTitle": "Crea Nuovo Ticket",
-    "titleLabel": "Oggetto",
-    "titlePlaceholder": "Es: Problema con la stampante",
     "departmentLabel": "Dipartimento di Competenza",
     "departmentPlaceholder": "Seleziona un dipartimento...",
-    "priorityLabel": "Priorità",
     "descriptionLabel": "Descrivi il tuo problema in dettaglio",
     "descriptionPlaceholder": "Includi tutti i dettagli rilevanti, messaggi di errore, e cosa stavi facendo...",
-    "cancelButton": "Annulla",
-    "submitButton": "Invia Ticket",
+    "editTitle": "Modifica Ticket",
+    "priorityLabel": "Priorità",
+    "saveButton": "Salva Modifiche",
     "savingButton": "Salvataggio...",
     "sendingButton": "Invio in corso...",
+    "submitButton": "Invia Ticket",
+    "titleLabel": "Oggetto",
+    "titlePlaceholder": "Es: Problema con la stampante",
     "validation": {
-      "titleRequired": "L'oggetto è obbligatorio.",
-      "titleMinLength": "L'oggetto deve avere almeno 5 caratteri.",
+      "departmentRequired": "La selezione del dipartimento è obbligatoria.",
       "descriptionRequired": "La descrizione è obbligatoria.",
-      "departmentRequired": "La selezione del dipartimento è obbligatoria."
+      "titleMinLength": "L'oggetto deve avere almeno 5 caratteri.",
+      "titleRequired": "L'oggetto è obbligatorio."
     }
   },
   "ticketListPage": {
-    "title": "I Miei Ticket",
+    "createFirst": "Crea il tuo primo ticket",
     "newTicketButton": "Apri Nuovo Ticket",
-    "table": {
-      "title": "Oggetto",
-      "department": "Dipartimento",
-      "status": "Stato",
-      "priority": "Priorità",
-      "updatedAt": "Ultimo Aggiornamento",
-      "actions": "Azioni"
-    },
     "noTickets": "Non hai ancora aperto nessun ticket.",
-    "createFirst": "Crea il tuo primo ticket"
+    "table": {
+      "actions": "Azioni",
+      "department": "Dipartimento",
+      "priority": "Priorità",
+      "status": "Stato",
+      "title": "Oggetto",
+      "updatedAt": "Ultimo Aggiornamento"
+    },
+    "title": "I Miei Ticket"
   },
   "validation": {
     "commentRequired": "Il commento non può essere vuoto.",
-    "emailRequired": "L'email è obbligatoria.",
-    "emailInvalid": "Inserisci un'email valida.",
-    "passwordRequired": "La password è obbligatoria.",
-    "passwordMinLength": "La password deve contenere almeno 8 caratteri.",
-    "displayNameRequired": "Il nome visualizzato è obbligatorio.",
-    "displayNameMinLength": "Il nome deve contenere almeno 3 caratteri.",
-    "titleRequired": "Il titolo è obbligatorio.",
-    "titleMinLength": "Il titolo deve contenere almeno 10 caratteri.",
-    "descriptionRequired": "La descrizione è obbligatoria.",
+    "departmentRequired": "La selezione del dipartimento è obbligatoria.",
     "descriptionMinLength": "La descrizione deve contenere almeno 20 caratteri.",
-    "departmentRequired": "La selezione del dipartimento è obbligatoria."
+    "descriptionRequired": "La descrizione è obbligatoria.",
+    "displayNameMinLength": "Il nome deve contenere almeno 3 caratteri.",
+    "displayNameRequired": "Il nome visualizzato è obbligatorio.",
+    "emailInvalid": "Inserisci un'email valida.",
+    "emailRequired": "L'email è obbligatoria.",
+    "passwordMinLength": "La password deve contenere almeno 8 caratteri.",
+    "passwordRequired": "La password è obbligatoria.",
+    "titleMinLength": "Il titolo deve contenere almeno 10 caratteri.",
+    "titleRequired": "Il titolo è obbligatorio."
   }
 }
