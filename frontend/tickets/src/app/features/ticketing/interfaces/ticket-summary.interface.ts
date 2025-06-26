@@ -1,6 +1,6 @@
-import { Department } from './department.interface';
-import { TicketPriority } from './ticket-priority.type';
-import { TicketStatus } from './ticket-status.type';
+import { Department } from '../../deapartments/interfaces/department.interface';
+import { TicketPriority } from '../types/ticket-priority.type';
+import { TicketStatus } from '../types/ticket-status.type';
 import { User } from './user.interface';
 
 /**

@@ -1,4 +1,4 @@
-import { authInterceptor } from './features/auth/interceptor/auth.interceptor';
+import { authInterceptor } from './features/auth/interceptors/auth.interceptor';
 import {
   ApplicationConfig,
   provideBrowserGlobalErrorListeners,
@@ -19,9 +19,9 @@ import {
 } from '@angular/common/http';
 import { provideTransloco } from '@ngneat/transloco';
 import { TranslatedTitleStrategy } from './core/services/translated-title.strategy';
-import { notificationInterceptor } from './core/interceptors/notification.interceptor';
+import { apiMessageInterceptor } from './core/interceptors/api-message.interceptor';
 import { TranslocoBrowserLoader } from './transloco-browser.loader';
-import { ErrorHandlingService } from './core/services/error-handling.service';
+import { UiNotificationService } from './core/services/ui-notification.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -31,7 +31,7 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(withEventReplay()),
     provideHttpClient(
       withFetch(),
-      withInterceptors([authInterceptor, notificationInterceptor])
+      withInterceptors([authInterceptor, apiMessageInterceptor])
     ),
     provideTransloco({
       config: {
@@ -43,6 +43,6 @@ export const appConfig: ApplicationConfig = {
       loader: TranslocoBrowserLoader,
     }),
     { provide: TitleStrategy, useClass: TranslatedTitleStrategy },
-    { provide: ErrorHandler, useClass: ErrorHandlingService },
+    { provide: ErrorHandler, useClass: UiNotificationService },
   ],
 };

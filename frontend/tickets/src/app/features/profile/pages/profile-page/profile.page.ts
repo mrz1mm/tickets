@@ -4,4 +4,4 @@ import { Component } from '@angular/core';
   standalone: true,
   template: `<h2>Profilo Utente</h2>`,
 })
-export class ProfilePageComponent {}
+export class ProfilePage {}

@@ -1,0 +1,90 @@
+<div class="modal-content" *transloco="let t; read: 'departmentFormComponent'">
+  <!-- Header della modale -->
+  <div class="modal-header">
+    <h1 class="modal-title fs-5">
+      {{ isEditMode ? t("editTitle") : t("createTitle") }}
+    </h1>
+    <button
+      type="button"
+      class="btn-close"
+      (click)="onCancel()"
+      aria-label="Close"
+    ></button>
+  </div>
+
+  <!-- Corpo della modale con il form -->
+  <div class="modal-body">
+    <form
+      [formGroup]="departmentForm"
+      (ngSubmit)="onSubmit()"
+      id="department-form"
+    >
+      <!-- Campo Nome -->
+      <div class="mb-3">
+        <label for="name" class="form-label">{{ t("nameLabel") }}</label>
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          formControlName="name"
+          [class.is-invalid]="
+            departmentForm.get('name')?.invalid &&
+            departmentForm.get('name')?.touched
+          "
+        />
+        @if(departmentForm.get('name')?.invalid &&
+        departmentForm.get('name')?.touched) {
+        <div class="invalid-feedback">
+          @if(departmentForm.get('name')?.errors?.['required']) {
+          <span>{{ t("validation.nameRequired") }}</span>
+          } @if(departmentForm.get('name')?.errors?.['maxlength']) {
+          <span>{{ t("validation.nameMaxLength") }}</span>
+          }
+        </div>
+        }
+      </div>
+
+      <!-- Campo Descrizione -->
+      <div class="mb-3">
+        <label for="description" class="form-label">{{
+          t("descriptionLabel")
+        }}</label>
+        <textarea
+          class="form-control"
+          id="description"
+          rows="3"
+          formControlName="description"
+          [class.is-invalid]="
+            departmentForm.get('description')?.invalid &&
+            departmentForm.get('description')?.touched
+          "
+        ></textarea>
+        @if(departmentForm.get('description')?.errors?.['maxlength']) {
+        <div class="invalid-feedback">
+          <span>{{ t("validation.descriptionMaxLength") }}</span>
+        </div>
+        }
+      </div>
+    </form>
+  </div>
+
+  <!-- Footer della modale con i pulsanti -->
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="onCancel()">
+      {{ t("cancelButton") }}
+    </button>
+    <button
+      type="submit"
+      class="btn btn-primary"
+      form="department-form"
+      [disabled]="departmentForm.invalid || isSaving"
+    >
+      @if (isSaving) {
+      <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+      <span class="ms-2" role="status">{{ t("savingButton") }}</span>
+      } @else {
+      <span>{{ t("saveButton") }}</span>
+      }
+    </button>
+  </div>
+</div>

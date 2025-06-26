@@ -13,4 +13,4 @@ import { TranslocoModule } from '@ngneat/transloco';
     </div>
   `,
 })
-export class NotFoundPageComponent {}
+export class NotFoundPage {}

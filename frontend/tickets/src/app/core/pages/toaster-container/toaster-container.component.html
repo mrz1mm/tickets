@@ -5,11 +5,11 @@
   [class.is-hovered]="isHovered()"
 >
   @for (toast of toastSvc.toasts(); track toast.id; let i = $index) {
-  <app-toast
+  <app-toast-component
     [toast]="toast"
     (closed)="toastSvc.removeToast($event)"
     [style.transform]="getToastStyle(i)"
     [style.zIndex]="100 - i"
-  ></app-toast>
+  ></app-toast-component>
   }
 </div>

@@ -4,7 +4,7 @@ import { ToastService } from '../../services/toast.service';
 import { ToastComponent } from '../toast/toast.component';
 
 @Component({
-  selector: 'app-toaster-container',
+  selector: 'app-toaster-container-component',
   standalone: true,
   imports: [CommonModule, ToastComponent],
   templateUrl: './toaster-container.component.html',

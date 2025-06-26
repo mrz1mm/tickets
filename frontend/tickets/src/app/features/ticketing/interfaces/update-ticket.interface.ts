@@ -1,4 +1,4 @@
-import { TicketPriority } from './ticket-priority.type';
+import { TicketPriority } from '../types/ticket-priority.type';
 
 /**
  * Rappresenta il payload per la modifica dei dettagli base di un ticket.

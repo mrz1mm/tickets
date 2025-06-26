@@ -11,7 +11,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
-  selector: 'app-ticket-comment-box',
+  selector: 'app-ticket-comment-box-component',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, TranslocoModule],
   templateUrl: './ticket-comment-box.component.html',

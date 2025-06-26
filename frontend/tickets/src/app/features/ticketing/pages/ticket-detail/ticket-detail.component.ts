@@ -9,7 +9,7 @@ import { TicketDetail } from '../../interfaces/ticket-detail.interface';
 import { TicketCommentBoxComponent } from '../../components/ticket-comment-box/ticket-comment-box.component';
 
 @Component({
-  selector: 'app-ticket-detail',
+  selector: 'app-ticket-detail-page',
   standalone: true,
   imports: [
     CommonModule,
@@ -21,7 +21,7 @@ import { TicketCommentBoxComponent } from '../../components/ticket-comment-box/t
   templateUrl: './ticket-detail.component.html',
   styleUrl: './ticket-detail.component.scss',
 })
-export class TicketDetailComponent {
+export class TicketDetailPage {
   private route = inject(ActivatedRoute);
   private ticketSvc = inject(TicketService);
 

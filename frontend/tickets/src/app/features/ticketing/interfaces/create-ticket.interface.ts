@@ -1,4 +1,4 @@
-import { TicketPriority } from './ticket-priority.type';
+import { TicketPriority } from '../types/ticket-priority.type';
 
 /**
  * Rappresenta il payload per la creazione di un nuovo ticket.

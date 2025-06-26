@@ -1,4 +1,4 @@
-import { TicketStatus } from './ticket-status.type';
+import { TicketStatus } from '../types/ticket-status.type';
 
 /**
  * Rappresenta il payload per la modifica dello stato di un ticket.

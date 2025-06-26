@@ -45,10 +45,10 @@
           </div>
         </div>
         <!-- Il componente del commento va qui -->
-        <app-ticket-comment-box
+        <app-ticket-comment-box-component
           [isLoading]="isSubmittingComment()"
           (commentSubmit)="onCommentSubmit($event)"
-        ></app-ticket-comment-box>
+        ></app-ticket-comment-box-component>
       </div>
       <div class="col-lg-4">
         <div class="card">

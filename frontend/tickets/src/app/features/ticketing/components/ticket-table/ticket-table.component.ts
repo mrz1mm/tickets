@@ -5,7 +5,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { TicketSummary } from '../../interfaces/ticket-summary.interface';
 
 @Component({
-  selector: 'app-ticket-table',
+  selector: 'app-ticket-table-component',
   standalone: true,
   imports: [CommonModule, RouterModule, TranslocoModule, DatePipe],
   templateUrl: './ticket-table.component.html',

@@ -1,17 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, map, of } from 'rxjs';
-
-// Non abbiamo più bisogno di ToastService o TranslocoService qui!
-// La loro logica è nell'intercettore.
-
 import { ApiConstants } from '../../../core/constants/api.const';
 import { ApiResponse } from '../../../core/interfaces/api-response.interface';
-import { Pageable } from '../../../core/interfaces/pageable.interface';
-import { PagedResult } from '../../../core/interfaces/paged-result.interface';
 import { AddComment } from '../interfaces/add-comment.interface';
-import { CreateTicket } from '../interfaces/create-ticket.interface';
 import { TicketDetail } from '../interfaces/ticket-detail.interface';
+import { CreateTicket } from '../interfaces/create-ticket.interface';
 import { TicketSummary } from '../interfaces/ticket-summary.interface';
 
 @Injectable({
@@ -21,52 +15,58 @@ export class TicketService {
   private http = inject(HttpClient);
 
   /**
-   * Recupera un elenco paginato di ticket.
+   * Recupera la lista di tutti i ticket in formato riassuntivo.
    */
-  public getTickets(
-    pageable: Pageable
-  ): Observable<PagedResult<TicketSummary> | null> {
-    let params = new HttpParams()
-      .set('page', pageable.page.toString())
-      .set('size', pageable.size.toString());
-    if (pageable.sort) {
-      params = params.set('sort', pageable.sort);
-    }
-
+  public getAllTickets(): Observable<TicketSummary[]> {
     return this.http
-      .get<ApiResponse<PagedResult<TicketSummary>>>(
-        ApiConstants.TICKETING.BASE_URL,
-        { params }
-      )
-      .pipe(
-        map((response) => response.payload),
-        catchError(() => of(null))
-      );
+      .get<ApiResponse<TicketSummary[]>>(ApiConstants.TICKETS.BASE)
+      .pipe(map((response) => response.payload ?? []));
   }
 
   /**
-   * Recupera i dettagli di un ticket.
+   * Recupera un singolo ticket con tutti i suoi dettagli.
    */
-  public getTicketById(id: number): Observable<TicketDetail | null> {
+  public getTicketById(id: number): Observable<TicketDetail> {
     return this.http
-      .get<ApiResponse<TicketDetail>>(ApiConstants.TICKETING.GET_BY_ID(id))
-      .pipe(
-        map((response) => response.payload),
-        catchError(() => of(null))
-      );
+      .get<ApiResponse<TicketDetail>>(ApiConstants.TICKETS.BY_ID(id))
+      .pipe(map((response) => response.payload!));
   }
 
   /**
    * Crea un nuovo ticket.
    */
-  public createTicket(data: CreateTicket): Observable<TicketDetail | null> {
+  public createTicket(ticketData: CreateTicket): Observable<TicketDetail> {
     return this.http
-      .post<ApiResponse<TicketDetail>>(ApiConstants.TICKETING.BASE_URL, data)
-      .pipe(
-        map((response) => response.payload),
-        catchError(() => of(null))
-      );
+      .post<ApiResponse<TicketDetail>>(ApiConstants.TICKETS.BASE, ticketData)
+      .pipe(map((response) => response.payload!));
   }
+
+  /**
+   * Aggiorna un ticket esistente. (Lo implementeremo nel Punto 2)
+   * @param id L'ID del ticket da aggiornare.
+   * @param ticketData I nuovi dati del ticket.
+   * @returns Un Observable con il Ticket aggiornato.
+   */
+  /*
+  public updateTicket(id: number, ticketData: UpdateTicketData): Observable<Ticket> {
+    return this.http.put<ApiResponse<Ticket>>(ApiConstants.TICKETS.BY_ID(id), ticketData).pipe(
+      map(response => response.payload)
+    );
+  }
+  */
+
+  /**
+   * Elimina un ticket. (Lo implementeremo nel Punto 3)
+   * @param id L'ID del ticket da eliminare.
+   * @returns Un Observable<void> che si completa al successo.
+   */
+  /*
+  public deleteTicket(id: number): Observable<void> {
+    return this.http.delete<ApiResponse<null>>(ApiConstants.TICKETS.BY_ID(id)).pipe(
+      map(() => void 0)
+    );
+  }
+  */
 
   /**
    * Aggiunge un commento a un ticket.
@@ -77,7 +77,7 @@ export class TicketService {
   ): Observable<TicketDetail | null> {
     return this.http
       .post<ApiResponse<TicketDetail>>(
-        ApiConstants.TICKETING.ADD_COMMENT(ticketId),
+        ApiConstants.TICKETS.ADD_COMMENT(ticketId),
         data
       )
       .pipe(

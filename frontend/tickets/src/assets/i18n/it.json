@@ -11,6 +11,33 @@
     "reject": "Rifiuta Tutti",
     "accept": "Accetta Tutti"
   },
+  "departmentsPage": {
+    "title": "Dipartimenti",
+    "newDepartment": "Nuovo Dipartimento",
+    "tableName": "Nome",
+    "tableDescription": "Descrizione",
+    "tableActions": "Azioni",
+    "noDepartments": "Nessun dipartimento trovato.",
+    "createFirst": "Crea il primo dipartimento",
+    "errorLoading": "Impossibile caricare la lista dei dipartimenti.",
+    "confirmDeleteTitle": "Conferma Eliminazione",
+    "confirmDeleteMessage": "Sei sicuro di voler eliminare il dipartimento \"{departmentName}\"?",
+    "deleteSuccess": "Dipartimento eliminato con successo."
+  },
+  "departmentFormComponent": {
+    "createTitle": "Crea Nuovo Dipartimento",
+    "editTitle": "Modifica Dipartimento",
+    "nameLabel": "Nome Dipartimento",
+    "descriptionLabel": "Descrizione",
+    "cancelButton": "Annulla",
+    "saveButton": "Salva Modifiche",
+    "savingButton": "Salvataggio...",
+    "validation": {
+      "nameRequired": "Il nome è obbligatorio.",
+      "nameMaxLength": "Il nome non può superare i 100 caratteri.",
+      "descriptionMaxLength": "La descrizione non può superare i 255 caratteri."
+    }
+  },
   "dashboardPage": {
     "title": "Dashboard"
   },
@@ -22,6 +49,10 @@
   },
   "footer": {
     "copyright": "© 2025 Tickets App. Tutti i diritti riservati."
+  },
+  "guards": {
+    "accessDeniedTitle": "Accesso Negato",
+    "noPermissionsMessage": "Non hai i permessi necessari per visualizzare questa pagina."
   },
   "header": {
     "title": "Tickets App",
@@ -83,21 +114,6 @@
     "toLoginPrompt": "Hai già un account?",
     "toLoginLink": "Accedi"
   },
-  "ticketCreatePage": {
-    "title": "Crea Nuovo Ticket",
-    "backToList": "Elenco Ticket",
-    "formHeader": "Compila i dettagli del tuo ticket",
-    "titleLabel": "Titolo",
-    "titlePlaceholder": "Es. Impossibile accedere alla stampante",
-    "descriptionLabel": "Descrizione Dettagliata",
-    "descriptionPlaceholder": "Descrivi il problema nel modo più dettagliato possibile...",
-    "departmentLabel": "Dipartimento",
-    "departmentPlaceholder": "Seleziona un dipartimento...",
-    "priorityLabel": "Priorità",
-    "cancelButton": "Annulla",
-    "submitButton": "Crea Ticket",
-    "submittingButton": "Creazione in corso..."
-  },
   "ticketDetailPage": {
     "title": "Dettaglio Ticket",
     "loading": "Caricamento del ticket...",
@@ -116,22 +132,39 @@
       "submittingButton": "Invio in corso..."
     }
   },
+  "ticketFormComponent": {
+    "createTitle": "Crea Nuovo Ticket",
+    "titleLabel": "Oggetto",
+    "titlePlaceholder": "Es: Problema con la stampante",
+    "departmentLabel": "Dipartimento di Competenza",
+    "departmentPlaceholder": "Seleziona un dipartimento...",
+    "priorityLabel": "Priorità",
+    "descriptionLabel": "Descrivi il tuo problema in dettaglio",
+    "descriptionPlaceholder": "Includi tutti i dettagli rilevanti, messaggi di errore, e cosa stavi facendo...",
+    "cancelButton": "Annulla",
+    "submitButton": "Invia Ticket",
+    "savingButton": "Salvataggio...",
+    "sendingButton": "Invio in corso...",
+    "validation": {
+      "titleRequired": "L'oggetto è obbligatorio.",
+      "titleMinLength": "L'oggetto deve avere almeno 5 caratteri.",
+      "descriptionRequired": "La descrizione è obbligatoria.",
+      "departmentRequired": "La selezione del dipartimento è obbligatoria."
+    }
+  },
   "ticketListPage": {
-    "title": "Elenco Ticket",
-    "createTicket": "Crea Ticket",
-    "loading": "Caricamento dei ticket...",
-    "noTicketsFound": "Nessun ticket trovato.",
+    "title": "I Miei Ticket",
+    "newTicketButton": "Apri Nuovo Ticket",
     "table": {
-      "id": "ID",
-      "title": "Titolo",
+      "title": "Oggetto",
+      "department": "Dipartimento",
       "status": "Stato",
       "priority": "Priorità",
-      "requester": "Richiedente",
-      "assignee": "Assegnato a",
-      "createdAt": "Data Creazione",
-      "actions": "Actions",
-      "viewAction": "Vedi"
-    }
+      "updatedAt": "Ultimo Aggiornamento",
+      "actions": "Azioni"
+    },
+    "noTickets": "Non hai ancora aperto nessun ticket.",
+    "createFirst": "Crea il tuo primo ticket"
   },
   "validation": {
     "commentRequired": "Il commento non può essere vuoto.",

@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 import { ToastMessage } from '../../interfaces/toast-message.interface';
 
 @Component({
-  selector: 'app-toast',
+  selector: 'app-toast-component',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './toast.component.html',

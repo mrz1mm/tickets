@@ -11,13 +11,11 @@ export class ThemeService {
   private platformSvc = inject(PlatformService);
   private persistentSvc = inject(CookiePersistentService);
 
-  // Legge la "fetta" di stato di sola lettura. Questa è l'unica fonte di verità.
   public readonly theme: Signal<Theme> = this.persistentSvc.getSlice(
     StorageConfig.KEYS.THEME
   );
 
   constructor() {
-    // L'unico effetto che ci serve è quello che applica lo stile al DOM.
     effect(() => {
       if (this.platformSvc.isBrowser) {
         this.applyThemeToDocument(this.theme());

@@ -5,4 +5,4 @@ import { Component } from '@angular/core';
   template: `<h1>Privacy Policy</h1>
     <p>Contenuto della privacy policy...</p>`,
 })
-export class PrivacyPolicyPageComponent {}
+export class PrivacyPolicyPage {}

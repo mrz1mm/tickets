@@ -12,7 +12,7 @@ import { StorageConfig } from '../constants/storage-keys.const';
 import { PlatformService } from './platform.service';
 import { AppState } from '../interfaces/app-state.interface';
 import { DEFAULT_APP_STATE } from '../constants/default-app-state.const';
-import { ErrorHandlingService } from './error-handling.service';
+import { UiNotificationService } from './ui-notification.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +20,7 @@ import { ErrorHandlingService } from './error-handling.service';
 export class CookiePersistentService {
   private cookieSvc = inject(CookieService);
   private platformSvc = inject(PlatformService);
-  private errorSvc = inject(ErrorHandlingService);
+  private uiNotificationSvc = inject(UiNotificationService);
 
   #appState: WritableSignal<AppState>;
 
@@ -64,7 +64,10 @@ export class CookiePersistentService {
         const parsedState = storeJson ? JSON.parse(storeJson) : {};
         return { ...DEFAULT_APP_STATE, ...parsedState };
       } catch (e) {
-        this.errorSvc.handleClientError(e as Error, 'errors.cookieRead');
+        this.uiNotificationSvc.handleClientError(
+          e as Error,
+          'errors.cookieRead'
+        );
         return DEFAULT_APP_STATE;
       }
     }
@@ -81,7 +84,7 @@ export class CookiePersistentService {
         { expires, path: '/', sameSite: 'Lax' }
       );
     } catch (e) {
-      this.errorSvc.handleClientError(e as Error, 'errors.cookieSave');
+      this.uiNotificationSvc.handleClientError(e as Error, 'errors.cookieRead');
     }
   }
 }

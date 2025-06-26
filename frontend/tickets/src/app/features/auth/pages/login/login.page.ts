@@ -1,4 +1,3 @@
-import { RegisterRequest } from './../../interfaces/register-request.interface';
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
@@ -6,16 +5,17 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { TranslocoModule } from '@ngneat/transloco';
 import { AuthService } from '../../services/auth.service';
+import { LoginRequest } from '../../interfaces/login-request.interface';
 import { Path } from '../../../../core/constants/path.constants.const';
 
 @Component({
-  selector: 'app-register',
+  selector: 'app-login-page',
   standalone: true,
   imports: [CommonModule, RouterModule, ReactiveFormsModule, TranslocoModule],
-  templateUrl: './register.component.html',
-  styleUrl: '../login/login.component.scss',
+  templateUrl: './login.page.html',
+  styleUrl: './login.page.scss',
 })
-export class RegisterComponent {
+export class LoginPage {
   private fb = inject(FormBuilder);
   private authSvc = inject(AuthService);
   private router = inject(Router);
@@ -23,26 +23,25 @@ export class RegisterComponent {
   public Path = Path;
   public isLoading = signal(false);
 
-  public registerForm = this.fb.group({
-    displayName: ['', [Validators.required, Validators.minLength(3)]],
+  public loginForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(8)]],
+    password: ['', [Validators.required]],
   });
 
   public onSubmit(): void {
-    if (this.registerForm.invalid) {
+    if (this.loginForm.invalid) {
       return;
     }
 
     this.isLoading.set(true);
-    const registerData = this.registerForm.getRawValue() as RegisterRequest;
+    const credentials = this.loginForm.getRawValue() as LoginRequest;
 
     this.authSvc
-      .register(registerData)
+      .login(credentials)
       .pipe(finalize(() => this.isLoading.set(false)))
-      .subscribe((success) => {
-        if (success) {
-          this.router.navigate(['/auth/login']);
+      .subscribe((user) => {
+        if (user) {
+          this.router.navigateByUrl('/');
         }
       });
   }

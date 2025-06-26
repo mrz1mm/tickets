@@ -6,12 +6,12 @@ export const Path = {
   },
 
   DASHBOARD: 'dashboard',
+  DEPARTMENTS: 'departments',
   PROFILE: 'profile',
   PRIVACY_POLICY: 'privacy-policy',
 
   TICKETS: {
     BASE: 'tickets',
-    CREATE: 'tickets/create',
     DETAIL: 'tickets/:ticketId',
     UPDATE: 'tickets/:ticketId/update',
   },
