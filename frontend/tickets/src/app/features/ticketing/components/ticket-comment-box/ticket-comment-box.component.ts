@@ -19,29 +19,14 @@ import { TranslocoModule } from '@ngneat/transloco';
 export class TicketCommentBoxComponent {
   private fb = inject(FormBuilder);
 
-  /**
-   * Input per disabilitare il form mentre un'altra operazione è in corso.
-   */
   @Input() isLoading: boolean = false;
 
-  /**
-   * Evento emesso quando l'utente invia un commento valido.
-   * Il payload è il testo del commento.
-   */
   @Output() commentSubmit = new EventEmitter<string>();
 
-  /**
-   * Form reattivo per il commento.
-   * Il commento non può essere vuoto.
-   */
   public commentForm = this.fb.group({
     content: ['', Validators.required],
   });
 
-  /**
-   * Gestisce la sottomissione del form.
-   * Se valido, emette l'evento `commentSubmit` e resetta il form.
-   */
   public onSubmit(): void {
     if (this.commentForm.invalid || this.isLoading) {
       return;
@@ -50,7 +35,6 @@ export class TicketCommentBoxComponent {
     const content = this.commentForm.value.content;
     if (content) {
       this.commentSubmit.emit(content);
-      // Resetta il form dopo l'invio
       this.commentForm.reset();
     }
   }

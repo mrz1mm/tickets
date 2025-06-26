@@ -23,7 +23,6 @@ import { DepartmentData } from '../../../deapartments/interfaces/departmentData.
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, TranslocoModule],
   templateUrl: './department-form.component.html',
-  styleUrl: './department-form.component.scss',
 })
 export class DepartmentFormComponent implements OnChanges {
   private fb = inject(FormBuilder);

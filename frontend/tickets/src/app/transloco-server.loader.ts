@@ -1,4 +1,3 @@
-// src/app/transloco-server.loader.ts
 import { Injectable } from '@angular/core';
 import { Translation, TranslocoLoader } from '@ngneat/transloco';
 import { Observable, of } from 'rxjs';

@@ -22,7 +22,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
-@RequiredArgsConstructor // Usa questo per l'iniezione
+@RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     @Autowired

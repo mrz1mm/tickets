@@ -25,14 +25,7 @@ export class TicketDetailPage {
   private route = inject(ActivatedRoute);
   private ticketSvc = inject(TicketService);
 
-  /**
-   * Signal scrivibile che contiene i dati del ticket.
-   */
   public ticket = signal<TicketDetail | null | undefined>(undefined);
-
-  /**
-   * Signal per gestire lo stato di caricamento durante l'invio di un commento.
-   */
   public isSubmittingComment = signal(false);
 
   constructor() {

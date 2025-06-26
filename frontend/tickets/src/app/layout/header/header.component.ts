@@ -1,9 +1,4 @@
-import {
-  Component,
-  inject,
-  LOCALE_ID,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../features/auth/services/auth.service';

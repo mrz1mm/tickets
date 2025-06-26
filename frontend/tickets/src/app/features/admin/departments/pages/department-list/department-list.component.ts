@@ -19,7 +19,6 @@ import { DepartmentData } from '../../../../deapartments/interfaces/departmentDa
   standalone: true,
   imports: [CommonModule, TranslocoModule, DepartmentFormComponent],
   templateUrl: './department-list.component.html',
-  styleUrl: './department-list.component.scss',
 })
 export class DepartmentListComponent implements OnInit {
   private departmentSvc = inject(DepartmentService);

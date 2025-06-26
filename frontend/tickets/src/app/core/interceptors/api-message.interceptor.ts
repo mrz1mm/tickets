@@ -27,13 +27,11 @@ export const apiMessageInterceptor: HttpInterceptorFn = (req, next) => {
           body?.message &&
           ['POST', 'PUT', 'PATCH', 'DELETE'].includes(req.method)
         ) {
-          // Delega al NotificationService
           uiNotificationSvc.showSuccess(body.message);
         }
       }
     }),
     catchError((error: HttpErrorResponse) => {
-      // Delega al NotificationService
       uiNotificationSvc.handleHttpError(error);
       return throwError(() => error);
     })

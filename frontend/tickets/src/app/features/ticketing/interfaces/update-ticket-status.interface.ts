@@ -5,8 +5,5 @@ import { TicketStatus } from '../types/ticket-status.type';
  * Corrisponde al DTO `UpdateTicketStatusDto` del backend.
  */
 export interface UpdateTicketStatus {
-  /**
-   * Il nuovo stato da assegnare al ticket.
-   */
   status: TicketStatus;
 }

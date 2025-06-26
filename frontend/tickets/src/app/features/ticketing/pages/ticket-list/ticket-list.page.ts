@@ -27,22 +27,15 @@ export class TicketListPage implements OnInit {
   private ticketSvc = inject(TicketService);
   private departmentSvc = inject(DepartmentService);
   private router = inject(Router);
-
-  // Stato per la lista dei ticket
   public tickets = signal<TicketSummary[]>([]);
   public isLoadingTickets = signal(true);
   public ticketsError = signal<string | null>(null);
-
-  // Stato per la lista dei dipartimenti (per il form)
   public departments = signal<Department[]>([]);
   public departmentsError = signal<string | null>(null);
-
-  // Stato per la gestione della modale e del salvataggio
   public isSaving = signal(false);
   private ticketModal: Modal | undefined;
 
   constructor() {
-    // Inizializza la modale di Bootstrap dopo il rendering del browser
     afterNextRender(() => {
       const modalElement = document.getElementById('ticketFormModal');
       if (modalElement) {

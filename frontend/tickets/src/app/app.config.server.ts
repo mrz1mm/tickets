@@ -3,7 +3,7 @@ import { provideServerRendering, withRoutes } from '@angular/ssr';
 import { appConfig } from './app.config';
 import { serverRoutes } from './app.routes.server';
 import { TRANSLOCO_LOADER } from '@ngneat/transloco';
-import { TranslocoServerLoader } from './transloco-server.loader.ts';
+import { TranslocoServerLoader } from './transloco-server.loader';
 
 const serverConfig: ApplicationConfig = {
   providers: [

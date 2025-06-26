@@ -30,7 +30,6 @@ export class TicketFormComponent {
   public ticketForm: FormGroup;
 
   constructor() {
-    // La definizione del form è già corretta
     this.ticketForm = this.fb.group({
       title: [
         '',
@@ -45,7 +44,6 @@ export class TicketFormComponent {
     });
   }
 
-  // Il metodo onSubmit ora emette solo un evento
   public onSubmit(): void {
     if (this.ticketForm.invalid) {
       this.ticketForm.markAllAsTouched();

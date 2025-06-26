@@ -3,12 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap, finalize } from 'rxjs/operators';
-
-// Servizi Core
 import { CookiePersistentService } from '../../../core/services/cookie-persistent.service';
 import { PlatformService } from '../../../core/services/platform.service';
-
-// Costanti e Interfacce
 import { ApiConstants } from '../../../core/constants/api.const';
 import { Path } from '../../../core/constants/path.constants.const';
 import { StorageConfig } from '../../../core/constants/storage-keys.const';
@@ -16,12 +12,7 @@ import { ApiResponse } from '../../../core/interfaces/api-response.interface';
 import { UserDetail } from '../interfaces/user-detail.interface';
 import { LoginRequest } from '../interfaces/login-request.interface';
 import { RegisterRequest } from '../interfaces/register-request.interface';
-
-// Aggiungiamo il tipo per la risposta del login che include il token
-interface LoginResponse {
-  user: UserDetail;
-  token: string;
-}
+import { LoginResponse } from '../interfaces/login-response.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -32,24 +23,16 @@ export class AuthService {
   private persistentSvc = inject(CookiePersistentService);
   private platformSvc = inject(PlatformService);
 
-  // --- STATO REATTIVO (letto direttamente dal servizio di persistenza) ---
-
-  // Il token è la nostra unica fonte di verità per l'autenticazione
   private readonly token: Signal<string | null> = this.persistentSvc.getSlice(
     StorageConfig.KEYS.AUTH_TOKEN
   );
 
-  // L'utente corrente è derivato dalla fetta dello store
   public readonly currentUser: Signal<UserDetail | null> =
     this.persistentSvc.getSlice(StorageConfig.KEYS.USER_INFO);
 
-  // `isAuthenticated` è un signal calcolato che dipende solo dalla presenza del token
   public readonly isAuthenticated: Signal<boolean> = computed(
     () => !!this.token()
   );
-
-  // Il costruttore ora non deve fare nulla all'avvio, lo stato si idrata da solo!
-  constructor() {}
 
   /**
    * Esegue il login dell'utente, salva lo stato e reindirizza.
@@ -65,7 +48,6 @@ export class AuthService {
           return response.payload;
         }),
         tap((payload) => {
-          // Dopo una chiamata di successo, aggiorniamo il nostro stato centrale
           this.persistentSvc.updateSlice(
             StorageConfig.KEYS.AUTH_TOKEN,
             payload.token
@@ -75,7 +57,6 @@ export class AuthService {
             payload.user
           );
 
-          // Aggiorniamo anche le preferenze nello store, se presenti
           if (payload.user.preferences) {
             this.persistentSvc.updateSlice(
               StorageConfig.KEYS.THEME,
@@ -87,9 +68,8 @@ export class AuthService {
             );
           }
         }),
-        map((payload) => payload.user), // Restituiamo solo l'utente al componente
+        map((payload) => payload.user),
         catchError((err) => {
-          // In caso di errore, ci assicuriamo che lo stato sia pulito
           this.clearAuthData();
           throw err;
         })
@@ -120,7 +100,6 @@ export class AuthService {
         .post<ApiResponse<null>>(ApiConstants.AUTH.LOGOUT, {})
         .pipe(
           finalize(() => {
-            // Pulisce lo stato e reindirizza, indipendentemente dalla risposta del server
             this.clearAuthDataAndRedirect();
           })
         )
@@ -141,8 +120,6 @@ export class AuthService {
   private clearAuthData(): void {
     this.persistentSvc.updateSlice(StorageConfig.KEYS.AUTH_TOKEN, null);
     this.persistentSvc.updateSlice(StorageConfig.KEYS.USER_INFO, null);
-    // Potremmo anche decidere di non resettare tema e lingua al logout,
-    // ma per ora lo facciamo per coerenza.
   }
 
   private clearAuthDataAndRedirect(): void {

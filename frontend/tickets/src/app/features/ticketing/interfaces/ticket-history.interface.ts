@@ -1,13 +1,5 @@
+import { HistoryEventType } from '../types/history-event.type';
 import { User } from './user.interface';
-
-// Definiamo un tipo per gli eventi di cronologia, come nell'enum Java
-export type HistoryEventType =
-  | 'TICKET_CREATION'
-  | 'COMMENT'
-  | 'STATUS_CHANGE'
-  | 'ASSIGNMENT'
-  | 'PRIORITY_CHANGE'
-  | 'ATTACHMENT_ADDED';
 
 /**
  * Rappresenta un singolo evento nella cronologia di un ticket.

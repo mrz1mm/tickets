@@ -1,12 +1,8 @@
 import { Routes } from '@angular/router';
-
-// Layout
 import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
 import { Path } from './core/constants/path.constants.const';
 import { authGuard } from './features/auth/guards/auth.guard';
 import { permissionGuard } from './core/guards/permission.guartd';
-
-// N.B: Non ci sono più import di componenti di pagina qui!
 
 export const routes: Routes = [
   // --- Rotte senza Layout ---
@@ -45,7 +41,7 @@ export const routes: Routes = [
         path: Path.DEPARTMENTS,
         canActivate: [permissionGuard],
         data: {
-          requiredPermission: 'DEPARTMENT_WRITE', // Dati che la guardia leggerà
+          requiredPermission: 'DEPARTMENT_WRITE',
         },
         loadComponent: () =>
           import(

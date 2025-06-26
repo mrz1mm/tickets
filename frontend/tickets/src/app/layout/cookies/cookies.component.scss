@@ -10,9 +10,9 @@
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
-  z-index: 1050; // Sopra la maggior parte degli elementi
+  z-index: 1050;
   border-top: 1px solid var(--bs-border-color);
-  flex-wrap: wrap; // Per schermi piccoli
+  flex-wrap: wrap;
   gap: 1rem;
 }
 
@@ -29,5 +29,5 @@
 .cookie-actions {
   display: flex;
   gap: 1rem;
-  flex-shrink: 0; // Evita che i pulsanti vadano a capo facilmente
+  flex-shrink: 0;
 }
