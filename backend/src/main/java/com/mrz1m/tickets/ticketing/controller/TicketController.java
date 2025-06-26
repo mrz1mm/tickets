@@ -79,6 +79,14 @@ public class TicketController {
         return ResponseEntity.ok(ApiResponse.ok("Ticket aggiornato con successo.", updatedTicket));
     }
 
+    // DELETE /api/tickets/{id} -> Eliminazione (soft delete) di un ticket
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('TICKET_DELETE')")
+    public ResponseEntity<ApiResponse<Void>> deleteTicket(@PathVariable Long id) {
+        ticketService.deleteTicket(id);
+        return ResponseEntity.noContent().build(); // Restituisce 204 No Content
+    }
+
     // POST /api/tickets/{id}/comments -> Aggiunge un commento
     @PostMapping("/{id}/comments")
     @PreAuthorize("hasAuthority('TICKET_COMMENT_ALL') or @securityService.canCommentOnTicket(#id, principal.id)")

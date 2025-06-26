@@ -8,6 +8,7 @@ import com.mrz1m.tickets.ticketing.dto.TicketSummaryDto;
 import com.mrz1m.tickets.ticketing.dto.UpdateTicketDto;
 import com.mrz1m.tickets.ticketing.dto.UpdateTicketStatusDto;
 import com.mrz1m.tickets.auth.entity.UserProfile;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +24,8 @@ public interface TicketService {
     TicketDetailDto createTicket(CreateTicketDto request, UserProfile currentUser);
 
     TicketDetailDto updateTicket(Long ticketId, UpdateTicketDto request, UserProfile currentUser);
+
+    void deleteTicket(Long ticketId); // <-- NUOVA FIRMA
 
     TicketDetailDto addComment(Long ticketId, AddCommentDto request, UserProfile currentUser);
 

@@ -16,7 +16,6 @@ import com.mrz1m.tickets.ticketing.repository.DepartmentRepository;
 import com.mrz1m.tickets.ticketing.repository.TicketAttachmentRepository;
 import com.mrz1m.tickets.ticketing.repository.TicketRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -114,6 +113,14 @@ public class TicketServiceImpl implements TicketService {
         return ticketMapper.toTicketDetailDto(savedTicket);
     }
 
+    @Override
+    @Transactional
+    public void deleteTicket(Long ticketId) {
+        if (!ticketRepository.existsById(ticketId)) {
+            throw new ResourceNotFoundException("Ticket", "id", ticketId);
+        }
+        ticketRepository.deleteById(ticketId);
+    }
 
     @Override
     @Transactional
