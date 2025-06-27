@@ -1,4 +1,20 @@
-<div class="table-responsive" *transloco="let t; read: 'ticketList.table'">
+<div class="table-responsive" *transloco="let t; read: 'ticketListPage.table'">
+  <!-- STATO DI CARICAMENTO -->
+  @if (isLoading) {
+  <div class="d-flex justify-content-center align-items-center p-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  }
+
+  <!-- STATO DI ERRORE -->
+  @if (error) {
+  <div class="alert alert-danger" role="alert">{{ error }}</div>
+  }
+
+  <!-- TABELLA DATI -->
+  @if (!isLoading && !error) {
   <table class="table table-hover align-middle">
     <thead>
       <tr>
@@ -9,12 +25,12 @@
         <th>{{ t("requester") }}</th>
         <th>{{ t("assignee") }}</th>
         <th>{{ t("createdAt") }}</th>
-        <th>{{ t("actions") }}</th>
+        <th class="text-end">{{ t("actions") }}</th>
       </tr>
     </thead>
     <tbody>
       @for (ticket of tickets; track ticket.id) {
-      <tr>
+      <tr (click)="onView(ticket.id)" style="cursor: pointer">
         <td>#{{ ticket.id }}</td>
         <td>{{ ticket.title }}</td>
         <td>
@@ -30,22 +46,23 @@
         <td>{{ ticket.requester.displayName }}</td>
         <td>{{ ticket.assignee?.displayName || "N/A" }}</td>
         <td>{{ ticket.createdAt | date : "short" }}</td>
-        <td>
-          <a
-            [routerLink]="['/tickets', ticket.id]"
+        <td class="text-end">
+          <button
             class="btn btn-sm btn-outline-primary"
+            (click)="onView(ticket.id)"
           >
             {{ t("viewAction") }}
-          </a>
+          </button>
         </td>
       </tr>
       } @empty {
-      <tr>
-        <td colspan="8" class="text-center" *transloco="let t_parent">
-          {{ t_parent("ticketList.noTicketsFound") }}
+      <tr *transloco="let t_parent">
+        <td colspan="8" class="text-center p-4">
+          {{ t_parent("dashboardPage.noAssignedTickets") }}
         </td>
       </tr>
       }
     </tbody>
   </table>
+  }
 </div>

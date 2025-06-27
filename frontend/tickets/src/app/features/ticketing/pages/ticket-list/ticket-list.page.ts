@@ -16,6 +16,7 @@ import { Department } from '../../../deapartments/interfaces/department.interfac
 import { DepartmentService } from '../../../deapartments/services/department.service';
 import { CreateTicket } from '../../interfaces/create-ticket.interface';
 import { TicketSummary } from '../../interfaces/ticket-summary.interface';
+import { UpdateTicket } from '../../interfaces/update-ticket.interface';
 
 @Component({
   selector: 'app-ticket-list-page',
@@ -45,23 +46,7 @@ export class TicketListPage implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadTickets();
     this.loadDepartments();
-  }
-
-  private loadTickets(): void {
-    this.isLoadingTickets.set(true);
-    this.ticketsError.set(null);
-    this.ticketSvc.getAllTickets().subscribe({
-      next: (data) => {
-        this.tickets.set(data);
-        this.isLoadingTickets.set(false);
-      },
-      error: () => {
-        this.ticketsError.set('Impossibile caricare la lista dei ticket.');
-        this.isLoadingTickets.set(false);
-      },
-    });
   }
 
   private loadDepartments(): void {
@@ -92,9 +77,9 @@ export class TicketListPage implements OnInit {
    * Gestisce l'evento 'save' dal form.
    * @param ticketData I dati del ticket da creare.
    */
-  public onSaveTicket(ticketData: CreateTicket): void {
+  public onSaveTicket(ticketData: CreateTicket | UpdateTicket): void {
     this.isSaving.set(true);
-    this.ticketSvc.createTicket(ticketData).subscribe({
+    this.ticketSvc.createTicket(ticketData as CreateTicket).subscribe({
       next: (newTicket) => {
         this.isSaving.set(false);
         this.closeModal();

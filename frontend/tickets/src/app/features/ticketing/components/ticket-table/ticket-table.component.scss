@@ -1,3 +1,11 @@
+// Badge per lo stato
+.badge {
+  color: #fff;
+  font-weight: 500;
+  padding: 0.4em 0.7em;
+  font-size: 0.8rem;
+}
+
 .badge.status-APERTO {
   background-color: #0d6efd;
 }
@@ -5,13 +13,33 @@
   background-color: #ffc107;
   color: #000;
 }
-// ... da aggiungere altri colori per gli stati ...
+.badge.status-IN_ATTESA_UTENTE {
+  background-color: #6c757d;
+}
+.badge.status-BLOCCATO {
+  background-color: #dc3545;
+}
+.badge.status-RISOLTO {
+  background-color: #198754;
+}
+.badge.status-CHIUSO_RISOLTO,
+.badge.status-CHIUSO_IRRISOLTO,
+.badge.status-CHIUSO_RIGETTATO {
+  background-color: #343a40;
+}
 
 // Badge per la priorità
 .badge.priority-BASSA {
   background-color: #6c757d;
 }
+.badge.priority-MEDIA {
+  background-color: #0dcaf0;
+  color: #000;
+}
 .badge.priority-ALTA {
+  background-color: #ffc107;
+  color: #000;
+}
+.badge.priority-URGENTE {
   background-color: #dc3545;
 }
-// ... da aggiungere altri colori per le priorità ...

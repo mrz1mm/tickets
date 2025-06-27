@@ -8,6 +8,8 @@ import { TicketDetail } from '../interfaces/ticket-detail.interface';
 import { CreateTicket } from '../interfaces/create-ticket.interface';
 import { TicketSummary } from '../interfaces/ticket-summary.interface';
 import { UpdateTicket } from '../interfaces/update-ticket.interface';
+import { Pageable } from '../../../core/interfaces/pageable.interface';
+import { PagedResult } from '../../../core/interfaces/paged-result.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +24,25 @@ export class TicketService {
     return this.http
       .get<ApiResponse<TicketSummary[]>>(ApiConstants.TICKETS.BASE)
       .pipe(map((response) => response.payload ?? []));
+  }
+
+  /**
+   * Recupera i ticket assegnati all'utente corrente con paginazione.
+   * @param pageable Oggetto contenente le informazioni di paginazione.
+   * @return Un Observable con i risultati paginati dei ticket assegnati all'utente.
+   * */
+  public getAssignedToMeTickets(
+    pageable: Pageable
+  ): Observable<PagedResult<TicketSummary>> {
+    const params = new HttpParams()
+      .set('page', pageable.page.toString())
+      .set('size', pageable.size.toString());
+    return this.http
+      .get<ApiResponse<PagedResult<TicketSummary>>>(
+        ApiConstants.TICKETS.ASSIGNED_TO_ME,
+        { params }
+      )
+      .pipe(map((response) => response.payload!));
   }
 
   /**

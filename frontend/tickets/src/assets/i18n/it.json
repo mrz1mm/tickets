@@ -12,6 +12,8 @@
     "text": "Questo sito utilizza i cookie per migliorare la tua esperienza. Leggi la nostra {privacyLink}."
   },
   "dashboardPage": {
+    "assignedTicketsTitle": "Ticket Assegnati a Me",
+    "noAssignedTickets": "Nessun ticket attualmente assegnato a te.",
     "title": "Dashboard"
   },
   "departmentFormComponent": {
@@ -165,11 +167,16 @@
     "noTickets": "Non hai ancora aperto nessun ticket.",
     "table": {
       "actions": "Azioni",
+      "assignee": "Assegnato a",
+      "createdAt": "Creato il",
       "department": "Dipartimento",
+      "id": "ID",
       "priority": "Priorità",
+      "requester": "Richiedente",
       "status": "Stato",
       "title": "Oggetto",
-      "updatedAt": "Ultimo Aggiornamento"
+      "updatedAt": "Ultimo Aggiornamento",
+      "viewAction": "Visualizza"
     },
     "title": "I Miei Ticket"
   },
