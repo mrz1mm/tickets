@@ -122,6 +122,13 @@
       "edit": "Modifica"
     },
     "assignee": "Assegnato a",
+    "attachments": {
+      "addAttachment": "Aggiungi Allegato",
+      "download": "Scarica",
+      "noAttachments": "Nessun allegato presente.",
+      "title": "Allegati",
+      "uploading": "Caricamento..."
+    },
     "backToList": "Elenco Ticket",
     "commentBox": {
       "placeholder": "Scrivi un commento...",

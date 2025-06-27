@@ -21,8 +21,8 @@ export const ApiConstants = {
     ADD_COMMENT: (id: number) => `${API_BASE_URL_V1}/tickets/${id}/comments`,
     ASSIGN: (id: number) => `${API_BASE_URL_V1}/tickets/${id}/assign`,
     CHANGE_STATUS: (id: number) => `${API_BASE_URL_V1}/tickets/${id}/status`,
-    ADD_ATTACHMENT: (id: number) =>
-      `${API_BASE_URL_V1}/tickets/${id}/attachments`,
+    ATTACHMENTS: (ticketId: number) =>
+      `${API_BASE_URL_V1}/tickets/${ticketId}/attachments`,
     DOWNLOAD_ATTACHMENT: (attachmentId: number) =>
       `${API_BASE_URL_V1}/tickets/attachments/${attachmentId}/download`,
   },

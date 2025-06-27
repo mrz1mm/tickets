@@ -20,7 +20,8 @@ export class TicketService {
   private http = inject(HttpClient);
 
   /**
-   * Recupera la lista di tutti i ticket in formato riassuntivo.
+   * Recupera tutti i ticket in formato sommario.
+   * @return Un Observable con un array di TicketSummary.
    */
   public getAllTickets(): Observable<TicketSummary[]> {
     return this.http
@@ -67,7 +68,9 @@ export class TicketService {
   }
 
   /**
-   * Recupera un singolo ticket con tutti i suoi dettagli.
+   * Recupera un ticket specifico in formato dettagliato.
+   * @param id L'ID del ticket da recuperare.
+   * @returns Un Observable con il Ticket dettagliato.
    */
   public getTicketById(id: number): Observable<TicketDetail> {
     return this.http
@@ -77,6 +80,8 @@ export class TicketService {
 
   /**
    * Crea un nuovo ticket.
+   * @param ticketData I dati del ticket da creare.
+   * @returns Un Observable con il Ticket creato.
    */
   public createTicket(ticketData: CreateTicket): Observable<TicketDetail> {
     return this.http
@@ -136,6 +141,9 @@ export class TicketService {
 
   /**
    * Aggiunge un commento a un ticket.
+   * @param ticketId L'ID del ticket a cui aggiungere il commento.
+   * @param data I dati del commento da aggiungere.
+   * @return Un Observable con il Ticket aggiornato contenente il nuovo commento.
    */
   public addComment(
     ticketId: number,
@@ -147,5 +155,23 @@ export class TicketService {
         data
       )
       .pipe(map((response) => response.payload));
+  }
+
+  /**
+   * Aggiunge un allegato a un ticket.
+   * @param ticketId L'ID del ticket a cui aggiungere l'allegato
+   * @param file Il file da allegare al ticket.
+   * @return Un Observable con il Ticket aggiornato contenente l'allegato.
+   * */
+  public addAttachment(ticketId: number, file: File): Observable<TicketDetail> {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+
+    return this.http
+      .post<ApiResponse<TicketDetail>>(
+        ApiConstants.TICKETS.ATTACHMENTS(ticketId),
+        formData
+      )
+      .pipe(map((response) => response.payload!));
   }
 }

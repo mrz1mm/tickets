@@ -23,6 +23,7 @@ import { AuthService } from '../../../auth/services/auth.service';
 import { Path } from '../../../../core/constants/path.constants.const';
 import { TICKET_STATUS } from '../../constants/ticket-status.constant';
 import { TicketStatus } from '../../types/ticket-status.type';
+import { formatBytes } from '../../../../core/utils/format.utils';
 
 @Component({
   selector: 'app-ticket-detail-page',
@@ -50,9 +51,11 @@ export class TicketDetailPage {
   public departments = signal<Department[]>([]);
   public isSubmittingComment = signal(false);
   public isSaving = signal(false);
+  public isUploading = signal(false);
   private editModal: Modal | undefined;
 
   public readonly ticketStatuses: TicketStatus[] = TICKET_STATUS;
+  public formatBytes = formatBytes;
 
   public canEdit: Signal<boolean> = computed(() => {
     const currentUser = this.authSvc.currentUser();
@@ -66,6 +69,20 @@ export class TicketDetailPage {
       ? currentUser.id === currentTicket.assignee.id
       : false;
 
+    return isOwner || isAssignee;
+  });
+
+  public canAddAttachment: Signal<boolean> = computed(() => {
+    const currentUser = this.authSvc.currentUser();
+    const currentTicket = this.ticket();
+    if (!currentUser || !currentTicket) return false;
+
+    if (this.authSvc.hasPermission('TICKET_COMMENT_ALL')) return true;
+
+    const isOwner = currentUser.id === currentTicket.requester.id;
+    const isAssignee = currentTicket.assignee
+      ? currentUser.id === currentTicket.assignee.id
+      : false;
     return isOwner || isAssignee;
   });
 
@@ -178,5 +195,25 @@ export class TicketDetailPage {
         this.ticket.set(updatedTicket);
       },
     });
+  }
+
+  public onFileSelected(event: Event): void {
+    const currentTicket = this.ticket();
+    const input = event.target as HTMLInputElement;
+
+    if (input.files && input.files.length > 0 && currentTicket) {
+      const file = input.files[0];
+      this.isUploading.set(true);
+
+      this.ticketSvc.addAttachment(currentTicket.id, file).subscribe({
+        next: (updatedTicket) => {
+          this.ticket.set(updatedTicket);
+          this.isUploading.set(false);
+        },
+        error: () => {
+          this.isUploading.set(false);
+        },
+      });
+    }
   }
 }
