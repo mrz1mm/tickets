@@ -19,6 +19,8 @@ public interface TicketService {
 
     Page<TicketSummaryDto> findAllTickets(Pageable pageable);
 
+    Page<TicketSummaryDto> findAllTicketsAssignedTo(Long userId, Pageable pageable);
+
     TicketDetailDto findTicketById(Long ticketId);
 
     TicketDetailDto createTicket(CreateTicketDto request, UserProfile currentUser);

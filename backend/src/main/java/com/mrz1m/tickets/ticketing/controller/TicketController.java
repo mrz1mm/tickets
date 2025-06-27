@@ -40,6 +40,15 @@ public class TicketController {
         return ResponseEntity.ok(ApiResponse.ok("Ticket recuperati con successo", new PagedDto<>(ticketPage)));
     }
 
+    @GetMapping("/me/assigned")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<ApiResponse<PagedDto<TicketSummaryDto>>> getMyAssignedTickets(
+            @AuthenticationPrincipal CustomUserProfileDetails currentUser,
+            Pageable pageable) {
+        Page<TicketSummaryDto> ticketPage = ticketService.findAllTicketsAssignedTo(currentUser.getId(), pageable);
+        return ResponseEntity.ok(ApiResponse.ok("Ticket assegnati recuperati con successo.", new PagedDto<>(ticketPage)));
+    }
+
     // GET /api/tickets/{id} -> Dettaglio di un singolo ticket
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('TICKET_READ_ALL') or @securityService.isOwnerOrAssignee(#id, principal.id)")
