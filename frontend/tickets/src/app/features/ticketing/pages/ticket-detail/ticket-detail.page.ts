@@ -21,6 +21,8 @@ import { DepartmentService } from '../../../deapartments/services/department.ser
 import { Modal } from 'bootstrap';
 import { AuthService } from '../../../auth/services/auth.service';
 import { Path } from '../../../../core/constants/path.constants.const';
+import { TICKET_STATUS } from '../../constants/ticket-status.constant';
+import { TicketStatus } from '../../types/ticket-status.type';
 
 @Component({
   selector: 'app-ticket-detail-page',
@@ -50,6 +52,8 @@ export class TicketDetailPage {
   public isSaving = signal(false);
   private editModal: Modal | undefined;
 
+  public readonly ticketStatuses: TicketStatus[] = TICKET_STATUS;
+
   public canEdit: Signal<boolean> = computed(() => {
     const currentUser = this.authSvc.currentUser();
     const currentTicket = this.ticket();
@@ -67,6 +71,10 @@ export class TicketDetailPage {
 
   public canDelete: Signal<boolean> = computed(() => {
     return this.authSvc.hasPermission('TICKET_DELETE');
+  });
+
+  public canChangeStatus: Signal<boolean> = computed(() => {
+    return this.authSvc.hasPermission('TICKET_STATUS_CHANGE');
   });
 
   constructor() {
@@ -157,5 +165,18 @@ export class TicketDetailPage {
 
   public closeModal(): void {
     this.editModal?.hide();
+  }
+
+  public onStatusChange(newStatus: TicketStatus): void {
+    const currentTicket = this.ticket();
+    if (!currentTicket || currentTicket.status === newStatus) {
+      return;
+    }
+
+    this.ticketSvc.changeStatus(currentTicket.id, newStatus).subscribe({
+      next: (updatedTicket) => {
+        this.ticket.set(updatedTicket);
+      },
+    });
   }
 }

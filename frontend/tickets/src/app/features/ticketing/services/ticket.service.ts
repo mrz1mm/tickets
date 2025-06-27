@@ -10,6 +10,8 @@ import { TicketSummary } from '../interfaces/ticket-summary.interface';
 import { UpdateTicket } from '../interfaces/update-ticket.interface';
 import { Pageable } from '../../../core/interfaces/pageable.interface';
 import { PagedResult } from '../../../core/interfaces/paged-result.interface';
+import { TicketStatus } from '../types/ticket-status.type';
+import { UpdateTicketStatus } from '../interfaces/update-ticket-status.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -111,6 +113,25 @@ export class TicketService {
       .pipe(
         map(() => void 0) // Trasforma la risposta in un void per l'observable
       );
+  }
+
+  /**
+   * Cambia lo stato di un ticket.
+   * @param ticketId L'ID del ticket da aggiornare.
+   * @param status Il nuovo stato del ticket.
+   * @return Un Observable con il Ticket aggiornato.
+   * */
+  public changeStatus(
+    ticketId: number,
+    status: TicketStatus
+  ): Observable<TicketDetail> {
+    const payload: UpdateTicketStatus = { status };
+    return this.http
+      .patch<ApiResponse<TicketDetail>>(
+        ApiConstants.TICKETS.CHANGE_STATUS(ticketId),
+        payload
+      )
+      .pipe(map((response) => response.payload!));
   }
 
   /**

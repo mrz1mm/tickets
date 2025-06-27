@@ -137,6 +137,10 @@
     "loading": "Caricamento del ticket...",
     "priority": "Priorità",
     "requester": "Richiedente",
+    "status": "Stato",
+    "statusActions": {
+      "change": "Cambia stato"
+    },
     "title": "Dettaglio Ticket"
   },
   "ticketFormComponent": {

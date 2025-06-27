@@ -91,6 +91,41 @@
                 >{{ ticketDetail.priority }}</span
               >
             </li>
+            <li
+              class="list-group-item d-flex justify-content-between align-items-center"
+            >
+              <strong>{{ t("status") }}:</strong>
+              @if (canChangeStatus()) {
+              <div class="dropdown">
+                <button
+                  class="btn btn-sm dropdown-toggle status-dropdown"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  [ngClass]="'status-badge-' + ticketDetail.status"
+                >
+                  {{ ticketDetail.status }}
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  @for (status of ticketStatuses; track status) {
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      [class.active]="status === ticketDetail.status"
+                      (click)="onStatusChange(status)"
+                    >
+                      {{ status }}
+                    </a>
+                  </li>
+                  }
+                </ul>
+              </div>
+              } @else {
+              <span class="badge" [ngClass]="'status-' + ticketDetail.status"
+                >{{ ticketDetail.status }}</span
+              >
+              }
+            </li>
             <li class="list-group-item d-flex justify-content-between">
               <strong>{{ t("department") }}:</strong>
               <span>{{ ticketDetail.department.name }}</span>
