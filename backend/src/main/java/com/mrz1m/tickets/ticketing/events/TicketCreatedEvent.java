@@ -1,6 +1,6 @@
 package com.mrz1m.tickets.ticketing.events;
 
-import com.mrz1m.tickets.ticketing.entity.Ticket;
+import com.mrz1m.tickets.ticketing.entities.Ticket;
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
 

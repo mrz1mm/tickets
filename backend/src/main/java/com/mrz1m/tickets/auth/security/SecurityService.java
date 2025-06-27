@@ -1,9 +1,9 @@
 package com.mrz1m.tickets.auth.security;
 
-import com.mrz1m.tickets.ticketing.entity.Ticket;
-import com.mrz1m.tickets.ticketing.entity.TicketAttachment;
-import com.mrz1m.tickets.ticketing.repository.TicketAttachmentRepository;
-import com.mrz1m.tickets.ticketing.repository.TicketRepository;
+import com.mrz1m.tickets.ticketing.entities.Ticket;
+import com.mrz1m.tickets.ticketing.entities.TicketAttachment;
+import com.mrz1m.tickets.ticketing.repositories.TicketAttachmentRepository;
+import com.mrz1m.tickets.ticketing.repositories.TicketRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
 package com.mrz1m.tickets.auth.security;
 
-import com.mrz1m.tickets.auth.entity.UserProfile;
+import com.mrz1m.tickets.auth.entities.UserProfile;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;

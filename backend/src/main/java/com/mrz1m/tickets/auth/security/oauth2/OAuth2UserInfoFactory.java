@@ -1,7 +1,7 @@
 package com.mrz1m.tickets.auth.security.oauth2;
 
 import com.mrz1m.tickets.auth.enums.AuthProvider;
-import com.mrz1m.tickets.auth.exception.OAuth2AuthenticationProcessingException;
+import com.mrz1m.tickets.auth.exceptions.OAuth2AuthenticationProcessingException;
 import java.util.Map;
 
 public class OAuth2UserInfoFactory {

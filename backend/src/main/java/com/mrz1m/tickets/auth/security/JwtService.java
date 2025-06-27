@@ -1,6 +1,6 @@
 package com.mrz1m.tickets.auth.security;
 
-import com.mrz1m.tickets.auth.entity.Role;
+import com.mrz1m.tickets.auth.entities.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
