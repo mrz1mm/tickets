@@ -145,6 +145,18 @@ public class TicketServiceImpl implements TicketService {
         TicketHistory commentEvent = createHistoryEvent(ticket, currentUser, HistoryEventType.COMMENT, request.getContent());
         ticket.getHistory().add(commentEvent);
 
+        boolean isRequester = currentUser.getId().equals(ticket.getRequester().getId());
+
+        if (isRequester && ticket.getStatus() == TicketStatus.IN_ATTESA_UTENTE) {
+            TicketStatus oldStatus = ticket.getStatus();
+            TicketStatus newStatus = TicketStatus.IN_LAVORAZIONE;
+            ticket.setStatus(newStatus);
+
+            String historyContent = String.format("Stato cambiato automaticamente da %s a %s dopo la risposta dell'utente.", oldStatus, newStatus);
+            TicketHistory statusEvent = createHistoryEvent(ticket, null, HistoryEventType.STATUS_CHANGE, historyContent); // `user` è null per un evento di sistema
+            ticket.getHistory().add(statusEvent);
+        }
+
         Ticket savedTicket = ticketRepository.save(ticket);
         return ticketMapper.toTicketDetailDto(savedTicket);
     }
