@@ -14,6 +14,7 @@ export const Path = {
     BASE: 'tickets',
     DETAIL: 'tickets/:ticketId',
     UPDATE: 'tickets/:ticketId/update',
+    QUEUE: 'tickets/queue',
   },
 
   NOT_FOUND: '**',

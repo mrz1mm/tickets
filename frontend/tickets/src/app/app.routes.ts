@@ -69,8 +69,20 @@ export const routes: Routes = [
             './features/ticketing/pages/ticket-list/ticket-list.page'
           ).then((m) => m.TicketListPage),
       },
+      // NUOVA ROTTA
       {
-        path: Path.TICKETS.BASE + '/:ticketId',
+        path: Path.TICKETS.QUEUE,
+        canActivate: [permissionGuard],
+        data: {
+          requiredPermission: 'TICKET_ASSIGN',
+        },
+        loadComponent: () =>
+          import(
+            './features/ticketing/pages/ticket-queue/ticket-queue.page'
+          ).then((m) => m.TicketQueuePage),
+      },
+      {
+        path: Path.TICKETS.DETAIL,
         loadComponent: () =>
           import(
             './features/ticketing/pages/ticket-detail/ticket-detail.page'

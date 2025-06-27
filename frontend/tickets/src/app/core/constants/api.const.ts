@@ -17,6 +17,7 @@ export const ApiConstants = {
     BASE: `${API_BASE_URL_V1}/tickets`,
     BY_ID: (id: number) => `${API_BASE_URL_V1}/tickets/${id}`,
     ASSIGNED_TO_ME: `${API_BASE_URL_V1}/tickets/me/assigned`,
+    UNASSIGNED: `${API_BASE_URL_V1}/tickets/unassigned`,
     ADD_COMMENT: (id: number) => `${API_BASE_URL_V1}/tickets/${id}/comments`,
     ASSIGN: (id: number) => `${API_BASE_URL_V1}/tickets/${id}/assign`,
     CHANGE_STATUS: (id: number) => `${API_BASE_URL_V1}/tickets/${id}/status`,

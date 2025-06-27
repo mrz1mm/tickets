@@ -180,6 +180,10 @@
     },
     "title": "I Miei Ticket"
   },
+  "ticketQueuePage": {
+    "noUnassignedTickets": "Ottimo lavoro! Non ci sono ticket in attesa di essere assegnati.",
+    "title": "Ticket da Assegnare"
+  },
   "validation": {
     "commentRequired": "Il commento non può essere vuoto.",
     "departmentRequired": "La selezione del dipartimento è obbligatoria.",

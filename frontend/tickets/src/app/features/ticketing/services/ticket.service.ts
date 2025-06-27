@@ -46,6 +46,25 @@ export class TicketService {
   }
 
   /**
+   * Recupera i ticket non assegnati a nessun utente con paginazione.
+   * @param pageable Oggetto contenente le informazioni di paginazione.
+   * @return Un Observable con i risultati paginati dei ticket non assegnati.
+   */
+  public getUnassignedTickets(
+    pageable: Pageable
+  ): Observable<PagedResult<TicketSummary>> {
+    const params = new HttpParams()
+      .set('page', pageable.page.toString())
+      .set('size', pageable.size.toString());
+    return this.http
+      .get<ApiResponse<PagedResult<TicketSummary>>>(
+        ApiConstants.TICKETS.UNASSIGNED,
+        { params }
+      )
+      .pipe(map((response) => response.payload!));
+  }
+
+  /**
    * Recupera un singolo ticket con tutti i suoi dettagli.
    */
   public getTicketById(id: number): Observable<TicketDetail> {
