@@ -21,4 +21,11 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
      * @return Una pagina di Ticket.
      */
     Page<Ticket> findByAssigneeId(Long assigneeId, Pageable pageable);
+
+    /**
+     * Trova una pagina di ticket che non sono ancora stati assegnati.
+     * @param pageable Le informazioni per la paginazione.
+     * @return Una pagina di Ticket.
+     */
+    Page<Ticket> findByAssigneeIsNull(Pageable pageable);
 }

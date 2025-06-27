@@ -53,6 +53,13 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     @Transactional(readOnly = true)
+    public Page<TicketSummaryDto> findAllUnassigned(Pageable pageable) {
+        return ticketRepository.findByAssigneeIsNull(pageable)
+                .map(ticketMapper::toTicketSummaryDto);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public TicketDetailDto findTicketById(Long ticketId) {
         Ticket ticket = ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new ResourceNotFoundException("Ticket", "id", ticketId));
