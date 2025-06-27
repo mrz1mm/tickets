@@ -10,12 +10,17 @@ import com.mrz1m.tickets.ticketing.entity.TicketHistory;
 import com.mrz1m.tickets.ticketing.enums.HistoryEventType;
 import com.mrz1m.tickets.ticketing.enums.TicketPriority;
 import com.mrz1m.tickets.ticketing.enums.TicketStatus;
+import com.mrz1m.tickets.ticketing.events.CommentAddedEvent;
+import com.mrz1m.tickets.ticketing.events.TicketAssignedEvent;
+import com.mrz1m.tickets.ticketing.events.TicketCreatedEvent;
+import com.mrz1m.tickets.ticketing.events.TicketStatusChangedEvent;
 import com.mrz1m.tickets.ticketing.exception.ResourceNotFoundException;
 import com.mrz1m.tickets.ticketing.mapper.TicketMapper;
 import com.mrz1m.tickets.ticketing.repository.DepartmentRepository;
 import com.mrz1m.tickets.ticketing.repository.TicketAttachmentRepository;
 import com.mrz1m.tickets.ticketing.repository.TicketRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,6 +42,7 @@ public class TicketServiceImpl implements TicketService {
     private final TicketAttachmentRepository ticketAttachmentRepository;
     private final TicketMapper ticketMapper;
     private final FileStorageService fileStorageService;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     @Transactional(readOnly = true)
@@ -81,6 +87,7 @@ public class TicketServiceImpl implements TicketService {
         newTicket.getHistory().add(creationEvent);
 
         Ticket savedTicket = ticketRepository.save(newTicket);
+        eventPublisher.publishEvent(new TicketCreatedEvent(this, savedTicket));
         return ticketMapper.toTicketDetailDto(savedTicket);
     }
 
@@ -153,11 +160,16 @@ public class TicketServiceImpl implements TicketService {
             ticket.setStatus(newStatus);
 
             String historyContent = String.format("Stato cambiato automaticamente da %s a %s dopo la risposta dell'utente.", oldStatus, newStatus);
-            TicketHistory statusEvent = createHistoryEvent(ticket, null, HistoryEventType.STATUS_CHANGE, historyContent); // `user` è null per un evento di sistema
+            TicketHistory statusEvent = createHistoryEvent(ticket, null, HistoryEventType.STATUS_CHANGE, historyContent);
             ticket.getHistory().add(statusEvent);
+
+            eventPublisher.publishEvent(new TicketStatusChangedEvent(this, ticket, oldStatus.name(), newStatus.name(), true));
         }
 
         Ticket savedTicket = ticketRepository.save(ticket);
+
+        eventPublisher.publishEvent(new CommentAddedEvent(this, savedTicket, currentUser));
+
         return ticketMapper.toTicketDetailDto(savedTicket);
     }
 
@@ -181,6 +193,7 @@ public class TicketServiceImpl implements TicketService {
         ticket.getHistory().add(assignmentEvent);
 
         Ticket savedTicket = ticketRepository.save(ticket);
+        eventPublisher.publishEvent(new TicketAssignedEvent(this, savedTicket));
         return ticketMapper.toTicketDetailDto(savedTicket);
     }
 
@@ -202,6 +215,9 @@ public class TicketServiceImpl implements TicketService {
         ticket.getHistory().add(statusEvent);
 
         Ticket savedTicket = ticketRepository.save(ticket);
+
+        eventPublisher.publishEvent(new TicketStatusChangedEvent(this, savedTicket, oldStatus.name(), newStatus.name(), false));
+
         return ticketMapper.toTicketDetailDto(savedTicket);
     }
 

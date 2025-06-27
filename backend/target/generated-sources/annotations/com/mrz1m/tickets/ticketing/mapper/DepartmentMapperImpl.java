@@ -8,7 +8,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-06-25T10:26:30+0200",
+    date = "2025-06-27T16:18:01+0200",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.6 (OpenLogic)"
 )
 public class DepartmentMapperImpl implements DepartmentMapper {

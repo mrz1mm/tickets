@@ -7,15 +7,17 @@ import com.mrz1m.tickets.auth.dto.UserDto;
 import com.mrz1m.tickets.auth.entity.Permission;
 import com.mrz1m.tickets.auth.entity.Role;
 import com.mrz1m.tickets.auth.entity.UserProfile;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-06-17T20:48:47+0200",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 24.0.1 (Oracle Corporation)"
+    date = "2025-06-27T16:18:01+0200",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.6 (OpenLogic)"
 )
 @Component
 public class UserMapperImpl implements UserMapper {
@@ -49,6 +51,10 @@ public class UserMapperImpl implements UserMapper {
         userDetailDto.setEnabled( userProfile.isEnabled() );
         userDetailDto.setCreatedAt( userProfile.getCreatedAt() );
         userDetailDto.setRoles( roleSetToRoleDtoSet( userProfile.getRoles() ) );
+        Map<String, Object> map = userProfile.getPreferences();
+        if ( map != null ) {
+            userDetailDto.setPreferences( new LinkedHashMap<String, Object>( map ) );
+        }
 
         return userDetailDto;
     }

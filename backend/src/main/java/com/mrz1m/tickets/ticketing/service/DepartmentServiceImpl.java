@@ -7,7 +7,6 @@ import com.mrz1m.tickets.ticketing.dto.UpdateDepartmentDto;
 import com.mrz1m.tickets.ticketing.entity.Department;
 import com.mrz1m.tickets.ticketing.mapper.DepartmentMapper;
 import com.mrz1m.tickets.ticketing.repository.DepartmentRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
