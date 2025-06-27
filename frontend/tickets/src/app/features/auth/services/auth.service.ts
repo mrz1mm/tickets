@@ -1,8 +1,8 @@
 import { Injectable, inject, computed, Signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap, finalize } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, tap, finalize } from 'rxjs/operators';
 import { CookiePersistentService } from '../../../core/services/cookie-persistent.service';
 import { PlatformService } from '../../../core/services/platform.service';
 import { ApiConstants } from '../../../core/constants/api.const';
@@ -13,6 +13,7 @@ import { UserDetail } from '../interfaces/user-detail.interface';
 import { LoginRequest } from '../interfaces/login-request.interface';
 import { RegisterRequest } from '../interfaces/register-request.interface';
 import { LoginResponse } from '../interfaces/login-response.interface';
+import { WebSocketService } from '../../../core/services/websocket.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +23,7 @@ export class AuthService {
   private router = inject(Router);
   private persistentSvc = inject(CookiePersistentService);
   private platformSvc = inject(PlatformService);
+  private websocketSvc = inject(WebSocketService);
 
   private readonly token: Signal<string | null> = this.persistentSvc.getSlice(
     StorageConfig.KEYS.AUTH_TOKEN
@@ -35,7 +37,8 @@ export class AuthService {
   );
 
   /**
-   * Esegue il login dell'utente, salva lo stato e reindirizza.
+   * Recupera l'utente corrente dal cookie.
+   * @returns L'utente corrente o null se non autenticato.
    */
   public login(credentials: LoginRequest): Observable<UserDetail | undefined> {
     return this.http
@@ -64,6 +67,7 @@ export class AuthService {
               payload.user.preferences.language
             );
           }
+          this.websocketSvc.connect();
         }),
         map((payload) => payload?.user)
       );
@@ -87,6 +91,7 @@ export class AuthService {
    */
   public logout(): void {
     if (this.platformSvc.isBrowser) {
+      this.websocketSvc.disconnect();
       this.http
         .post<ApiResponse<null>>(ApiConstants.AUTH.LOGOUT, {})
         .pipe(
