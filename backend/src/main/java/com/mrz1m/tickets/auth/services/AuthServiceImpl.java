@@ -13,6 +13,9 @@ import com.mrz1m.tickets.auth.repositories.RoleRepository;
 import com.mrz1m.tickets.auth.repositories.UserRepository;
 import com.mrz1m.tickets.auth.security.CustomUserProfileDetails;
 import com.mrz1m.tickets.auth.security.JwtService;
+import com.mrz1m.tickets.auth.entities.Invitation;
+import com.mrz1m.tickets.auth.repositories.InvitationRepository;
+import com.mrz1m.tickets.ticketing.exceptions.ResourceNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,6 +24,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
 import java.util.Set;
 
 @Service
@@ -37,22 +41,30 @@ public class AuthServiceImpl implements AuthService {
     AuthenticationManager authenticationManager;
     @Autowired
     UserMapper userMapper;
+    @Autowired
+    InvitationRepository invitationRepository;
 
     @Override
     @Transactional
     public void register(RegisterDto request) {
-        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new UserAlreadyExistsException("Un utente con l'email '" + request.getEmail() + "' esiste già.");
+        Invitation invitation = invitationRepository.findByTokenAndIsRegisteredFalse(request.getToken())
+                .filter(inv -> inv.getExpiresAt().isAfter(OffsetDateTime.now()))
+                .orElseThrow(() -> new ResourceNotFoundException("Invitation", "token", request.getToken()));
+
+        String email = invitation.getEmail();
+        if (userRepository.findByEmail(email).isPresent()) {
+            throw new UserAlreadyExistsException("Un utente con l'email '" + email + "' esiste già.");
         }
 
-        Role userRole = roleRepository.findByName("ROLE_USER")
-                .orElseThrow(() -> new IllegalStateException("Ruolo ROLE_USER non trovato."));
+        Role userRole = roleRepository.findByName(invitation.getRoleToAssign())
+                .orElseThrow(() -> new IllegalStateException("Ruolo dall'invito non valido."));
 
         UserProfile newUserProfile = UserProfile.builder()
-                .email(request.getEmail())
+                .email(email)
                 .displayName(request.getDisplayName())
                 .enabled(true)
                 .roles(Set.of(userRole))
+                .company(invitation.getCompany())
                 .build();
 
         UserCredential credential = UserCredential.builder()
@@ -62,8 +74,10 @@ public class AuthServiceImpl implements AuthService {
                 .build();
 
         newUserProfile.getCredentials().add(credential);
-
         userRepository.save(newUserProfile);
+
+        invitation.setRegistered(true);
+        invitationRepository.save(invitation);
     }
 
     @Override
@@ -76,7 +90,6 @@ public class AuthServiceImpl implements AuthService {
         CustomUserProfileDetails userDetails = (CustomUserProfileDetails) authentication.getPrincipal();
         String jwtToken = jwtService.generateToken(userDetails);
 
-        // Costruiamo la risposta completa da passare al controller
         return AuthDto.builder()
                 .accessToken(jwtToken)
                 .userDetails(userMapper.toUserDetailDto(userDetails.getUserProfile()))

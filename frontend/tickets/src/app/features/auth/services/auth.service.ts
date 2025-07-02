@@ -14,6 +14,7 @@ import { LoginRequest } from '../interfaces/login-request.interface';
 import { RegisterRequest } from '../interfaces/register-request.interface';
 import { LoginResponse } from '../interfaces/login-response.interface';
 import { WebSocketService } from '../../../core/services/websocket.service';
+import { NotificationStoreService } from '../../../core/services/notification-store.service';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,7 @@ export class AuthService {
   private persistentSvc = inject(CookiePersistentService);
   private platformSvc = inject(PlatformService);
   private websocketSvc = inject(WebSocketService);
+  private notificationStore = inject(NotificationStoreService);
 
   private readonly token: Signal<string | null> = this.persistentSvc.getSlice(
     StorageConfig.KEYS.AUTH_TOKEN
@@ -67,6 +69,7 @@ export class AuthService {
               payload.user.preferences.language
             );
           }
+          this.notificationStore.init();
           this.websocketSvc.connect();
         }),
         map((payload) => payload?.user)
@@ -92,6 +95,7 @@ export class AuthService {
   public logout(): void {
     if (this.platformSvc.isBrowser) {
       this.websocketSvc.disconnect();
+      this.notificationStore.destroy();
       this.http
         .post<ApiResponse<null>>(ApiConstants.AUTH.LOGOUT, {})
         .pipe(

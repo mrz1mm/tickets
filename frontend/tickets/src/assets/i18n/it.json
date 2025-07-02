@@ -59,6 +59,7 @@
   "header": {
     "login": "Accedi",
     "logout": "Esci",
+    "manageDepartments": "Gestione Dipartimenti",
     "profile": "Profilo",
     "title": "Tickets App",
     "toggleThemeTitle": "Cambia tema"
@@ -96,7 +97,11 @@
     "registerSuccessMessage": "Ora puoi effettuare il login con le tue credenziali.",
     "registerSuccessTitle": "Registrazione completata",
     "ticketCreateSuccessMessage": "Il nuovo ticket è stato creato con successo.",
-    "ticketCreateSuccessTitle": "Ticket Creato"
+    "ticketCreateSuccessTitle": "Ticket Creato",
+    "markAllAsRead": "Segna tutte come lette",
+    "noNotifications": "Nessuna nuova notifica.",
+    "title": "Notifiche",
+    "viewAll": "Mostra tutte le notifiche"
   },
   "privacyPolicyPage": {
     "title": "Privacy Policy"

@@ -50,6 +50,20 @@
         </ul>
       </div>
 
+      <!-- NOTIFICHE -->
+      @if (authSvc.isAuthenticated()) {
+      <div class="position-relative me-3">
+        <app-notification-bell
+          (bellClick)="showNotifications.set(!showNotifications())"
+        ></app-notification-bell>
+        @if(showNotifications()){
+        <app-notification-panel
+          (close)="showNotifications.set(false)"
+        ></app-notification-panel>
+        }
+      </div>
+      }
+
       <!-- Menu Utente -->
       @if (authSvc.isAuthenticated()) {
       <div class="dropdown">
@@ -68,6 +82,16 @@
               t("header.profile")
             }}</a>
           </li>
+
+          <!-- LINK CONDIZIONALE CORRETTO -->
+          @if(authSvc.hasPermission('DEPARTMENT_READ')) {
+          <li>
+            <a class="dropdown-item" routerLink="/departments">{{
+              t("header.manageDepartments")
+            }}</a>
+          </li>
+          }
+
           <li><hr class="dropdown-divider" /></li>
           <li>
             <a

@@ -13,6 +13,7 @@ CREATE SEQUENCE revinfo_seq START WITH 1 INCREMENT BY 50;
 -- ### 14. Tabella di Audit per UserProfile ###
 CREATE TABLE user_profiles_aud (
     id BIGINT NOT NULL,
+    company_id BIGINT NOT NULL,
     rev BIGINT NOT NULL,
     revtype SMALLINT,
     email VARCHAR(100),
@@ -73,6 +74,7 @@ CREATE TABLE permissions_aud (
 -- ### 18. Tabella di Audit per Department ###
 CREATE TABLE departments_aud (
     id BIGINT NOT NULL,
+    company_id BIGINT NOT NULL,
     rev BIGINT NOT NULL,
     revtype SMALLINT,
     name VARCHAR(100),
@@ -87,6 +89,7 @@ CREATE TABLE departments_aud (
 -- ### 19. Tabella di Audit per Ticket ###
 CREATE TABLE tickets_aud (
     id BIGINT NOT NULL,
+    company_id BIGINT NOT NULL,
     rev BIGINT NOT NULL,
     revtype SMALLINT,
     title VARCHAR(255),

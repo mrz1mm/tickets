@@ -1,7 +1,6 @@
 package com.mrz1m.tickets.core.configs;
 
 import com.mrz1m.tickets.auth.security.JwtAuthenticationFilter;
-import com.mrz1m.tickets.auth.services.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,7 +33,6 @@ import java.util.List;
 public class MainSecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
-    private final CustomOAuth2UserService customOAuth2UserService;
 
     /**
      * Bean che definisce il provider di autenticazione.
@@ -65,9 +63,7 @@ public class MainSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(
-                                "/api/v1/auth/**",
-                                "/oauth2/**",
-                                "/login"
+                                "/api/v1/auth/**"
                         ).permitAll()
                         .requestMatchers(
                                 "/v3/api-docs/**",
@@ -77,16 +73,6 @@ public class MainSecurityConfig {
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
-                .oauth2Login(oauth2 -> {
-                    oauth2
-                            .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
-                            .successHandler((request, response, authentication) -> {
-                                // Questo successHandler andrebbe migliorato per impostare il cookie JWT
-                                // e poi reindirizzare, per uniformare l'esperienza con il login locale.
-                                // Per ora, lasciamo il redirect standard.
-                                response.sendRedirect("http://localhost:4200/dashboard");
-                            });
-                })
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
@@ -114,6 +100,7 @@ public class MainSecurityConfig {
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
         // Applica questa configurazione a tutti gli endpoint dell'applicazione
         source.registerCorsConfiguration("/**", configuration);
 
