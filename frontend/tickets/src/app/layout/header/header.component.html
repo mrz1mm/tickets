@@ -83,6 +83,24 @@
             }}</a>
           </li>
 
+          @if(authSvc.hasRole('ROLE_SUPER_ADMIN')) {
+          <li><hr class="dropdown-divider" /></li>
+          <li>
+            <a
+              class="dropdown-item"
+              routerLink="/super-admin/company-management"
+              >{{ t("header.superAdminPanel") }}</a
+            >
+          </li>
+          }
+
+          <li><hr class="dropdown-divider" /></li>
+          <li>
+            <a class="dropdown-item" (click)="authSvc.logout()">{{
+              t("header.logout")
+            }}</a>
+          </li>
+
           @if(authSvc.hasPermission('DEPARTMENT_READ')) {
           <li>
             <a class="dropdown-item" routerLink="/departments">{{

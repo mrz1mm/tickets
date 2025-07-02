@@ -1,21 +1,45 @@
 {
+
+  {
+  "companyPage": {
+    "title": "Gestione Aziende",
+    "newCompany": "Nuova Azienda",
+    "noCompanies": "Nessuna azienda trovata. Creane una per iniziare.",
+    "table": {
+      "name": "Nome",
+      "createdAt": "Data Creazione",
+      "actions": "Azioni"
+    },
+    "form": {
+      "createTitle": "Crea Nuova Azienda",
+      "editTitle": "Modifica Azienda",
+      "nameLabel": "Nome Azienda",
+      "namePlaceholder": "Es. Acme Corporation",
+      "cancelButton": "Annulla",
+      "saveButton": "Salva"
+    }
+  },
+
   "commentBox": {
     "placeholder": "Scrivi un commento...",
     "submitButton": "Invia Commento",
     "submittingButton": "Invio in corso...",
     "title": "Aggiungi un Commento"
   },
+
   "cookieBanner": {
     "accept": "Accetta Tutti",
     "linkText": "informativa sulla privacy",
     "reject": "Rifiuta Tutti",
     "text": "Questo sito utilizza i cookie per migliorare la tua esperienza. Leggi la nostra {privacyLink}."
   },
+
   "dashboardPage": {
     "assignedTicketsTitle": "Ticket Assegnati a Me",
     "noAssignedTickets": "Nessun ticket attualmente assegnato a te.",
     "title": "Dashboard"
   },
+
   "departmentFormComponent": {
     "cancelButton": "Annulla",
     "createTitle": "Crea Nuovo Dipartimento",
@@ -30,6 +54,7 @@
       "nameRequired": "Il nome è obbligatorio."
     }
   },
+
   "departmentsPage": {
     "confirmDeleteMessage": "Sei sicuro di voler eliminare il dipartimento \"{departmentName}\"?",
     "confirmDeleteTitle": "Conferma Eliminazione",
@@ -43,28 +68,34 @@
     "tableName": "Nome",
     "title": "Dipartimenti"
   },
+
   "errors": {
     "cookieRead": "Impossibile caricare le preferenze salvate. Verranno usate quelle di default.",
     "cookieSave": "Impossibile salvare le tue preferenze.",
     "genericTitle": "Errore",
     "unexpected": "Si è verificato un errore imprevisto. Riprova più tardi."
   },
+
   "footer": {
     "copyright": "© 2025 Tickets App. Tutti i diritti riservati."
   },
+
   "guards": {
     "accessDeniedTitle": "Accesso Negato",
     "noPermissionsMessage": "Non hai i permessi necessari per visualizzare questa pagina."
   },
+
   "header": {
     "login": "Accedi",
     "logout": "Esci",
     "manageDepartments": "Gestione Dipartimenti",
     "manageUsers": "Gestione Utenti",
     "profile": "Profilo",
+    "superAdminPanel": "Pannello Super Admin",
     "title": "Tickets App",
     "toggleThemeTitle": "Cambia tema"
   },
+
   "login": {
     "emailLabel": "Indirizzo Email",
     "emailPlaceholder": "nome@esempio.com",
@@ -75,11 +106,13 @@
     "toRegisterLink": "Registrati ora",
     "toRegisterPrompt": "Non hai un account?"
   },
+
   "notFoundPage": {
     "button": "Torna alla Home",
     "message": "La risorsa che stai cercando non esiste.",
     "title": "Pagina Non Trovata"
   },
+
   "notifications": {
     "commentErrorMessage": "Impossibile aggiungere il commento. Riprova.",
     "commentErrorTitle": "Errore",
@@ -104,12 +137,15 @@
     "title": "Notifiche",
     "viewAll": "Mostra tutte le notifiche"
   },
+
   "privacyPolicyPage": {
     "title": "Privacy Policy"
   },
+
   "profilePage": {
     "title": "Il Mio Profilo"
   },
+
   "register": {
     "creatingButton": "Creazione...",
     "displayNameLabel": "Nome Visualizzato",
@@ -122,6 +158,7 @@
     "toLoginLink": "Accedi",
     "toLoginPrompt": "Hai già un account?"
   },
+
   "ticketDetailPage": {
     "actions": {
       "delete": "Elimina",
@@ -156,6 +193,7 @@
     },
     "title": "Dettaglio Ticket"
   },
+
   "ticketFormComponent": {
     "cancelButton": "Annulla",
     "createTitle": "Crea Nuovo Ticket",
@@ -178,6 +216,7 @@
       "titleRequired": "L'oggetto è obbligatorio."
     }
   },
+
   "ticketListPage": {
     "createFirst": "Crea il tuo primo ticket",
     "newTicketButton": "Apri Nuovo Ticket",
@@ -216,6 +255,7 @@
       "user": "Utente"
     }
   },
+
   "validation": {
     "commentRequired": "Il commento non può essere vuoto.",
     "departmentRequired": "La selezione del dipartimento è obbligatoria.",

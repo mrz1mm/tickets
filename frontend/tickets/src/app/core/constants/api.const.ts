@@ -13,6 +13,11 @@ export const ApiConstants = {
       `${API_BASE_URL_V1}/auth/invitation/${token}`,
   },
 
+  COMPANIES: {
+    BASE: `${API_BASE_URL_V1}/super-admin/companies`,
+    BY_ID: (id: number) => `${API_BASE_URL_V1}/super-admin/companies/${id}`,
+  },
+
   DEPARTMENTS: {
     BASE: `${API_BASE_URL_V1}/departments`,
     BY_ID: (id: number) => `${API_BASE_URL_V1}/departments/${id}`,

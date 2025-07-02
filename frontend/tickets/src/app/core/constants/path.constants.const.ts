@@ -14,6 +14,11 @@ export const Path = {
   PROFILE: 'profile',
   PRIVACY_POLICY: 'privacy-policy',
 
+  SUPER_ADMIN: {
+    BASE: 'super-admin',
+    COMPANY_MANAGEMENT: 'super-admin/company-management',
+  },
+
   TICKETS: {
     BASE: 'tickets',
     DETAIL: 'tickets/:ticketId',

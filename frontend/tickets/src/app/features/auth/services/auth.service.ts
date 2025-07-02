@@ -147,6 +147,19 @@ export class AuthService {
   }
 
   /**
+   * Controlla se l'utente corrente ha un determinato ruolo.
+   * @param roleName Il nome del ruolo da verificare.
+   * @return True se l'utente ha il ruolo, altrimenti false.
+   * */
+  public hasRole(roleName: string): boolean {
+    const user = this.currentUser();
+    if (!user || !user.roles) {
+      return false;
+    }
+    return Array.from(user.roles).some((role) => role.name === roleName);
+  }
+
+  /**
    * Pulisce tutti i dati di autenticazione dallo store.
    */
   private clearAuthData(): void {

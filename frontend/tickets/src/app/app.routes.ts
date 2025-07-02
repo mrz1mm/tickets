@@ -2,7 +2,8 @@ import { Routes } from '@angular/router';
 import { MainLayoutComponent } from './layout/main-layout/main-layout.component';
 import { Path } from './core/constants/path.constants.const';
 import { authGuard } from './features/auth/guards/auth.guard';
-import { permissionGuard } from './core/guards/permission.guard';
+import { permissionGuard } from './features/auth/guards/permission.guard';
+import { roleGuard } from './features/auth/guards/role.guard';
 
 export const routes: Routes = [
   // --- Rotte senza Layout ---
@@ -43,7 +44,7 @@ export const routes: Routes = [
         data: { requiredPermission: 'USER_CREATE' },
         loadComponent: () =>
           import(
-            './features/admin/departments/pages/user-management/user-management.page'
+            './features/department/pages/user-management/user-management.page'
           ).then((m) => m.UserManagementPage),
       },
       {
@@ -54,7 +55,7 @@ export const routes: Routes = [
         },
         loadComponent: () =>
           import(
-            './features/admin/departments/pages/department-list/department-list.component'
+            './features/department/pages/department-list/department-list.component'
           ).then((m) => m.DepartmentListComponent),
       },
       {
@@ -70,6 +71,17 @@ export const routes: Routes = [
           import(
             './features/legal/pages/privacy-policy-page/privacy-policy.page'
           ).then((m) => m.PrivacyPolicyPage),
+      },
+      {
+        path: Path.SUPER_ADMIN.COMPANY_MANAGEMENT,
+        canActivate: [roleGuard],
+        data: {
+          requiredRole: 'ROLE_SUPER_ADMIN',
+        },
+        loadComponent: () =>
+          import(
+            './features/company/pages/company-management/company-management.page'
+          ).then((m) => m.CompanyManagementPage),
       },
       {
         path: Path.TICKETS.BASE,

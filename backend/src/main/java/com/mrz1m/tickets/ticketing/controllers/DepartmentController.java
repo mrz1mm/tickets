@@ -26,7 +26,7 @@ public class DepartmentController {
     @PreAuthorize("hasAuthority('DEPARTMENT_WRITE')")
     public ResponseEntity<ApiResponse<DepartmentDto>> createDepartment(@Valid @RequestBody CreateDepartmentDto createDto) {
         DepartmentDto newDepartment = departmentService.createDepartment(createDto);
-        // Usa il tuo metodo factory 'created' che imposta automaticamente lo status 201
+        // Usa il metodo factory 'created' che imposta automaticamente lo status 201
         return ResponseEntity.status(201).body(
                 ApiResponse.created("Dipartimento creato con successo.", newDepartment)
         );
@@ -36,7 +36,7 @@ public class DepartmentController {
     @PreAuthorize("hasAuthority('DEPARTMENT_READ')")
     public ResponseEntity<ApiResponse<List<DepartmentDto>>> getAllDepartments() {
         List<DepartmentDto> departments = departmentService.findAll();
-        // Usa il tuo metodo factory 'ok' che imposta automaticamente lo status 200
+        // Usa il metodo factory 'ok' che imposta automaticamente lo status 200
         return ResponseEntity.ok(
                 ApiResponse.ok("Dipartimenti recuperati con successo.", departments)
         );
