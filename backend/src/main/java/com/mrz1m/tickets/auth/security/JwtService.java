@@ -41,21 +41,20 @@ public class JwtService {
     }
 
     public String generateToken(UserDetails userDetails) {
-        // Creiamo una mappa di claims da aggiungere al token
         Map<String, Object> claims = new HashMap<>();
 
-        // Assicuriamoci che userDetails sia la nostra implementazione custom
         if (userDetails instanceof CustomUserProfileDetails customDetails) {
             claims.put("userId", customDetails.getId());
-            claims.put("displayName", customDetails.getName()); // Il display name è il "name"
 
-            // Aggiungiamo i ruoli come lista di stringhe (es. ["ROLE_ADMIN", "ROLE_USER"])
+            claims.put("displayName", customDetails.getUserProfile().getDisplayName());
+
+            claims.put("companyId", customDetails.getCompanyId());
+
             List<String> roles = customDetails.getUserProfile().getRoles().stream()
                     .map(Role::getName)
                     .collect(Collectors.toList());
             claims.put("roles", roles);
 
-            // Aggiungiamo i permessi come lista di stringhe (es. ["TICKET_CREATE", "USER_READ"])
             List<String> permissions = customDetails.getAuthorities().stream()
                     .map(GrantedAuthority::getAuthority)
                     .collect(Collectors.toList());
@@ -83,6 +82,8 @@ public class JwtService {
     private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
+
+
 
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
