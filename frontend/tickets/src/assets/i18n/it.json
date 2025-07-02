@@ -60,6 +60,7 @@
     "login": "Accedi",
     "logout": "Esci",
     "manageDepartments": "Gestione Dipartimenti",
+    "manageUsers": "Gestione Utenti",
     "profile": "Profilo",
     "title": "Tickets App",
     "toggleThemeTitle": "Cambia tema"
@@ -199,6 +200,21 @@
   "ticketQueuePage": {
     "noUnassignedTickets": "Ottimo lavoro! Non ci sono ticket in attesa di essere assegnati.",
     "title": "Ticket da Assegnare"
+  },
+  "userManagementPage": {
+    "title": "Gestione Utenti e Inviti",
+    "invite": {
+      "title": "Invita Nuovo Utente",
+      "emailLabel": "Indirizzo Email",
+      "roleLabel": "Assegna Ruolo",
+      "submitButton": "Invia Invito"
+    },
+    "roles": {
+      "admin": "Amministratore",
+      "manager": "Manager",
+      "tecnico": "Tecnico",
+      "user": "Utente"
+    }
   },
   "validation": {
     "commentRequired": "Il commento non può essere vuoto.",
