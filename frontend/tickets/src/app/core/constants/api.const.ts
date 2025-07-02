@@ -1,11 +1,16 @@
 const API_BASE_URL_V1 = '/api/v1';
 
 export const ApiConstants = {
+  ADMIN: {
+    INVITE_USER: `${API_BASE_URL_V1}/admin/invitations`,
+  },
   AUTH: {
     LOGIN: `${API_BASE_URL_V1}/auth/login`,
     REGISTER: `${API_BASE_URL_V1}/auth/register`,
     LOGOUT: `${API_BASE_URL_V1}/auth/logout`,
     ME: `${API_BASE_URL_V1}/auth/me`,
+    VALIDATE_INVITATION: (token: string) =>
+      `${API_BASE_URL_V1}/auth/invitation/${token}`,
   },
 
   DEPARTMENTS: {

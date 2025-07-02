@@ -6,6 +6,11 @@
         <h1 class="h3 mt-2 mb-3 fw-normal">{{ t("register.title") }}</h1>
       </div>
 
+      @switch (validationState()) { @case ('validating') {
+      <div class="text-center"><div class="spinner-border"></div></div>
+      } @case ('invalid') {
+      <div class="alert alert-danger">{{ validationError() }}</div>
+      } @case ('valid') {
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
         <!-- Campo Nome Visualizzato -->
         <div class="form-floating mb-3">
@@ -95,13 +100,13 @@
           }
         </button>
       </form>
-
+      } }
       <div class="mt-4 text-center">
         <p>
           {{ t("register.toLoginPrompt") }}
-          <a [routerLink]="['/auth', 'login']">{{
-            t("register.toLoginLink")
-          }}</a>
+          <a [routerLink]="['/auth', 'login']"
+            >{{ t("register.toLoginLink") }}</a
+          >
         </p>
       </div>
     </div>

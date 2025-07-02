@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-06-27T17:01:55+0200",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 24.0.1 (Oracle Corporation)"
+    date = "2025-07-02T12:05:36+0200",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.6 (OpenLogic)"
 )
 @Component
 public class TicketAttachmentMapperImpl implements TicketAttachmentMapper {

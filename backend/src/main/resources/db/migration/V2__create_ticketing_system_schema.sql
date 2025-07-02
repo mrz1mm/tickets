@@ -57,8 +57,6 @@ CREATE INDEX idx_tickets_requester_id ON tickets(requester_id);
 CREATE INDEX idx_tickets_assignee_id ON tickets(assignee_id);
 CREATE INDEX idx_tickets_department_id ON tickets(department_id);
 CREATE INDEX idx_tickets_status ON tickets(status);
-CREATE INDEX idx_ticket_history_ticket_id ON ticket_history(ticket_id);
-CREATE INDEX idx_ticket_attachments_ticket_id ON ticket_attachments(ticket_id);
 
 
 -- ### 11. TICKET_HISTORY (Cronologia) ###
@@ -75,6 +73,7 @@ CREATE TABLE ticket_history (
     CONSTRAINT fk_history_ticket FOREIGN KEY(ticket_id) REFERENCES tickets(id) ON DELETE CASCADE,
     CONSTRAINT fk_history_user FOREIGN KEY(user_id) REFERENCES user_profiles(id) ON DELETE SET NULL
 );
+CREATE INDEX idx_ticket_history_ticket_id ON ticket_history(ticket_id);
 
 
 -- ### 12. TICKET_ATTACHMENTS (Allegati) ###
@@ -93,3 +92,4 @@ CREATE TABLE ticket_attachments (
     CONSTRAINT fk_attachment_ticket FOREIGN KEY(ticket_id) REFERENCES tickets(id) ON DELETE CASCADE,
     CONSTRAINT fk_attachment_uploader FOREIGN KEY(uploader_id) REFERENCES user_profiles(id) ON DELETE RESTRICT
 );
+CREATE INDEX idx_ticket_attachments_ticket_id ON ticket_attachments(ticket_id);

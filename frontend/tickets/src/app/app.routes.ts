@@ -38,6 +38,15 @@ export const routes: Routes = [
           ).then((m) => m.DashboardPage),
       },
       {
+        path: Path.ADMIN.USER_MANAGEMENT,
+        canActivate: [permissionGuard],
+        data: { requiredPermission: 'USER_CREATE' },
+        loadComponent: () =>
+          import(
+            './features/admin/departments/pages/user-management/user-management.page'
+          ).then((m) => m.UserManagementPage),
+      },
+      {
         path: Path.DEPARTMENTS,
         canActivate: [permissionGuard],
         data: {

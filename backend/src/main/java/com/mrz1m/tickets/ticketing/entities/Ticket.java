@@ -24,7 +24,6 @@ import java.util.List;
 @Table(name = "tickets")
 @SQLDelete(sql = "UPDATE tickets SET deleted_at = NOW() WHERE id = ?")
 @SQLRestriction("deleted_at IS NULL")
-@FilterDef(name = "tenantFilter", parameters = {@ParamDef(name = "tenantId", type = Long.class)})
 @Filter(name = "tenantFilter", condition = "company_id = :tenantId")
 public class Ticket {
 

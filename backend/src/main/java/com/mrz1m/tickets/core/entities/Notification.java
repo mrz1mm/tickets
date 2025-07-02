@@ -15,7 +15,6 @@ import java.time.OffsetDateTime;
 @AllArgsConstructor
 @Entity
 @Table(name = "notifications")
-@FilterDef(name = "tenantFilter", parameters = {@ParamDef(name = "tenantId", type = Long.class)})
 @Filter(name = "tenantFilter", condition = "company_id = :tenantId")
 public class Notification {
 
