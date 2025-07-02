@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
 
     private final InvitationService invitationService;
-    private final UserService userService; // Inietta il nuovo servizio
+    private final UserService userService;
 
     @GetMapping("/users")
     @PreAuthorize("hasAuthority('USER_READ')")
