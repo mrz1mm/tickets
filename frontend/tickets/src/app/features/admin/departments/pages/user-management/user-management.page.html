@@ -1,0 +1,50 @@
+<div class="container-fluid p-4" *transloco="let t; read: 'userManagementPage'">
+  <h1 class="h3 mb-4">{{ t('title') }}</h1>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">{{ t('invite.title') }}</div>
+        <div class="card-body">
+          <form [formGroup]="inviteForm" (ngSubmit)="onInviteSubmit()">
+            <div class="mb-3">
+              <label for="email" class="form-label"
+                >{{ t('invite.emailLabel') }}</label
+              >
+              <input
+                type="email"
+                id="email"
+                class="form-control"
+                formControlName="email"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="roleName" class="form-label"
+                >{{ t('invite.roleLabel') }}</label
+              >
+              <select
+                id="roleName"
+                class="form-select"
+                formControlName="roleName"
+              >
+                <option value="ROLE_ADMIN">{{ t('roles.admin') }}</option>
+                <option value="ROLE_MANAGER">{{ t('roles.manager') }}</option>
+                <option value="ROLE_TECNICO">{{ t('roles.tecnico') }}</option>
+                <option value="ROLE_USER">{{ t('roles.user') }}</option>
+              </select>
+            </div>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="isLoading() || inviteForm.invalid"
+            >
+              @if(isLoading()){
+              <span class="spinner-border spinner-border-sm"></span> }
+              <span>{{ t('invite.submitButton') }}</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

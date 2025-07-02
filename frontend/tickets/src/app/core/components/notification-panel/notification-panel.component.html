@@ -1,0 +1,35 @@
+<div class="notification-panel" *transloco="let t; read: 'notifications'">
+  <div class="panel-header">
+    <h3>{{ t("title") }}</h3>
+    <button
+      class="btn btn-link text-decoration-none"
+      (click)="onMarkAllAsRead()"
+    >
+      {{ t("markAllAsRead") }}
+    </button>
+  </div>
+  <div class="panel-body">
+    @for(notification of store.notifications(); track notification.id){
+    <div
+      class="notification-item"
+      [class.is-read]="notification.isRead"
+      (click)="onNotificationClick(notification)"
+    >
+      <div class="notification-dot"></div>
+      <div class="notification-content">
+        <p class="mb-1">{{ notification.message }}</p>
+        <small class="text-muted">{{
+          notification.createdAt | date : "short"
+        }}</small>
+      </div>
+    </div>
+    } @empty {
+    <div class="empty-state">
+      <p>{{ t("noNotifications") }}</p>
+    </div>
+    }
+  </div>
+  <div class="panel-footer">
+    <a href="#" (click)="$event.preventDefault()">{{ t("viewAll") }}</a>
+  </div>
+</div>
