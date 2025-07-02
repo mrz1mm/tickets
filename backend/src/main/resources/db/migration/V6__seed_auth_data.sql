@@ -3,11 +3,11 @@
 -- ##################################################################
 
 
--- ### 24. Inserimento Azienda di default ###
+-- ### 25. Inserimento Azienda di default ###
 INSERT INTO companies (id, name) VALUES (1, 'Default Company');
 ALTER SEQUENCE companies_id_seq RESTART WITH 2;
 
--- ### 25. Inserimento Ruoli Iniziali ###
+-- ### 26. Inserimento Ruoli Iniziali ###
 INSERT INTO roles (name, description) VALUES
 ('ROLE_SUPER_ADMIN', 'Amministratore della piattaforma'),
 ('ROLE_ADMIN', 'Amministratore di una singola azienda'),
@@ -15,7 +15,7 @@ INSERT INTO roles (name, description) VALUES
 ('ROLE_TECNICO', 'Tecnico del supporto'),
 ('ROLE_USER', 'Utente finale');
 
--- ### 26. Trigger per assegnare automaticamente ogni nuovo permesso a ROLE_SUPER_ADMIN ###
+-- ### 27. Trigger per assegnare automaticamente ogni nuovo permesso a ROLE_SUPER_ADMIN ###
 CREATE OR REPLACE FUNCTION fn_auto_grant_super_admin_permission()
 RETURNS TRIGGER AS $$
 DECLARE
@@ -40,7 +40,7 @@ FOR EACH ROW
 EXECUTE FUNCTION fn_auto_grant_super_admin_permission();
 
 
--- ### 27. Inserimento Permessi Iniziali (Il trigger li assegnerà a ROLE_ADMIN) ###
+-- ### 28. Inserimento Permessi Iniziali (Il trigger li assegnerà a ROLE_ADMIN) ###
 INSERT INTO permissions (name, description) VALUES
 -- Permessi di gestione piattaforma (per Super Admin)
 ('COMPANY_CREATE', 'Permesso di creare nuove aziende'),
@@ -65,7 +65,7 @@ INSERT INTO permissions (name, description) VALUES
 ('TICKET_COMMENT_ALL', 'Permesso di aggiungere commenti a QUALSIASI ticket');
 
 
--- ### 28. Associazione manuale Permessi ai Ruoli (escluso SUPER_ADMIN) ###
+-- ### 29. Associazione manuale Permessi ai Ruoli (escluso SUPER_ADMIN) ###
 INSERT INTO role_permissions (role_id, permission_id)
 SELECT r.id, p.id FROM roles r, permissions p
 WHERE r.name = 'ROLE_ADMIN' AND p.name NOT IN ('COMPANY_CREATE', 'COMPANY_MANAGE');
@@ -92,7 +92,7 @@ SELECT r.id, p.id FROM roles r, permissions p WHERE r.name = 'ROLE_USER' AND p.n
 );
 
 
--- ### 29. Inserimento Profili Utente e Credenziali Iniziali (locali) ###
+-- ### 30. Inserimento Profili Utente e Credenziali Iniziali (locali) ###
 -- La password per tutti è "password" (hash BCrypt)
 -- Super Admin
 WITH sa_profile AS (
@@ -130,7 +130,7 @@ INSERT INTO user_credentials (user_profile_id, provider, password)
 SELECT id, 'LOCAL', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqR2e5RzTTNcePI6JubTBmubSnP6' FROM user_profile;
 
 
--- ### 30. Associazione Ruoli ai Profili Utente Iniziali ###
+-- ### 31. Associazione Ruoli ai Profili Utente Iniziali ###
 INSERT INTO user_profile_roles (user_profile_id, role_id)
 SELECT u.id, r.id FROM user_profiles u, roles r WHERE u.email = 'superadmin@platform.com' AND r.name = 'ROLE_SUPER_ADMIN';
 

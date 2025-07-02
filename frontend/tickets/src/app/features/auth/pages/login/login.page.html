@@ -6,8 +6,9 @@
         <h1 class="h3 mt-2 mb-3 fw-normal">{{ t("login.title") }}</h1>
       </div>
 
+      <!-- In futuro qui potrebbero esserci i bottoni per login social se interni all'azienda -->
+
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <!-- Campo Email -->
         <div class="form-floating mb-3">
           <input
             type="email"
@@ -15,24 +16,19 @@
             id="email"
             [placeholder]="t('login.emailPlaceholder')"
             formControlName="email"
-            [class.is-invalid]="
-              loginForm.get('email')?.invalid && loginForm.get('email')?.touched
-            "
+            [class.is-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
           />
           <label for="email">{{ t("login.emailLabel") }}</label>
           @if (loginForm.get('email')?.invalid &&
           loginForm.get('email')?.touched) {
           <div class="invalid-feedback">
             @if (loginForm.get('email')?.errors?.['required']) {
-            <span>{{ t("validation.emailRequired") }}</span>
-            } @if (loginForm.get('email')?.errors?.['email']) {
-            <span>{{ t("validation.emailInvalid") }}</span>
-            }
+            <span>{{ t("validation.emailRequired") }}</span> } @if
+            (loginForm.get('email')?.errors?.['email']) {
+            <span>{{ t("validation.emailInvalid") }}</span> }
           </div>
           }
         </div>
-
-        <!-- Campo Password -->
         <div class="form-floating mb-3">
           <input
             type="password"
@@ -40,10 +36,7 @@
             id="password"
             placeholder="Password"
             formControlName="password"
-            [class.is-invalid]="
-              loginForm.get('password')?.invalid &&
-              loginForm.get('password')?.touched
-            "
+            [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
           />
           <label for="password">{{ t("login.passwordLabel") }}</label>
           @if (loginForm.get('password')?.invalid &&
@@ -53,8 +46,6 @@
           </div>
           }
         </div>
-
-        <!-- Pulsante di Login -->
         <button
           class="w-100 btn btn-lg btn-primary"
           type="submit"
@@ -71,15 +62,6 @@
           }
         </button>
       </form>
-
-      <div class="mt-4 text-center">
-        <p>
-          {{ t("login.toRegisterPrompt") }}
-          <a [routerLink]="['/auth', 'register']">{{
-            t("login.toRegisterLink")
-          }}</a>
-        </p>
-      </div>
     </div>
   </div>
 </div>

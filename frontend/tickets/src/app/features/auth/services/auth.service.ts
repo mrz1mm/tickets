@@ -77,6 +77,17 @@ export class AuthService {
   }
 
   /**
+   * Verifica se il token di invito è valido.
+   * @param token Il token di invito da validare.
+   * @return Un Observable che emette il token se valido, altrimenti un errore.
+   * */
+  public validateInvitationToken(token: string): Observable<string> {
+    return this.http
+      .get<ApiResponse<string>>(ApiConstants.AUTH.VALIDATE_INVITATION(token))
+      .pipe(map((response) => response.payload!));
+  }
+
+  /**
    * Esegue la registrazione di un nuovo utente.
    */
   public register(data: RegisterRequest): Observable<boolean> {

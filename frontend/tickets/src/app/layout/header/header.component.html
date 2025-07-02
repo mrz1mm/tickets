@@ -83,23 +83,25 @@
             }}</a>
           </li>
 
-          <!-- LINK CONDIZIONALE CORRETTO -->
           @if(authSvc.hasPermission('DEPARTMENT_READ')) {
           <li>
             <a class="dropdown-item" routerLink="/departments">{{
               t("header.manageDepartments")
             }}</a>
           </li>
+          } @if(authSvc.hasPermission('USER_CREATE')) {
+          <li>
+            <a class="dropdown-item" routerLink="/admin/user-management">{{
+              t("header.manageUsers")
+            }}</a>
+          </li>
           }
 
           <li><hr class="dropdown-divider" /></li>
           <li>
-            <a
-              class="dropdown-item"
-              (click)="authSvc.logout()"
-              style="cursor: pointer"
-              >{{ t("header.logout") }}</a
-            >
+            <a class="dropdown-item" (click)="authSvc.logout()">{{
+              t("header.logout")
+            }}</a>
           </li>
         </ul>
       </div>

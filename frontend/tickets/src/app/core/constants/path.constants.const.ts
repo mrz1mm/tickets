@@ -1,4 +1,8 @@
 export const Path = {
+  ADMIN: {
+    BASE: 'admin',
+    USER_MANAGEMENT: 'admin/user-management',
+  },
   AUTH: {
     BASE: 'auth',
     LOGIN: 'auth/login',
