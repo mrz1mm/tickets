@@ -16,7 +16,7 @@ import {
 } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
 import { TicketPriority } from '../../types/ticket-priority.type';
-import { Department } from '../../../deapartments/interfaces/department.interface';
+import { Department } from '../../../department/interfaces/department.interface';
 import { CreateTicket } from '../../interfaces/create-ticket.interface';
 import { TicketDetail } from '../../interfaces/ticket-detail.interface';
 import { UpdateTicket } from '../../interfaces/update-ticket.interface';

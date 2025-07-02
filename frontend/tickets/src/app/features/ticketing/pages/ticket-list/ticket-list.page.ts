@@ -12,8 +12,8 @@ import { TicketFormComponent } from '../../components/ticket-form/ticket-form.co
 import { Modal } from 'bootstrap';
 import { Router } from '@angular/router';
 import { Path } from '../../../../core/constants/path.constants.const';
-import { Department } from '../../../deapartments/interfaces/department.interface';
-import { DepartmentService } from '../../../deapartments/services/department.service';
+import { Department } from '../../../department/interfaces/department.interface';
+import { DepartmentService } from '../../../department/services/department.service';
 import { CreateTicket } from '../../interfaces/create-ticket.interface';
 import { TicketSummary } from '../../interfaces/ticket-summary.interface';
 import { UpdateTicket } from '../../interfaces/update-ticket.interface';

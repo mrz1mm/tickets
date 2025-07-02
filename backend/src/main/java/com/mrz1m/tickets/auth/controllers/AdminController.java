@@ -1,11 +1,15 @@
 package com.mrz1m.tickets.auth.controllers;
 
 import com.mrz1m.tickets.auth.dtos.InviteRequestDto;
+import com.mrz1m.tickets.auth.dtos.UserDetailDto;
 import com.mrz1m.tickets.auth.security.CustomUserProfileDetails;
 import com.mrz1m.tickets.auth.services.InvitationService;
+import com.mrz1m.tickets.auth.services.UserService;
 import com.mrz1m.tickets.core.payloads.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,6 +21,14 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
 
     private final InvitationService invitationService;
+    private final UserService userService; // Inietta il nuovo servizio
+
+    @GetMapping("/users")
+    @PreAuthorize("hasAuthority('USER_READ')")
+    public ResponseEntity<ApiResponse<Page<UserDetailDto>>> getCompanyUsers(Pageable pageable) {
+        Page<UserDetailDto> users = userService.getUsersForCurrentCompany(pageable);
+        return ResponseEntity.ok(ApiResponse.ok("Utenti dell'azienda recuperati con successo.", users));
+    }
 
     @PostMapping("/invitations")
     @PreAuthorize("hasAuthority('USER_CREATE')")

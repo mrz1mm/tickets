@@ -1,4 +1,4 @@
-import { Department } from '../../deapartments/interfaces/department.interface';
+import { Department } from '../../department/interfaces/department.interface';
 import { TicketAttachment } from './ticket-attachment.interface';
 import { TicketHistory } from './ticket-history.interface';
 import { TicketPriority } from '../types/ticket-priority.type';
