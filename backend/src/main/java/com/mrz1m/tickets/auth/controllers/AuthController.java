@@ -9,6 +9,7 @@ import com.mrz1m.tickets.auth.mappers.UserMapper;
 import com.mrz1m.tickets.auth.security.CustomUserProfileDetails;
 import com.mrz1m.tickets.auth.services.AuthService;
 import com.mrz1m.tickets.core.payloads.ApiResponse; // Importa
+import com.mrz1m.tickets.auth.repositories.InvitationRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -19,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.OffsetDateTime;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -28,9 +30,19 @@ public class AuthController {
 
     private final AuthService authService;
     private final UserMapper userMapper;
+    private final InvitationRepository invitationRepository;
 
     @Value("${jwt.expiration-ms}")
     private long jwtExpirationMs;
+
+    @GetMapping("/invitation/{token}")
+    public ResponseEntity<ApiResponse<String>> validateInvitation(@PathVariable String token) {
+        return invitationRepository.findByTokenAndIsRegisteredFalse(token)
+                .filter(inv -> inv.getExpiresAt().isAfter(OffsetDateTime.now()))
+                .map(invitation -> ResponseEntity.ok(ApiResponse.ok("Invito valido.", invitation.getEmail())))
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(ApiResponse.notFound("Invito non valido o scaduto.")));
+    }
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<Void>> register(@Valid @RequestBody RegisterDto request) {

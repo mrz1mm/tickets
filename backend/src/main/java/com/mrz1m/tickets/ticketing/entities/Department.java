@@ -1,5 +1,6 @@
 package com.mrz1m.tickets.ticketing.entities;
 
+import com.mrz1m.tickets.core.entities.Company;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.*;
@@ -18,12 +19,18 @@ import java.time.OffsetDateTime;
 @Table(name = "departments")
 @SQLDelete(sql = "UPDATE departments SET deleted_at = NOW() WHERE id = ?")
 @SQLRestriction("deleted_at IS NULL")
+@FilterDef(name = "tenantFilter", parameters = {@ParamDef(name = "tenantId", type = Long.class)})
+@Filter(name = "tenantFilter", condition = "company_id = :tenantId")
 public class Department {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "company_id", nullable = false)
+    private Company company;
 
     @Column(unique = true, nullable = false)
     private String name;

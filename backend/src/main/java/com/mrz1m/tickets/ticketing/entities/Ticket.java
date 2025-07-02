@@ -1,6 +1,7 @@
 package com.mrz1m.tickets.ticketing.entities;
 
 import com.mrz1m.tickets.auth.entities.UserProfile;
+import com.mrz1m.tickets.core.entities.Company;
 import com.mrz1m.tickets.ticketing.enums.TicketPriority;
 import com.mrz1m.tickets.ticketing.enums.TicketStatus;
 import jakarta.persistence.*;
@@ -23,12 +24,18 @@ import java.util.List;
 @Table(name = "tickets")
 @SQLDelete(sql = "UPDATE tickets SET deleted_at = NOW() WHERE id = ?")
 @SQLRestriction("deleted_at IS NULL")
+@FilterDef(name = "tenantFilter", parameters = {@ParamDef(name = "tenantId", type = Long.class)})
+@Filter(name = "tenantFilter", condition = "company_id = :tenantId")
 public class Ticket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "company_id", nullable = false)
+    private Company company;
 
     @Column(nullable = false)
     private String title;

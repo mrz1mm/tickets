@@ -5,6 +5,7 @@
 -- ### 8. Inserimento Ruoli Iniziali ###
 INSERT INTO roles (name, description) VALUES
 ('ROLE_ADMIN', 'Amministratore Globale - Accesso completo a tutte le funzionalità'),
+('ROLE_MANAGER', 'Manager - Può gestire i dipartimenti e altre risorse'),
 ('ROLE_TECNICO', 'Tecnico del supporto, può gestire i ticket'),
 ('ROLE_USER', 'Utente Standard - Può utilizzare le funzionalità base del sito');
 
@@ -55,6 +56,12 @@ INSERT INTO permissions (name, description) VALUES
 
 -- ### 11. Associazione manuale Permessi ai Ruoli (escluso ADMIN) ###
 INSERT INTO role_permissions (role_id, permission_id)
+SELECT r.id, p.id FROM roles r, permissions p WHERE r.name = 'ROLE_MANAGER' AND p.name IN (
+    'DEPARTMENT_READ',
+    'DEPARTMENT_WRITE'
+);
+
+INSERT INTO role_permissions (role_id, permission_id)
 SELECT r.id, p.id FROM roles r, permissions p WHERE r.name = 'ROLE_TECNICO' AND p.name IN (
     'TICKET_READ_ALL',
     'TICKET_ASSIGN',
@@ -76,6 +83,13 @@ WITH admin_profile AS (
 INSERT INTO user_credentials (user_profile_id, provider, provider_id, password)
 SELECT id, 'LOCAL', null, '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqR2e5RzTTNcePI6JubTBmubSnP6' FROM admin_profile;
 
+-- Utente Manager
+WITH manager_profile AS (
+    INSERT INTO user_profiles (email, display_name) VALUES ('manager@example.com', 'Manager User') RETURNING id
+)
+INSERT INTO user_credentials (user_profile_id, provider, provider_id, password)
+SELECT id, 'LOCAL', null, '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqR2e5RzTTNcePI6JubTBmubSnP6' FROM manager_profile;
+
 -- Utente Tecnico
 WITH tecnico_profile AS (
     INSERT INTO user_profiles (email, display_name) VALUES ('tecnico@example.com', 'Tecnico User') RETURNING id
@@ -94,6 +108,9 @@ SELECT id, 'LOCAL', null, '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqR2e5RzTTNcePI6JubTB
 -- ### 13. Associazione Ruoli ai Profili Utente Iniziali ###
 INSERT INTO user_profile_roles (user_profile_id, role_id)
 SELECT u.id, r.id FROM user_profiles u, roles r WHERE u.email = 'admin@example.com' AND r.name = 'ROLE_ADMIN';
+
+INSERT INTO user_profile_roles (user_profile_id, role_id)
+SELECT u.id, r.id FROM user_profiles u, roles r WHERE u.email = 'manager@example.com' AND r.name = 'ROLE_MANAGER';
 
 INSERT INTO user_profile_roles (user_profile_id, role_id)
 SELECT u.id, r.id FROM user_profiles u, roles r WHERE u.email = 'tecnico@example.com' AND r.name = 'ROLE_TECNICO';

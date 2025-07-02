@@ -2,46 +2,37 @@ package com.mrz1m.tickets.auth.security;
 
 import com.mrz1m.tickets.auth.entities.UserProfile;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Collection;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Getter
-public class CustomUserProfileDetails implements OAuth2User, UserDetails {
+public class CustomUserProfileDetails implements UserDetails {
 
     private final UserProfile userProfile;
     private final String password;
-    @Setter
-    private Map<String, Object> attributes;
 
-    private CustomUserProfileDetails(UserProfile userProfile, String password, Map<String, Object> attributes) {
+    // Costruttore privato, si usa il factory method
+    private CustomUserProfileDetails(UserProfile userProfile, String password) {
         this.userProfile = userProfile;
         this.password = password;
-        this.attributes = attributes;
     }
 
     // Factory method per creare un'istanza per il login locale
     public static CustomUserProfileDetails createForLocalAuth(UserProfile userProfile, String password) {
-        return new CustomUserProfileDetails(userProfile, password, null);
-    }
-
-    // Factory method per creare un'istanza con attributi OAuth2 (senza password)
-    public static CustomUserProfileDetails createForOAuth2(UserProfile userProfile, Map<String, Object> attributes) {
-        return new CustomUserProfileDetails(userProfile, null, attributes);
+        return new CustomUserProfileDetails(userProfile, password);
     }
 
     public Long getId() {
         return this.userProfile.getId();
     }
 
-
-    // === Metodi da UserDetails ===
+    public Long getCompanyId() {
+        return this.userProfile.getCompany().getId();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -79,14 +70,5 @@ public class CustomUserProfileDetails implements OAuth2User, UserDetails {
     @Override
     public boolean isEnabled() {
         return userProfile.isEnabled();
-    }
-
-    // === Metodi da OAuth2User ===
-
-    @Override
-    public String getName() {
-        // Il contratto OAuth2User richiede un "name".
-        // Restituiamo il display name del profilo.
-        return userProfile.getDisplayName();
     }
 }
