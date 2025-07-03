@@ -8,6 +8,7 @@ import com.mrz1m.tickets.auth.entities.UserProfile;
 import com.mrz1m.tickets.auth.mappers.UserMapper;
 import com.mrz1m.tickets.auth.security.CustomUserProfileDetails;
 import com.mrz1m.tickets.auth.services.AuthService;
+import com.mrz1m.tickets.auth.services.InvitationService;
 import com.mrz1m.tickets.core.payloads.ApiResponse; // Importa
 import com.mrz1m.tickets.auth.repositories.InvitationRepository;
 import jakarta.servlet.http.Cookie;
@@ -30,18 +31,15 @@ public class AuthController {
 
     private final AuthService authService;
     private final UserMapper userMapper;
-    private final InvitationRepository invitationRepository;
+    private final InvitationService invitationService;
 
     @Value("${jwt.expiration-ms}")
     private long jwtExpirationMs;
 
     @GetMapping("/invitation/{token}")
     public ResponseEntity<ApiResponse<String>> validateInvitation(@PathVariable String token) {
-        return invitationRepository.findByTokenAndIsRegisteredFalse(token)
-                .filter(inv -> inv.getExpiresAt().isAfter(OffsetDateTime.now()))
-                .map(invitation -> ResponseEntity.ok(ApiResponse.ok("Invito valido.", invitation.getEmail())))
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(ApiResponse.notFound("Invito non valido o scaduto.")));
+        String email = invitationService.validateAndGetEmail(token);
+        return ResponseEntity.ok(ApiResponse.ok("Invito valido.", email));
     }
 
     @PostMapping("/register")

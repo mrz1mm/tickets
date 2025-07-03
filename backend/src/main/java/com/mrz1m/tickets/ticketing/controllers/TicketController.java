@@ -1,8 +1,8 @@
 package com.mrz1m.tickets.ticketing.controllers;
 
 import com.mrz1m.tickets.auth.entities.UserProfile;
-import com.mrz1m.tickets.auth.repositories.UserRepository;
 import com.mrz1m.tickets.auth.security.CustomUserProfileDetails;
+import com.mrz1m.tickets.auth.services.UserService;
 import com.mrz1m.tickets.core.payloads.ApiResponse;
 import com.mrz1m.tickets.ticketing.dtos.*;
 import com.mrz1m.tickets.ticketing.services.TicketService;
@@ -30,7 +30,7 @@ import java.util.Map;
 public class TicketController {
 
     private final TicketService ticketService;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     // GET /api/tickets -> Lista paginata di ticket
     @GetMapping
@@ -71,7 +71,7 @@ public class TicketController {
             @Valid @RequestBody CreateTicketDto createTicketDto,
             @AuthenticationPrincipal CustomUserProfileDetails currentUser) {
 
-        UserProfile user = getUserProfile(currentUser);
+        UserProfile user = userService.getActiveUserProfile(currentUser.getId());
         TicketDetailDto createdTicket = ticketService.createTicket(createTicketDto, user);
 
         URI location = ServletUriComponentsBuilder
@@ -89,7 +89,7 @@ public class TicketController {
             @Valid @RequestBody UpdateTicketDto updateTicketDto,
             @AuthenticationPrincipal CustomUserProfileDetails currentUser) {
 
-        UserProfile user = getUserProfile(currentUser);
+        UserProfile user = userService.getActiveUserProfile(currentUser.getId());
         TicketDetailDto updatedTicket = ticketService.updateTicket(id, updateTicketDto, user);
 
         return ResponseEntity.ok(ApiResponse.ok("Ticket aggiornato con successo.", updatedTicket));
@@ -111,7 +111,7 @@ public class TicketController {
             @Valid @RequestBody AddCommentDto addCommentDto,
             @AuthenticationPrincipal CustomUserProfileDetails currentUser) {
 
-        UserProfile user = getUserProfile(currentUser);
+        UserProfile user = userService.getActiveUserProfile(currentUser.getId());
         TicketDetailDto updatedTicket = ticketService.addComment(id, addCommentDto, user);
         return ResponseEntity.ok(ApiResponse.ok("Commento aggiunto con successo.", updatedTicket));
     }
@@ -124,7 +124,7 @@ public class TicketController {
             @Valid @RequestBody AssignTicketDto assignTicketDto,
             @AuthenticationPrincipal CustomUserProfileDetails currentUser) {
 
-        UserProfile user = getUserProfile(currentUser);
+        UserProfile user = userService.getActiveUserProfile(currentUser.getId());
         TicketDetailDto updatedTicket = ticketService.assignTicket(id, assignTicketDto, user);
         return ResponseEntity.ok(ApiResponse.ok("Ticket assegnato con successo.", updatedTicket));
     }
@@ -137,7 +137,7 @@ public class TicketController {
             @Valid @RequestBody UpdateTicketStatusDto statusDto,
             @AuthenticationPrincipal CustomUserProfileDetails currentUser) {
 
-        UserProfile user = getUserProfile(currentUser);
+        UserProfile user = userService.getActiveUserProfile(currentUser.getId());
         TicketDetailDto updatedTicket = ticketService.changeStatus(id, statusDto, user);
         return ResponseEntity.ok(ApiResponse.ok("Stato del ticket aggiornato.", updatedTicket));
     }
@@ -150,7 +150,7 @@ public class TicketController {
             @RequestParam("file") MultipartFile file,
             @AuthenticationPrincipal CustomUserProfileDetails currentUser) {
 
-        UserProfile user = getUserProfile(currentUser);
+        UserProfile user = userService.getActiveUserProfile(currentUser.getId());
         TicketDetailDto updatedTicket = ticketService.addAttachment(id, file, user);
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created("Allegato aggiunto con successo.", updatedTicket));
     }
@@ -169,9 +169,7 @@ public class TicketController {
                 .body(resource);
     }
 
-    // Metodo helper per recuperare l'entità UserProfile completa
     private UserProfile getUserProfile(CustomUserProfileDetails currentUser) {
-        return userRepository.findById(currentUser.getId())
-                .orElseThrow(() -> new IllegalStateException("Utente autenticato non trovato nel database."));
+        return userService.getActiveUserProfile(currentUser.getId());
     }
 }

@@ -3,6 +3,8 @@ package com.mrz1m.tickets.auth.entities;
 import com.mrz1m.tickets.core.entities.Company;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.OffsetDateTime;
 
@@ -38,4 +40,12 @@ public class Invitation {
     @Builder.Default
     @Column(nullable = false)
     private boolean isRegistered = false;
+
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private OffsetDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(nullable = false)
+    private OffsetDateTime updatedAt;
 }
