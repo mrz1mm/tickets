@@ -1,0 +1,107 @@
+<div class="container-fluid p-4" *transloco="let t; read: 'userManagementPage'">
+  <h1 class="h3 mb-4">{{ t('title') }}</h1>
+  <div class="row g-4">
+    <div class="col-lg-4">
+      <div class="card">
+        <div class="card-header">{{ t('invite.title') }}</div>
+        <div class="card-body">
+          <form [formGroup]="inviteForm" (ngSubmit)="onInviteSubmit()">
+            <div class="mb-3">
+              <label for="email" class="form-label"
+                >{{ t('invite.emailLabel') }}</label
+              >
+              <input
+                type="email"
+                id="email"
+                class="form-control"
+                formControlName="email"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="roleName" class="form-label"
+                >{{ t('invite.roleLabel') }}</label
+              >
+              <select
+                id="roleName"
+                class="form-select"
+                formControlName="roleName"
+              >
+                <option value="ROLE_ADMIN">{{ t('roles.admin') }}</option>
+                <option value="ROLE_MANAGER">{{ t('roles.manager') }}</option>
+                <option value="ROLE_TECNICO">{{ t('roles.tecnico') }}</option>
+                <option value="ROLE_USER">{{ t('roles.user') }}</option>
+              </select>
+            </div>
+            <button
+              type="submit"
+              class="btn btn-primary w-100"
+              [disabled]="isInviting() || inviteForm.invalid"
+            >
+              @if(isInviting()){
+              <span class="spinner-border spinner-border-sm me-1"></span> }
+              <span>{{ t('invite.submitButton') }}</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-8">
+      <div class="card">
+        <div class="card-header">{{ t('pending.title') }}</div>
+        <div class="card-body">
+          @if(isLoadingInvites()){
+          <div class="d-flex justify-content-center p-5">
+            <div class="spinner-border"></div>
+          </div>
+          } @else {
+          <div class="table-responsive">
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th>{{ t('pending.table.email') }}</th>
+                  <th>{{ t('pending.table.role') }}</th>
+                  <th>{{ t('pending.table.expiresAt') }}</th>
+                  <th class="text-end">{{ t('pending.table.actions') }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for(invite of pendingInvites(); track invite.id){
+                <tr>
+                  <td>{{ invite.email }}</td>
+                  <td>
+                    <span class="badge text-bg-secondary"
+                      >{{ invite.roleToAssign.replace('ROLE_', '') }}</span
+                    >
+                  </td>
+                  <td>{{ invite.expiresAt | date:'short' }}</td>
+                  <td class="text-end">
+                    <button
+                      class="btn btn-sm btn-outline-secondary me-2"
+                      (click)="onResend(invite.id)"
+                    >
+                      {{ t('pending.actions.resend') }}
+                    </button>
+                    <button
+                      class="btn btn-sm btn-outline-danger"
+                      (click)="onCancel(invite)"
+                    >
+                      {{ t('pending.actions.cancel') }}
+                    </button>
+                  </td>
+                </tr>
+                } @empty {
+                <tr>
+                  <td colspan="4" class="text-center p-4">
+                    {{ t('pending.noInvites') }}
+                  </td>
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

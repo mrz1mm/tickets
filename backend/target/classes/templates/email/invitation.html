@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+    <h2 th:text="'Ciao, ' + ${name} + '!'">Ciao!</h2>
+    <p>
+        Sei stato invitato a unirti alla piattaforma Tickets per l'azienda
+        <strong th:text="${companyName}">Nome Azienda</strong>.
+    </p>
+    <p>
+        Per completare la tua registrazione e impostare la tua password, per favore clicca sul pulsante qui sotto.
+        Questo link scadrà tra 7 giorni.
+    </p>
+    <p style="text-align: center; margin: 30px 0;">
+        <a th:href="${invitationLink}" class="button">Accetta l'invito</a>
+    </p>
+    <p>
+        Se non ti aspettavi questo invito, puoi tranquillamente ignorare questa email.
+    </p>
+    <p>
+        Grazie,<br/>
+        Il Team di Tickets Platform
+    </p>
+</div>
+</body>
+</html>
