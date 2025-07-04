@@ -34,7 +34,8 @@
       form="company-form"
       [disabled]="isSaving || companyForm.invalid"
     >
-      @if (isSaving) { <span class="spinner-border spinner-border-sm"></span> }
+      @if (isSaving) {
+      <span class="spinner-border spinner-border-sm me-1"></span> }
       <span>{{ t("saveButton") }}</span>
     </button>
   </div>

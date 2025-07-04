@@ -44,6 +44,10 @@ public class Notification {
     @Column(nullable = false)
     private boolean isRead = false;
 
+    @Builder.Default
+    @Column(nullable = false)
+    private boolean isDigested = false;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private OffsetDateTime createdAt;

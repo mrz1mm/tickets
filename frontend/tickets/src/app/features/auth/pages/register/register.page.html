@@ -1,66 +1,52 @@
-<div class="auth-container" *transloco="let t">
+<div class="auth-container" *transloco="let t; read: 'register'">
   <div class="card auth-card">
     <div class="card-body">
       <div class="text-center mb-4">
         <img ngSrc="assets/img/logo.png" alt="Logo" width="60" height="60" />
-        <h1 class="h3 mt-2 mb-3 fw-normal">{{ t("register.title") }}</h1>
+        <h1 class="h3 mt-2 mb-3 fw-normal">{{ t("title") }}</h1>
       </div>
 
       @switch (validationState()) { @case ('validating') {
-      <div class="text-center"><div class="spinner-border"></div></div>
+      <div class="text-center p-4">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p class="mt-3">{{ validationError() }}</p>
+      </div>
       } @case ('invalid') {
-      <div class="alert alert-danger">{{ validationError() }}</div>
+      <div class="alert alert-danger text-center">
+        <h4 class="alert-heading">{{ t('invalidInvite.title') }}</h4>
+        <p>{{ validationError() }}</p>
+        <hr />
+        <p class="mb-0">
+          {{ t('invalidInvite.prompt') }}
+          <a [routerLink]="['/auth', 'login']">{{ t('toLoginLink') }}</a>
+        </p>
+      </div>
       } @case ('valid') {
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-        <!-- Campo Nome Visualizzato -->
-        <div class="form-floating mb-3">
-          <input
-            type="text"
-            class="form-control"
-            id="displayName"
-            [placeholder]="t('register.displayNamePlaceholder')"
-            formControlName="displayName"
-            [class.is-invalid]="
-              registerForm.get('displayName')?.invalid &&
-              registerForm.get('displayName')?.touched
-            "
-          />
-          <label for="displayName">{{ t("register.displayNameLabel") }}</label>
-          @if (registerForm.get('displayName')?.invalid &&
-          registerForm.get('displayName')?.touched) {
-          <div class="invalid-feedback">
-            <span>{{ t("validation.displayNameRequired") }}</span>
-          </div>
-          }
-        </div>
+        <p>{{ t('welcomeMessage') }}</p>
 
-        <!-- Campo Email -->
         <div class="form-floating mb-3">
           <input
             type="email"
             class="form-control"
             id="email"
-            [placeholder]="t('register.emailPlaceholder')"
+            placeholder="Email"
             formControlName="email"
-            [class.is-invalid]="
-              registerForm.get('email')?.invalid &&
-              registerForm.get('email')?.touched
-            "
           />
-          <label for="email">{{ t("register.emailLabel") }}</label>
-          @if (registerForm.get('email')?.invalid &&
-          registerForm.get('email')?.touched) {
-          <div class="invalid-feedback">
-            @if (registerForm.get('email')?.errors?.['required']) {
-            <span>{{ t("validation.emailRequired") }}</span>
-            } @if (registerForm.get('email')?.errors?.['email']) {
-            <span>{{ t("validation.emailInvalid") }}</span>
-            }
-          </div>
-          }
+          <label for="email">{{ t("emailLabel") }}</label>
         </div>
 
-        <!-- Campo Password -->
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            class="form-control"
+            id="displayName"
+            [placeholder]="t('displayNamePlaceholder')"
+            formControlName="displayName"
+          />
+          <label for="displayName">{{ t("displayNameLabel") }}</label>
+        </div>
+
         <div class="form-floating mb-3">
           <input
             type="password"
@@ -68,47 +54,21 @@
             id="password"
             placeholder="Password"
             formControlName="password"
-            [class.is-invalid]="
-              registerForm.get('password')?.invalid &&
-              registerForm.get('password')?.touched
-            "
           />
-          <label for="password">{{ t("register.passwordLabel") }}</label>
-          @if (registerForm.get('password')?.invalid &&
-          registerForm.get('password')?.touched) {
-          <div class="invalid-feedback">
-            <!-- Nota: qui ho cambiato il messaggio per coerenza con il JSON -->
-            <span>{{ t("validation.passwordMinLength") }}</span>
-          </div>
-          }
+          <label for="password">{{ t("passwordLabel") }}</label>
         </div>
 
-        <!-- Pulsante di Registrazione -->
         <button
           class="w-100 btn btn-lg btn-primary"
           type="submit"
           [disabled]="isLoading()"
         >
-          @if (isLoading()) {
-          <span
-            class="spinner-border spinner-border-sm"
-            aria-hidden="true"
-          ></span>
-          <span role="status"> {{ t("register.creatingButton") }}</span>
-          } @else {
-          <span>{{ t("register.registerButton") }}</span>
-          }
+          @if(isLoading()){
+          <span class="spinner-border spinner-border-sm"></span> }
+          <span>{{ t('registerButton') }}</span>
         </button>
       </form>
       } }
-      <div class="mt-4 text-center">
-        <p>
-          {{ t("register.toLoginPrompt") }}
-          <a [routerLink]="['/auth', 'login']"
-            >{{ t("register.toLoginLink") }}</a
-          >
-        </p>
-      </div>
     </div>
   </div>
 </div>

@@ -1,7 +1,5 @@
 {
-
-  {
-  "companyPage": {
+  "companyManagementPage": {
     "title": "Gestione Aziende",
     "newCompany": "Nuova Azienda",
     "noCompanies": "Nessuna azienda trovata. Creane una per iniziare.",
@@ -147,16 +145,18 @@
   },
 
   "register": {
-    "creatingButton": "Creazione...",
+    "title": "Completa la tua Registrazione",
+    "welcomeMessage": "Benvenuto! Completa i campi seguenti per creare il tuo account.",
     "displayNameLabel": "Nome Visualizzato",
     "displayNamePlaceholder": "Il tuo nome",
     "emailLabel": "Indirizzo Email",
-    "emailPlaceholder": "nome@esempio.com",
     "passwordLabel": "Password",
-    "registerButton": "Registrati",
-    "title": "Registrati",
-    "toLoginLink": "Accedi",
-    "toLoginPrompt": "Hai già un account?"
+    "registerButton": "Crea Account",
+    "invalidInvite": {
+      "title": "Invito non valido",
+      "prompt": "Se hai già un account, puoi"
+    },
+    "toLoginLink": "accedere qui."
   },
 
   "ticketDetailPage": {
@@ -240,13 +240,28 @@
     "noUnassignedTickets": "Ottimo lavoro! Non ci sono ticket in attesa di essere assegnati.",
     "title": "Ticket da Assegnare"
   },
+
   "userManagementPage": {
-    "title": "Gestione Utenti e Inviti",
+    "title": "Gestione Utenti",
     "invite": {
       "title": "Invita Nuovo Utente",
       "emailLabel": "Indirizzo Email",
       "roleLabel": "Assegna Ruolo",
       "submitButton": "Invia Invito"
+    },
+    "pending": {
+      "title": "Inviti Pendenti",
+      "noInvites": "Nessun invito in attesa.",
+      "table": {
+        "email": "Email",
+        "role": "Ruolo",
+        "expiresAt": "Scade il",
+        "actions": "Azioni"
+      },
+      "actions": {
+        "resend": "Reinvia",
+        "cancel": "Annulla"
+      }
     },
     "roles": {
       "admin": "Amministratore",

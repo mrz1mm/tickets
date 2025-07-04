@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { TranslocoModule } from '@ngneat/transloco';
-import { AdminService } from '../../../admin/admin.service';
+import { AdminService } from '../../../admin/services/admin.service';
 import { finalize } from 'rxjs';
 
 @Component({

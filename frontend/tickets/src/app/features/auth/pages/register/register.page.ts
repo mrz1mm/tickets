@@ -24,10 +24,12 @@ export class RegisterPage implements OnInit {
   public validationState = signal<'validating' | 'valid' | 'invalid'>(
     'validating'
   );
-  public validationError = signal('');
+  public validationError = signal<string>(
+    'Validazione del link di invito in corso...'
+  );
 
   public registerForm = this.fb.group({
-    token: [''],
+    token: ['', Validators.required],
     displayName: ['', [Validators.required, Validators.minLength(3)]],
     email: [
       { value: '', disabled: true },
@@ -69,11 +71,11 @@ export class RegisterPage implements OnInit {
     if (this.registerForm.invalid) return;
     this.isLoading.set(true);
 
-    const rawValue = this.registerForm.getRawValue();
+    const formValue = this.registerForm.getRawValue();
     const registerData: RegisterRequest = {
-      token: rawValue.token!,
-      displayName: rawValue.displayName!,
-      password: rawValue.password!,
+      token: formValue.token!,
+      displayName: formValue.displayName!,
+      password: formValue.password!,
     };
 
     this.authSvc

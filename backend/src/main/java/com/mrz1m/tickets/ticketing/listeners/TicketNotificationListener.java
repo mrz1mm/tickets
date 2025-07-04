@@ -1,4 +1,4 @@
-package com.mrz1m.tickets.ticketing.listners;
+package com.mrz1m.tickets.ticketing.listeners;
 
 import com.mrz1m.tickets.auth.entities.UserProfile;
 import com.mrz1m.tickets.auth.repositories.UserRepository;

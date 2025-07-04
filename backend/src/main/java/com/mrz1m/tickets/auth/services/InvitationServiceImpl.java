@@ -2,11 +2,13 @@ package com.mrz1m.tickets.auth.services;
 
 import com.mrz1m.tickets.auth.dtos.InviteRequestDto;
 import com.mrz1m.tickets.auth.entities.UserProfile;
+import com.mrz1m.tickets.auth.events.InvitationCreatedEvent;
 import com.mrz1m.tickets.auth.exceptions.UserAlreadyExistsException;
 import com.mrz1m.tickets.auth.entities.Invitation;
 import com.mrz1m.tickets.auth.repositories.InvitationRepository;
 import com.mrz1m.tickets.ticketing.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.OffsetDateTime;
@@ -18,6 +20,7 @@ import java.util.UUID;
 public class InvitationServiceImpl implements InvitationService {
 
     private final InvitationRepository invitationRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     @Transactional
@@ -33,14 +36,13 @@ public class InvitationServiceImpl implements InvitationService {
                 .email(inviteRequest.getEmail())
                 .token(token)
                 .roleToAssign(inviteRequest.getRoleName())
-                .expiresAt(OffsetDateTime.now().plusDays(7)) // Invito valido per 7 giorni
+                .expiresAt(OffsetDateTime.now().plusDays(7))
                 .isRegistered(false)
                 .build();
 
-        invitationRepository.save(invitation);
+        Invitation savedInvitation = invitationRepository.save(invitation);
 
-        // TODO (Task 8): Chiamare EmailService per inviare l'email con il link
-        System.out.println("INVITATION LINK (per ora in console): /register?token=" + token);
+        eventPublisher.publishEvent(new InvitationCreatedEvent(this, savedInvitation));
     }
 
     @Override
@@ -61,10 +63,9 @@ public class InvitationServiceImpl implements InvitationService {
 
         invitation.setToken(UUID.randomUUID().toString());
         invitation.setExpiresAt(OffsetDateTime.now().plusDays(7));
-        invitationRepository.save(invitation);
+        Invitation updatedInvitation = invitationRepository.save(invitation);
 
-        // TODO (Task 8): Chiamare EmailService per inviare la nuova email
-        System.out.println("NEW INVITATION LINK (per ora in console): /register?token=" + invitation.getToken());
+        eventPublisher.publishEvent(new InvitationCreatedEvent(this, updatedInvitation));
     }
 
     @Override
